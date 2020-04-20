@@ -14,14 +14,13 @@
  */
 plugins {
     id 'com.android.application'
-    id 'com.github.triplet.play' version '2.2.0'
+//    id 'com.github.triplet.play' version '2.2.0'
     id 'com.getkeepsafe.dexcount'
 }
 
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'io.fabric'
 apply plugin: 'androidx.navigation.safeargs'
 
 android {
@@ -167,7 +166,7 @@ dependencies {
     implementation dependencies.firebaseCore
     implementation dependencies.firebaseCrashlytics
 
-    implementation dependencies.playServicesAuth
+//    implementation dependencies.playServicesAuth
     implementation(dependencies.googleHttpClientAuth) {
 //        exclude: group: 'com.google.http-client:google-http-client-apache'
     }
