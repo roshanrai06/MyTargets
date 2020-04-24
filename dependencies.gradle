@@ -117,35 +117,35 @@ ext {
 
             iab                           : "com.anjlab.android.iab.v3:library:$libraryVersion.iab",
 
-            mpAndroidChart                : "com.github.PhilJay:MPAndroidChart:$libraryVersion.mpAndroidChart",
+            // mpAndroidChart                : "com.github.PhilJay:MPAndroidChart:$libraryVersion.mpAndroidChart",
 
             discreteSeekbar               : "org.adw.library:discrete-seekbar:$libraryVersion.discreteSeekbar",
 
-            easyImage                     : "com.github.jkwiecien:EasyImage:$libraryVersion.easyImage",
+            // easyImage                     : "com.github.jkwiecien:EasyImage:$libraryVersion.easyImage",
 
             materialDialogs               : "com.afollestad.material-dialogs:core:$libraryVersion.materialDialogs",
 
-            androidAboutPage              : "com.github.medyo:android-about-page:$libraryVersion.aboutPage",
+            // androidAboutPage              : "com.github.medyo:android-about-page:$libraryVersion.aboutPage",
 
-            homageCore                    : "com.github.oriley-me.homage:homage-core:$libraryVersion.homage",
-            homageRecyclerView            : "com.github.oriley-me.homage:homage-recyclerview:$libraryVersion.homage",
+            // homageCore                    : "com.github.oriley-me.homage:homage-core:$libraryVersion.homage",
+            // homageRecyclerView            : "com.github.oriley-me.homage:homage-recyclerview:$libraryVersion.homage",
 
             roundedImageView              : "com.makeramen:roundedimageview:$libraryVersion.roundedImageView",
 
-            materialIntroScreen           : "io.github.dreierf:material-intro-screen:$libraryVersion.materialIntroScreen",
+            // materialIntroScreen           : "io.github.dreierf:material-intro-screen:$libraryVersion.materialIntroScreen",
 
-            dbFlowProcessor               : "com.github.Raizlabs.DBFlow:dbflow-processor:$libraryVersion.dbFlow",
-            dbFlowKotlinExtensions        : "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:$libraryVersion.dbFlow",
-            dbFlowCore                    : "com.github.Raizlabs.DBFlow:dbflow-core:$libraryVersion.dbFlow",
-            dbFlow                        : "com.github.Raizlabs.DBFlow:dbflow:$libraryVersion.dbFlow",
+            // dbFlowProcessor               : "com.github.Raizlabs.DBFlow:dbflow-processor:$libraryVersion.dbFlow",
+            // dbFlowKotlinExtensions        : "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:$libraryVersion.dbFlow",
+            // dbFlowCore                    : "com.github.Raizlabs.DBFlow:dbflow-core:$libraryVersion.dbFlow",
+            // dbFlow                        : "com.github.Raizlabs.DBFlow:dbflow:$libraryVersion.dbFlow",
 
             photoView                     : "com.github.chrisbanes:PhotoView:$libraryVersion.photoView",
 
-            androidLanguages              : "com.github.delight-im:Android-Languages:$libraryVersion.androidLanguages",
+            // androidLanguages              : "com.github.delight-im:Android-Languages:$libraryVersion.androidLanguages",
 
             versionInfoMaterialDialog     : "uk.co.hassie:version-info-material-dialog:$libraryVersion.versionInfoDialog",
 
-            signaturePad                  : "com.github.gcacace:signature-pad:$libraryVersion.signaturePad",
+            // signaturePad                  : "com.github.gcacace:signature-pad:$libraryVersion.signaturePad",
 
             truth                         : "com.google.truth:truth:$libraryVersion.truth",
             runner                        : "androidx.test:runner:$libraryVersion.testSupport",

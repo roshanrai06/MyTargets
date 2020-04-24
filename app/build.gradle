@@ -138,8 +138,6 @@ android {
     }
 }
 
-apply from: '../tools/script-play-store.gradle'
-
 dependencies {
     Map<String, String> dependencies = rootProject.ext.dependencies
 
@@ -184,74 +182,74 @@ dependencies {
     implementation dependencies.okHttp
     implementation dependencies.okHttpUrlConnection
 
-    implementation dependencies.retrofit
-    implementation dependencies.retrofitConverterGson
-
-    implementation dependencies.picasso
-
-    implementation dependencies.androidState
-    kapt dependencies.androidStateProcessor
-
-    implementation dependencies.permissionsDispatcher
-    kapt dependencies.permissionsDispatcherProcessor
-
-    implementation dependencies.iab
-
-    implementation dependencies.mpAndroidChart
-
-    implementation dependencies.discreteSeekbar
-
-    implementation dependencies.easyImage
-
-    implementation dependencies.materialDialogs
-
-    implementation dependencies.androidAboutPage
-
-    implementation dependencies.homageCore
-    implementation dependencies.homageRecyclerView
-
-    implementation dependencies.roundedImageView
-
-    implementation dependencies.materialIntroScreen
-
-    implementation dependencies.photoView
-
-    implementation dependencies.androidLanguages
-
-    implementation dependencies.versionInfoMaterialDialog
-
-    implementation dependencies.signaturePad
-
-    implementation dependencies.archLifecycleExtensions
-    kapt dependencies.archLifecycleCompiler
-    implementation dependencies.archRoomRuntime
-    kapt dependencies.archRoomCompiler
-    implementation dependencies.archNavigationFragment
-    implementation dependencies.archNavigationUi
+//    implementation dependencies.retrofit
+//    implementation dependencies.retrofitConverterGson
+//
+//    implementation dependencies.picasso
+//
+//    implementation dependencies.androidState
+//    kapt dependencies.androidStateProcessor
+//
+//    implementation dependencies.permissionsDispatcher
+//    kapt dependencies.permissionsDispatcherProcessor
+//
+//    implementation dependencies.iab
+//
+//    implementation dependencies.mpAndroidChart
+//
+//    implementation dependencies.discreteSeekbar
+//
+//    implementation dependencies.easyImage
+//
+//    implementation dependencies.materialDialogs
+//
+//    implementation dependencies.androidAboutPage
+//
+//    implementation dependencies.homageCore
+//    implementation dependencies.homageRecyclerView
+//
+//    implementation dependencies.roundedImageView
+//
+//    implementation dependencies.materialIntroScreen
+//
+//    implementation dependencies.photoView
+//
+//    implementation dependencies.androidLanguages
+//
+//    implementation dependencies.versionInfoMaterialDialog
+//
+//    implementation dependencies.signaturePad
+//
+//    implementation dependencies.archLifecycleExtensions
+//    kapt dependencies.archLifecycleCompiler
+//    implementation dependencies.archRoomRuntime
+//    kapt dependencies.archRoomCompiler
+//    implementation dependencies.archNavigationFragment
+//    implementation dependencies.archNavigationUi
 
     implementation project(':shared')
-    wearApp project(':wearable')
-
-    testImplementation dependencies.jUnit
-    testImplementation dependencies.kotlinTest
-    testImplementation dependencies.kotlinTestJunit
-
-    androidTestImplementation dependencies.truth
-    androidTestImplementation dependencies.androidxTestCore
-    androidTestImplementation dependencies.runner
-    androidTestImplementation dependencies.rules
-    androidTestUtil dependencies.androidTestOrchestrator
-    androidTestImplementation dependencies.uiAutomator
-    androidTestImplementation dependencies.espressoCore
-    androidTestImplementation dependencies.espressoContrib
-    androidTestImplementation dependencies.espressoIntents
-
-    implementation dependencies.espressoIdlingResource
-    androidTestScreengrabImplementation dependencies.screengrab
-    androidTestImplementation dependencies.archRoomTesting
-    androidTestImplementation dependencies.androidxTestExt
-
-    implementation dependencies.multiDex
+//    wearApp project(':wearable')
+//
+//    testImplementation dependencies.jUnit
+//    testImplementation dependencies.kotlinTest
+//    testImplementation dependencies.kotlinTestJunit
+//
+//    androidTestImplementation dependencies.truth
+//    androidTestImplementation dependencies.androidxTestCore
+//    androidTestImplementation dependencies.runner
+//    androidTestImplementation dependencies.rules
+//    androidTestUtil dependencies.androidTestOrchestrator
+//    androidTestImplementation dependencies.uiAutomator
+//    androidTestImplementation dependencies.espressoCore
+//    androidTestImplementation dependencies.espressoContrib
+//    androidTestImplementation dependencies.espressoIntents
+//
+//    implementation dependencies.espressoIdlingResource
+//    androidTestScreengrabImplementation dependencies.screengrab
+//    androidTestImplementation dependencies.archRoomTesting
+//    androidTestImplementation dependencies.androidxTestExt
+//
+//    implementation dependencies.multiDex
 
 }
 
@@ -267,11 +265,4 @@ configurations.all {
             details.useVersion '2.3.1'
         }
     }
-}
-
-// Must be at the bottom
-if (HAS_GMS_SECRET) {
-    apply plugin: 'com.google.gms.google-services'
-} else {
-    println 'GMS secret is missing!'
 }
