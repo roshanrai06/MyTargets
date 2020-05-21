@@ -22,8 +22,8 @@ import android.content.res.Configuration
 import androidx.multidex.MultiDex
 import android.util.Log
 import androidx.room.RoomDatabase
-import com.crashlytics.android.Crashlytics
 import com.evernote.android.state.StateSaver
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import de.dreier.mytargets.BuildConfig
 import de.dreier.mytargets.base.db.AppDatabase
 import de.dreier.mytargets.base.db.migrations.*
@@ -89,14 +89,11 @@ class ApplicationInstance : SharedApplicationInstance() {
             if (priority == Log.VERBOSE || priority == Log.DEBUG) {
                 return
             }
-
-            Crashlytics.log(message)
+            FirebaseCrashlytics.getInstance().log(message);
 
             if (t != null) {
-                if (priority == Log.ERROR) {
-                    Crashlytics.logException(t)
-                } else if (priority == Log.WARN) {
-                    Crashlytics.logException(t)
+                if (priority == Log.ERROR || priority == Log.WARN) {
+                    FirebaseCrashlytics.getInstance().recordException(t);
                 }
             }
         }

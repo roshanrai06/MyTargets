@@ -114,7 +114,7 @@
     <string name="donate_10">Sumbang aku pizza besar</string>
     <string name="donate_20">Sumbang saya beberapa bahan bakar</string>
     <string name="donation_thank">Terima kasih atas dukungan anda!</string>
-    <string name="donate_text" formatted="false">Jumlahnya termasuk PPN dan 30% biaya untuk Google. Atau Anda mungkin dengan senang hati menyumbang di akun PayPal dreier.florian@gmail.com.</string>
+    <string name="donate_text" formatted="false">Jumlahnya termasuk PPN dan 30% biaya untuk Google.</string>
     <!-- Timer -->
     <string name="timer">Penghitung Waktu</string>
     <string name="touch_to_start">Sentuh untuk memulai</string>

@@ -126,7 +126,7 @@
     <string name="donate_10">Donează o pizza</string>
     <string name="donate_20">Donează carburant</string>
     <string name="donation_thank">Vă mulțumim pentru susținere!</string>
-    <string name="donate_text" formatted="false">Sumele sunt incl. TVA şi 30 % taxe pentru Google. Alternativ pot dona cu placere pe PayPal cont dreier.florian@gmail.com.</string>
+    <string name="donate_text" formatted="false">Sumele sunt incl. TVA şi 30 % taxe pentru Google.</string>
     <!-- Timer -->
     <string name="timer">Cronometru</string>
     <string name="touch_to_start">Apasă pentru a începe</string>

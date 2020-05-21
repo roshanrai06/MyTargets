@@ -120,7 +120,7 @@
     <string name="donate_10">Donner une grande pizza</string>
     <string name="donate_20">Donner de l\'essence</string>
     <string name="donation_thank">Merci pour votre soutient!</string>
-    <string name="donate_text" formatted="false">Les montants inclus la TVA et 30% de commission pour Google. Si vous préférez, vous pouvez également faire un don PayPal sur le compte dreier.florian@gmail.com.</string>
+    <string name="donate_text" formatted="false">Les montants inclus la TVA et 30% de commission pour Google.</string>
     <!-- Timer -->
     <string name="timer">Chronomètre</string>
     <string name="touch_to_start">Appuyer pour démarrer</string>

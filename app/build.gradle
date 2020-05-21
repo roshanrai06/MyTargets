@@ -12,17 +12,20 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
+
+
 plugins {
     id 'com.android.application'
-    id 'com.github.triplet.play' version '2.2.0'
     id 'com.getkeepsafe.dexcount'
 }
 
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'io.fabric'
 apply plugin: 'androidx.navigation.safeargs'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+
 
 android {
     compileOptions {
@@ -36,9 +39,8 @@ android {
         applicationId 'de.dreier.mytargets'
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode gitVersionCode
-        versionName gitVersionName
-//        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        versionCode 305
+        versionName "3.0.5"
         vectorDrawables.useSupportLibrary true
         javaCompileOptions {
             annotationProcessorOptions {
@@ -74,10 +76,14 @@ android {
         }
 
         release {
-            storeFile file(KEYSTORE_NAME)
-            storePassword KEYSTORE_PASSWORD
-            keyAlias KEY_ALIAS
-            keyPassword KEY_PASSWORD
+//            storeFile file(KEYSTORE_NAME)
+//            storePassword KEYSTORE_PASSWORD
+//            keyAlias KEY_ALIAS
+//            keyPassword KEY_PASSWORD
+            storeFile file("../keystore.jks")
+            storePassword 'XBmtzdqQkHyANWmbcexKzEW6K6VNAM'
+            keyAlias 'mytargets'
+            keyPassword 'yzsCNAWLgpxrpvNtRdjutMLQRn7nm9'
         }
     }
 
@@ -139,7 +145,7 @@ android {
     }
 }
 
-apply from: '../tools/script-play-store.gradle'
+// apply from: '../tools/script-play-store.gradle'
 
 dependencies {
     Map<String, String> dependencies = rootProject.ext.dependencies
@@ -270,9 +276,11 @@ configurations.all {
     }
 }
 
+
+
 // Must be at the bottom
-if (HAS_GMS_SECRET) {
-    apply plugin: 'com.google.gms.google-services'
-} else {
-    println 'GMS secret is missing!'
-}
+//if (HAS_GMS_SECRET) {
+//    apply plugin: 'com.google.gms.google-services'
+//} else {
+//    println 'GMS secret is missing!'
+//}

@@ -97,67 +97,67 @@ ext {
             googleApiServicesDrive        : 'com.google.apis:google-api-services-drive:v3-rev20190416-1.28.0',
 
             firebaseCore                  : 'com.google.firebase:firebase-core:16.0.8',
-            firebaseCrashlytics           : 'com.crashlytics.sdk.android:crashlytics:2.10.1',
+            firebaseCrashlytics           : 'com.google.firebase:firebase-crashlytics:17.0.0',
 
-            gson                          : "com.google.code.gson:gson:$libraryVersion.gson",
+            gson                          : "com.google.code.gson:gson:2.8.5",
 
-            okHttp                        : "com.squareup.okhttp3:okhttp:$libraryVersion.okhttp",
-            okHttpUrlConnection           : "com.squareup.okhttp3:okhttp-urlconnection:$libraryVersion.okhttp",
+            okHttp                        : "com.squareup.okhttp3:okhttp:3.11.0",
+            okHttpUrlConnection           : "com.squareup.okhttp3:okhttp-urlconnection:3.11.0",
 
-            retrofit                      : "com.squareup.retrofit2:retrofit:$libraryVersion.retrofit",
-            retrofitConverterGson         : "com.squareup.retrofit2:converter-gson:$libraryVersion.retrofit",
+            retrofit                      : "com.squareup.retrofit2:retrofit:2.6.0",
+            retrofitConverterGson         : "com.squareup.retrofit2:converter-gson:2.6.0",
 
-            picasso                       : "com.squareup.picasso:picasso:$libraryVersion.picasso",
+            picasso                       : "com.squareup.picasso:picasso:2.5.2",
 
-            androidState                  : "com.evernote:android-state:$libraryVersion.androidState",
-            androidStateProcessor         : "com.evernote:android-state-processor:$libraryVersion.androidState",
+            androidState                  : "com.evernote:android-state:1.4.1",
+            androidStateProcessor         : "com.evernote:android-state-processor:1.4.1",
 
-            permissionsDispatcher         : "org.permissionsdispatcher:permissionsdispatcher:$libraryVersion.permissionsdispatcher",
-            permissionsDispatcherProcessor: "org.permissionsdispatcher:permissionsdispatcher-processor:$libraryVersion.permissionsdispatcher",
+            permissionsDispatcher         : "org.permissionsdispatcher:permissionsdispatcher:4.5.0",
+            permissionsDispatcherProcessor: "org.permissionsdispatcher:permissionsdispatcher-processor:4.5.0",
 
-            iab                           : "com.anjlab.android.iab.v3:library:$libraryVersion.iab",
+            iab                           : "com.anjlab.android.iab.v3:library:1.1.0",
 
-            mpAndroidChart                : "com.github.PhilJay:MPAndroidChart:$libraryVersion.mpAndroidChart",
+             mpAndroidChart                : "com.github.PhilJay:MPAndroidChart:v3.0.3",
 
-            discreteSeekbar               : "org.adw.library:discrete-seekbar:$libraryVersion.discreteSeekbar",
+            discreteSeekbar               : "org.adw.library:discrete-seekbar:1.0.1",
 
-            easyImage                     : "com.github.jkwiecien:EasyImage:$libraryVersion.easyImage",
+             easyImage                     : "com.github.jkwiecien:EasyImage:2.1.0",
 
-            materialDialogs               : "com.afollestad.material-dialogs:core:$libraryVersion.materialDialogs",
+            materialDialogs               : "com.afollestad.material-dialogs:core:0.9.6.0",
 
-            androidAboutPage              : "com.github.medyo:android-about-page:$libraryVersion.aboutPage",
+             androidAboutPage              : "com.github.medyo:android-about-page:1.2.5",
 
-            homageCore                    : "com.github.oriley-me.homage:homage-core:$libraryVersion.homage",
-            homageRecyclerView            : "com.github.oriley-me.homage:homage-recyclerview:$libraryVersion.homage",
+             homageCore                    : "com.github.oriley-me.homage:homage-core:0.2.0",
+             homageRecyclerView            : "com.github.oriley-me.homage:homage-recyclerview:0.2.0",
 
-            roundedImageView              : "com.makeramen:roundedimageview:$libraryVersion.roundedImageView",
+            roundedImageView              : "com.makeramen:roundedimageview:2.3.0",
 
-            materialIntroScreen           : "io.github.dreierf:material-intro-screen:$libraryVersion.materialIntroScreen",
+             materialIntroScreen           : "io.github.dreierf:material-intro-screen:0.0.6",
 
-            dbFlowProcessor               : "com.github.Raizlabs.DBFlow:dbflow-processor:$libraryVersion.dbFlow",
-            dbFlowKotlinExtensions        : "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:$libraryVersion.dbFlow",
-            dbFlowCore                    : "com.github.Raizlabs.DBFlow:dbflow-core:$libraryVersion.dbFlow",
-            dbFlow                        : "com.github.Raizlabs.DBFlow:dbflow:$libraryVersion.dbFlow",
+            // dbFlowProcessor               : "com.github.Raizlabs.DBFlow:dbflow-processor:$libraryVersion.dbFlow",
+            // dbFlowKotlinExtensions        : "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:$libraryVersion.dbFlow",
+            // dbFlowCore                    : "com.github.Raizlabs.DBFlow:dbflow-core:$libraryVersion.dbFlow",
+            // dbFlow                        : "com.github.Raizlabs.DBFlow:dbflow:$libraryVersion.dbFlow",
 
-            photoView                     : "com.github.chrisbanes:PhotoView:$libraryVersion.photoView",
+            photoView                     : "com.github.chrisbanes:PhotoView:2.1.3",
 
-            androidLanguages              : "com.github.delight-im:Android-Languages:$libraryVersion.androidLanguages",
+             androidLanguages              : "com.github.delight-im:Android-Languages:v1.0.1",
 
-            versionInfoMaterialDialog     : "uk.co.hassie:version-info-material-dialog:$libraryVersion.versionInfoDialog",
+            versionInfoMaterialDialog     : "uk.co.hassie:version-info-material-dialog:0.1.0",
 
             signaturePad                  : "com.github.gcacace:signature-pad:$libraryVersion.signaturePad",
 
-            truth                         : "com.google.truth:truth:$libraryVersion.truth",
-            runner                        : "androidx.test:runner:$libraryVersion.testSupport",
-            rules                         : "androidx.test:rules:$libraryVersion.testSupport",
-            uiAutomator                   : "androidx.test.uiautomator:uiautomator-v18:$libraryVersion.uiAutomator",
-            jUnit                         : "junit:junit:$libraryVersion.jUnit",
-            mockito                       : "org.mockito:mockito-core:$libraryVersion.mockito",
+            truth                         : "com.google.truth:truth:1.0",
+            runner                        : "androidx.test:runner:1.2.0",
+            rules                         : "androidx.test:rules:1.2.0",
+            uiAutomator                   : "androidx.test.uiautomator:uiautomator-v18:2.2.0-alpha1",
+            jUnit                         : "junit:junit:4.12",
+            mockito                       : "org.mockito:mockito-core:2.27.0",
 
-            espressoCore                  : "androidx.test.espresso:espresso-core:$libraryVersion.espresso",
-            espressoContrib               : "androidx.test.espresso:espresso-contrib:$libraryVersion.espresso",
-            espressoIntents               : "androidx.test.espresso:espresso-intents:$libraryVersion.espresso",
-            espressoIdlingResource        : "androidx.test.espresso:espresso-idling-resource:$libraryVersion.espresso",
+            espressoCore                  : "androidx.test.espresso:espresso-core:3.2.0",
+            espressoContrib               : "androidx.test.espresso:espresso-contrib:3.2.0",
+            espressoIntents               : "androidx.test.espresso:espresso-intents:3.2.0",
+            espressoIdlingResource        : "androidx.test.espresso:espresso-idling-resource:3.2.0",
 
             screengrab                    : 'tools.fastlane:screengrab:1.2.0',
 
@@ -165,10 +165,10 @@ ext {
             kotlinTest                    : "org.jetbrains.kotlin:kotlin-test:$kotlinVersion",
             kotlinTestJunit               : "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion",
 
-            multiDex                      : "androidx.multidex:multidex:$libraryVersion.multidex",
+            multiDex                      : "androidx.multidex:multidex:2.0.1",
 
-            threeTenABP                   : "com.jakewharton.threetenabp:threetenabp:$libraryVersion.threeTenABP",
+            threeTenABP                   : "com.jakewharton.threetenabp:threetenabp:1.2.1",
 
-            timber                        : "com.jakewharton.timber:timber:$libraryVersion.timber"
+            timber                        : "com.jakewharton.timber:timber:4.7.1"
     ]
 }

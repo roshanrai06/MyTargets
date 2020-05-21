@@ -54,7 +54,7 @@
 
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
-    <string name="statistic">Statistic</string>
+    <string name="statistic">Statistics</string>
 
     <!-- Share -->
     <string name="share">Share</string>
@@ -135,7 +135,7 @@
     <string name="donate_10">Donate me a large pizza</string>
     <string name="donate_20">Donate me some fuel</string>
     <string name="donation_thank">Thank you for your support!</string>
-    <string name="donate_text" formatted="false">The amounts are incl. VAT and 30% fees for Google. Alternatively you may gladly donate on the PayPal account dreier.florian@gmail.com.</string>
+    <string name="donate_text" formatted="false">The amounts are incl. VAT and 30% fees for Google.</string>
 
     <!-- Timer -->
     <string name="timer">Timer</string>
@@ -374,7 +374,7 @@
     <string name="reset">Reset</string>
     <string name="end_x_of_y">End %1$d/%2$d</string>
     <string name="round_x_of_y">Round %1$d/%2$d</string>
-    <string name="settings_summary_timer">Adjust archery timer\' behaviour</string>
+    <string name="settings_summary_timer">Adjust archery timer behaviour</string>
     <string name="settings_summary_scoreboard">Change scoreboard appearance</string>
     <string name="settings_summary_input">Customize input screen</string>
     <string name="settings_summary_overview">Personalize information shown for trainings, rounds and ends</string>

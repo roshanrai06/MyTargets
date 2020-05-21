@@ -132,7 +132,7 @@
     <string name="donate_10">Угостите меня большой пиццей</string>
     <string name="donate_20">Заправьте мою машину</string>
     <string name="donation_thank">Спасибо за вашу поддержку!</string>
-    <string name="donate_text" formatted="false">Сумма включает НДС и 30% платежи для Google. Вместо этого можете воспользоваться PayPal. Мой аккаунт dreier.florian@gmail.com.</string>
+    <string name="donate_text" formatted="false">Сумма включает НДС и 30% платежи для Google.</string>
     <!-- Timer -->
     <string name="timer">Таймер</string>
     <string name="touch_to_start">Коснитесь экрана для старта</string>

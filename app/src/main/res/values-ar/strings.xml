@@ -144,7 +144,7 @@
     <string name="donate_10">تبرع ببيتزا كبيرة</string>
     <string name="donate_20">تبرع بوقود</string>
     <string name="donation_thank">شكرا على دعمك!</string>
-    <string name="donate_text" formatted="false">المبالغ تتضمن الضريبة و 30% تكاليف شركة Google. بدلا من ذلك يمكنك التبرع عن طريق Paypal إلى الحساب dreier.florian@gmail.com.</string>
+    <string name="donate_text" formatted="false">المبالغ تتضمن الضريبة و 30% تكاليف شركة Google.</string>
     <!-- Timer -->
     <string name="timer">المؤقت</string>
     <string name="touch_to_start">اضغط للبدء</string>
