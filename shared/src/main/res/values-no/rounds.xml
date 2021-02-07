@@ -219,4 +219,14 @@
     <string name="wa_field_unmarked_24_yellow">WA felt 24 uoppmålt: Gul påle</string>
     <string name="big_game_36">Big Game 36</string>
     <string name="big_game_40">Big Game 40</string>
+
+    <!-- unofficial and training rounds -->
+    <string name="unofficial_252_15">252 at 15y</string>
+    <string name="unofficial_252_20">252 at 20y</string>
+    <string name="unofficial_252_30">252 at 30y</string>
+    <string name="unofficial_252_40">252 at 40y</string>
+    <string name="unofficial_252_50">252 at 50y</string>
+    <string name="unofficial_252_60">252 at 60y</string>
+    <string name="unofficial_252_80">252 at 80y</string>
+    <string name="unofficial_252_100">252 at 100y</string>
 </resources>
