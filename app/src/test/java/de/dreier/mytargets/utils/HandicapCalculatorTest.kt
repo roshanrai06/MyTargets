@@ -1,0 +1,146 @@
+/*
+ * Copyright (C) 2018 Florian Dreier
+ *
+ * This file is part of MyTargets.
+ *
+ * Calculations used in this file are courtesy of Jack Atkinson - see:
+ * https://www.jackatkinson.net/post/archery_handicap/
+ * derived from David Lane's Handicap Calcs for Toxophilus 1979
+ *
+ * MyTargets is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2
+ * as published by the Free Software Foundation.
+ *
+ * MyTargets is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+package de.dreier.mytargets.utils
+
+import de.dreier.mytargets.features.statistics.HandicapCalculator
+import org.junit.Assert.*
+import org.junit.Test
+
+class HandicapCalculatorTest {
+    //    @Test
+//    fun handicapTestWithNoArrowSet() {
+//        val distance = 70
+//        val score = 252
+//        val unit = HandicapCalculator()
+//        val handicap = unit.setDistance(distance).setScore(score).setTargetSize(122).setZones(10).setInnerRing(false).calculate();
+//        assertEqual()
+//    }
+
+    @Test
+    fun test_set_distance_in_yards_calculates_metres() {
+        val unit = HandicapCalculator()
+        unit.setTargetDistanceYards(15)
+        assertEquals(15, unit.targetDistanceYards())
+        assertEquals(13.716, unit.targetDistanceMetres())
+    }
+
+    @Test
+    fun set_distance_in_yards_also_sets_metric_false() {
+        val unit = HandicapCalculator()
+        unit.setTargetDistanceYards(33)
+        assertFalse(unit.isMetric())
+    }
+
+    @Test
+    fun set_distance_in_metres_does_not_set_yardage() {
+        val unit = HandicapCalculator()
+        unit.setTargetDistanceMetres(18)
+        assertTrue(unit.isMetric())
+        assertEquals(0, unit.targetDistanceYards())
+    }
+
+    @Test
+    fun calculate_handicap_coefficient_for_a_selection() {
+        var unit = HandicapCalculator()
+        assertEquals(0.000005273988009897727, unit.handicapCoefficient(15), 0.0000000001)
+        assertEquals(0.0000286242146685357, unit.handicapCoefficient(40), 0.0000000001)
+        assertEquals(0.001550159776623, unit.handicapCoefficient(99), 0.0000000001)
+    }
+
+    @Test
+    fun set_handicap_calcs_and_sets_coefficient_as_well() {
+        var unit = HandicapCalculator()
+        unit.setHandicap(15)
+        assertEquals(0.000005273988009897727, unit.handicapCoefficient(), 0.0000000001)
+    }
+
+    @Test
+    fun dispersion_factor_calcs_at_18_metres() {
+        var unit = HandicapCalculator()
+
+        assertEquals(1.000662691287247, unit.dispersionFactor(1, 18.0), 0.0000000000001)
+        assertEquals(1.00539769534959, unit.dispersionFactor(32, 18.0), 0.0000000000001)
+        assertEquals(1.15900004719565, unit.dispersionFactor(82, 18.0), 0.0000000000001)
+
+    }
+
+    @Test
+    fun dispersion_factor_calcs_at_50_metres() {
+        var unit = HandicapCalculator()
+
+        assertEquals(1.0062640842793422, unit.dispersionFactor(4, 50.0), 0.0000000000001)
+        assertEquals(1.2260465117422445, unit.dispersionFactor(57, 50.0), 0.0000000000001)
+        assertEquals(4.384923959784047, unit.dispersionFactor(97, 50.0), 0.0000000000001)
+
+    }
+
+    @Test
+    fun dispersion_factor_calcs_at_70_yards_does_metric_conversion() {
+        //70y == 64.008m
+        var unit = HandicapCalculator()
+
+        assertEquals(1.00783160883481, unit.dispersionFactorYards(0, 70), 0.0000000000001)
+        assertEquals(1.03469717341738, unit.dispersionFactorYards(22, 70), 0.0000000000001)
+        assertEquals(1.34621233577242, unit.dispersionFactorYards(56, 70), 0.0000000000001)
+        assertEquals(3.01057722079535, unit.dispersionFactorYards(82, 70), 0.0000000000001)
+
+    }
+
+
+}
+
+
+//Angular_Deviation=(1.036^(handicap+12.9))*5*(10^-4)*180/PI()
+//Sigma==100*distance_in_metres*(1.036^(handicap+12.9))*5*(10^-4)*F_from_above
+//Inverse_Angular_Deviation=1/Angular_Deviation
+//
+//$D$7=arrow_diameter_cm  (0.357cm) 18/64
+//$D$7=target_size_cm (122)
+//$D$8=distance_m (70)
+//
+
+//15y=13.716m
+
+//10-zone-Average_Arrow_Score=10 - (EXP(-(((1*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((2*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((3*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((4*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((5*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((6*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((7*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((8*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((9*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((10*$D$7/20)+$D$6)^2)/$F26^2))
+//5-zone-avg-arrow=10 - (EXP(-(((1*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((2*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((3*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((4*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((5*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((6*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((7*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((8*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((9*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((10*$D$7/20)+$D$6)^2)/$F26^2))
+//10-zone-trispot==10 - (EXP(-(((1*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((2*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((3*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((4*$D$7/20)+$D$6)^2)/$F15^2)) - 6* EXP(-(((5*$D$7/20)+$D$6)^2)/$F15^2)
+//10-zone-compound-wa-pmoth=10 - (EXP(-(((1*$D$7/40)+$D$6)^2)/$F15^2) + EXP(-(((2*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((3*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((4*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((5*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((6*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((7*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((8*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((9*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((10*$D$7/20)+$D$6)^2)/$F15^2))
+//6-zone-fita=10 - (EXP(-(((1*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((2*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((3*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((4*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((5*$D$7/20)+$D$6)^2)/$F15^2)) - 5* EXP(-(((6*$D$7/20)+$D$6)^2)/$F15^2)
+//worcester=5 - (EXP(-(((1*$D$7/10)+$D$6)^2)/$F15^2) + EXP(-(((2*$D$7/10)+$D$6)^2)/$F15^2) + EXP(-(((3*$D$7/10)+$D$6)^2)/$F15^2) + EXP(-(((4*$D$7/10)+$D$6)^2)/$F15^2) + EXP(-(((5*$D$7/10)+$D$6)^2)/$F15^2))
+//wa-field=6 - EXP(-(((1*$D$7/20)+$D$6)^2)/$F15^2) - (EXP(-(((2*$D$7/10)+$D$6)^2)/$F15^2) + EXP(-(((3*$D$7/10)+$D$6)^2)/$F15^2) + EXP(-(((4*$D$7/10)+$D$6)^2)/$F15^2) + EXP(-(((5*$D$7/10)+$D$6)^2)/$F15^2))
+//beiter-hit-miss=1 - EXP(-(((1*$D$7/2)+$D$6)^2)/$F15^2)
+
+
+
+//Portsmouth
+//Handicap	K	F	Angular deviation (degrees)	Sigma = cm dev (Group radius)	Inverse Angular Deviation		Average Arrow Score	6 Arrows	1 Doz	2.5 Doz	3 Doz	5 Doz	6 Doz	Average Arrow Score	6 Arrows	1 Doz	2 Doz	3 Doz	4 Doz	6 Doz	Average Arrow Score	6 Arrows	1 Doz	2.5 Doz	5 Doz	Average Arrow Score	6 Arrows	Dozen	2.5 Dozen	5 Dozen	Average Arrow Score	6 Arrows	Dozen	2.5 Doz	5 Dozen	Average Arrow Score	6 Arrows	Dozen	3 Doz	6 Dozen	Average Arrow Score	6 Arrows	Dozen	2.5 Doz	5 Dozen	Average Arrow Score	3 Arrows	Average Arrow Score	3 Arrows	6 Arrows	30 Arrows
+//0	1.91153596182896E-06	1.00061933765163	0.0452098932	1.42119034	22.12		10.00	60	120	300	360	600	720	9.00	54	108	216	324	432	648	10.00	60	120	300	600	9.82	59	118	295	589	9.82	59	118	295	589	10.00	60	120	360	720	5.00	30	60	150	300	6.00	18	1.00	3	6	30
+//15	5.27398800989773E-06	1.00170877211521	0.0768475122	2.41836118	13.01		9.85	59	118	296	355	591	709	9.00	54	108	216	324	432	648	9.85	59	118	296	591	9.44	57	113	283	567	9.44	57	113	283	567	9.85	59	118	355	709	5.00	30	60	150	300	5.85	18	1.00	3	6	30
+//37	2.33658856615937E-05	1.00757054695436	0.1673186808	5.29626575	5.98		9.05	54	109	271	326	543	651	8.52	51	102	204	307	409	613	9.04	54	109	271	543	8.83	53	106	265	530	8.83	53	106	265	530	9.05	54	109	326	651	4.76	29	57	143	286	5.33	16	1.00	3	6	30
+//86	0.000643261195845	1.20841662745386	0.9466129614	35.93676766	1.06		2.23	13	27	67	80	134	160	1.99	12	24	48	72	96	143	1.22	7	15	37	73	2.22	13	27	67	133	1.21	7	15	36	73	1.53	9	18	55	110	1.25	8	15	38	75	2.23	7	0.51	2	3	15
+//100	0.001658670960986	1.53740939135956	1.5531343412	75.01505375	0.64		0.60	4	7	18	22	36	43	0.54	3	6	13	19	26	39	0.30	2	4	9	18	0.60	4	7	18	36	0.30	2	4	9	18	0.38	2	5	14	28	0.34	2	4	10	21	1.34	4	0.15	0	1	5
+
+//70m
+//AGB Adult Classifications	Handicap	K	F	Angular deviation (degrees)	Sigma = cm dev (Group radius)	Inverse Angular Deviation		Average Arrow Score	6 Arrows	1 Doz	2.5 Doz	3 Doz	5 Doz	6 Doz	Average Arrow Score	6 Arrows	1 Doz	2 Doz	3 Doz	4 Doz	6 Doz	Average Arrow Score	6 Arrows	1 Doz	2.5 Doz	5 Doz	Average Arrow Score	6 Arrows	Dozen	2.5 Dozen	5 Dozen	Average Arrow Score	6 Arrows	Dozen	2.5 Doz	5 Dozen	Average Arrow Score	6 Arrows	Dozen	3 Doz	6 Dozen	Average Arrow Score	6 Arrows	Dozen	2.5 Doz	5 Dozen	Average Arrow Score	3 Arrows	Average Arrow Score	3 Arrows	6 Arrows	30 Arrows
+//1	2.04534347915699E-06	1.01002218304787	0.0468374494	5.77962361	21.35		9.70	58	116	291	349	582	699	8.98	54	108	216	323	431	647	9.70	58	116	291	582	9.28	56	111	279	557	9.28	56	111	279	557	9.70	58	116	349	699	4.99	30	60	150	299	5.71	17	1.00	3	6	30
+//GL-GMB	52	6.44672155170852E-05	1.31588935603372	0.2844073153	45.72308703	3.52		4.22	25	51	127	152	253	304	3.82	23	46	92	137	183	275	2.69	16	32	81	162	4.21	25	50	126	252	2.68	16	32	80	161	3.26	20	39	118	235	2.33	14	28	70	140	3.27	10	0.83	3	5	25
+//LL-MB	62	0.000126816770505	1.62140217547505	0.4050776827	80.24250461	2.47		1.89	11	23	57	68	113	136	1.68	10	20	40	61	81	121	1.00	6	12	30	60	1.88	11	23	56	113	0.99	6	12	30	60	1.27	8	15	46	91	1.06	6	13	32	64	2.04	6	0.44	1	3	13
+//GB-3, LB-2	71	0.000233147460024	2.14242255412004	0.5568985865	145.76614046	1.80		0.65	4	8	19	23	39	47	0.57	3	7	14	21	28	41	0.32	2	4	10	19	0.65	4	8	19	39	0.32	2	4	9	19	0.41	2	5	15	29	0.37	2	4	11	22	1.36	4	0.16	0	1	5
+//99	0.001550159776623	8.59578290545124	1.4991644220	1574.38199015	0.67		0.01	0	0	0	0	0	0	0.01	0	0	0	0	0	0	0.00	0	0	0	0	0.01	0	0	0	0	0.00	0	0	0	0	0.00	0	0	0	0	0.00	0	0	0	0	1.00	3	0.00	0	0	0
