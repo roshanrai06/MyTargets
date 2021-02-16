@@ -17,13 +17,25 @@
  * GNU General Public License for more details.
  */
 
-package de.dreier.mytargets.utils
+package de.dreier.mytargets.shared.targets.models
 
-import de.dreier.mytargets.features.statistics.HandicapCalculator
+import android.content.Context
+import androidx.test.filters.SmallTest
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.runner.AndroidJUnit4
+import de.dreier.mytargets.shared.SharedApplicationInstance
+import de.dreier.mytargets.shared.models.HandicapCalculator
+import org.junit.Assert
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@SmallTest
+@RunWith(AndroidJUnit4::class)
 class HandicapCalculatorTest {
+    private lateinit var context: Context
+
     //    @Test
 //    fun handicapTestWithNoArrowSet() {
 //        val distance = 70
@@ -32,6 +44,14 @@ class HandicapCalculatorTest {
 //        val handicap = unit.setDistance(distance).setScore(score).setTargetSize(122).setZones(10).setInnerRing(false).calculate();
 //        assertEqual()
 //    }
+
+
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        SharedApplicationInstance.context = InstrumentationRegistry.getInstrumentation().targetContext
+    }
+
 
     @Test
     fun test_set_distance_in_yards_calculates_metres() {
@@ -103,29 +123,43 @@ class HandicapCalculatorTest {
 
     }
 
+    @Test
+    fun ten_zone_average_calc() {
+//        var unit = HandicapCalculator()
+//        assertEquals(1.00783160883481, unit.averageArrowScore(10, 70), 0.0000000000001)
+        var instance = SharedApplicationInstance()
+
+        var target = WAFull()
+        Assert.assertEquals(10, target.getScoringStyle(0).getPointsByScoringRing(0, 0).toLong())
+
+        assertEquals(11, target.zoneCount)
+    }
+
 
 }
 
 
+
+
 //Angular_Deviation=(1.036^(handicap+12.9))*5*(10^-4)*180/PI()
-//Sigma==100*distance_in_metres*(1.036^(handicap+12.9))*5*(10^-4)*F_from_above
+//sigma=groupRadiusCm==100*distance_in_metres*(1.036^(handicap+12.9))*5*(10^-4)*F_from_above
 //Inverse_Angular_Deviation=1/Angular_Deviation
 //
-//$D$7=arrow_diameter_cm  (0.357cm) 18/64
-//$D$7=target_size_cm (122)
-//$D$8=distance_m (70)
+//arrowDiameterCm=arrow_diameter_cm  (0.357cm) 18/64
+//targetSizeCm=target_size_cm (122)
+//targetDistanceMetres=distance_m (70)
 //
 
 //15y=13.716m
 
-//10-zone-Average_Arrow_Score=10 - (EXP(-(((1*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((2*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((3*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((4*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((5*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((6*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((7*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((8*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((9*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((10*$D$7/20)+$D$6)^2)/$F26^2))
-//5-zone-avg-arrow=10 - (EXP(-(((1*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((2*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((3*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((4*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((5*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((6*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((7*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((8*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((9*$D$7/20)+$D$6)^2)/$F26^2) + EXP(-(((10*$D$7/20)+$D$6)^2)/$F26^2))
-//10-zone-trispot==10 - (EXP(-(((1*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((2*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((3*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((4*$D$7/20)+$D$6)^2)/$F15^2)) - 6* EXP(-(((5*$D$7/20)+$D$6)^2)/$F15^2)
-//10-zone-compound-wa-pmoth=10 - (EXP(-(((1*$D$7/40)+$D$6)^2)/$F15^2) + EXP(-(((2*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((3*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((4*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((5*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((6*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((7*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((8*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((9*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((10*$D$7/20)+$D$6)^2)/$F15^2))
-//6-zone-fita=10 - (EXP(-(((1*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((2*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((3*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((4*$D$7/20)+$D$6)^2)/$F15^2) + EXP(-(((5*$D$7/20)+$D$6)^2)/$F15^2)) - 5* EXP(-(((6*$D$7/20)+$D$6)^2)/$F15^2)
-//worcester=5 - (EXP(-(((1*$D$7/10)+$D$6)^2)/$F15^2) + EXP(-(((2*$D$7/10)+$D$6)^2)/$F15^2) + EXP(-(((3*$D$7/10)+$D$6)^2)/$F15^2) + EXP(-(((4*$D$7/10)+$D$6)^2)/$F15^2) + EXP(-(((5*$D$7/10)+$D$6)^2)/$F15^2))
-//wa-field=6 - EXP(-(((1*$D$7/20)+$D$6)^2)/$F15^2) - (EXP(-(((2*$D$7/10)+$D$6)^2)/$F15^2) + EXP(-(((3*$D$7/10)+$D$6)^2)/$F15^2) + EXP(-(((4*$D$7/10)+$D$6)^2)/$F15^2) + EXP(-(((5*$D$7/10)+$D$6)^2)/$F15^2))
-//beiter-hit-miss=1 - EXP(-(((1*$D$7/2)+$D$6)^2)/$F15^2)
+//10-zone-Average_Arrow_Score=10 - (EXP(-(((1*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((2*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((3*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((4*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((5*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((6*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((7*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((8*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((9*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((10*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2))
+//5-zone-avg-arrow==9 - 2*(EXP(-(((1*targetSizeCm/10)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((2*targetSizeCm/10)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((3*targetSizeCm/10)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((4*targetSizeCm/10)+arrowDiameterCm)^2)/groupRadiusCm^2)) - EXP(-(((5*targetSizeCm/10)+arrowDiameterCm)^2)/groupRadiusCm^2)
+//10-zone-trispot==10 - (EXP(-(((1*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((2*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((3*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((4*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2)) - 6* EXP(-(((5*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2)
+//10-zone-compound-wa-pmoth=10 - (EXP(-(((1*targetSizeCm/40)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((2*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((3*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((4*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((5*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((6*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((7*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((8*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((9*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((10*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2))
+//6-zone-fita=10 - (EXP(-(((1*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((2*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((3*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((4*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((5*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2)) - 5* EXP(-(((6*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2)
+//worcester=5 - (EXP(-(((1*targetSizeCm/10)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((2*targetSizeCm/10)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((3*targetSizeCm/10)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((4*targetSizeCm/10)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((5*targetSizeCm/10)+arrowDiameterCm)^2)/groupRadiusCm^2))
+//wa-field=6 - EXP(-(((1*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) - (EXP(-(((2*targetSizeCm/10)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((3*targetSizeCm/10)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((4*targetSizeCm/10)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((5*targetSizeCm/10)+arrowDiameterCm)^2)/groupRadiusCm^2))
+//beiter-hit-miss=1 - EXP(-(((1*targetSizeCm/2)+arrowDiameterCm)^2)/groupRadiusCm^2)
 
 
 

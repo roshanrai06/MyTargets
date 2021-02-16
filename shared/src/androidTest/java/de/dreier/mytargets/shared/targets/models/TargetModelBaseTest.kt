@@ -16,7 +16,7 @@
 package de.dreier.mytargets.shared.targets.models
 
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.runner.AndroidJUnit4
 import de.dreier.mytargets.shared.SharedApplicationInstance
 import de.dreier.mytargets.shared.models.Dimension
 import de.dreier.mytargets.shared.targets.TargetFactory
@@ -30,7 +30,7 @@ class TargetModelBaseTest {
 
     @Before
     fun setUp() {
-        SharedApplicationInstance.context = InstrumentationRegistry.getContext()
+        SharedApplicationInstance.context = InstrumentationRegistry.getInstrumentation().targetContext
     }
 
     @Test

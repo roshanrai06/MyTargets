@@ -1,9 +1,10 @@
-package de.dreier.mytargets.features.statistics
+package de.dreier.mytargets.shared.models
 
 import kotlin.math.pow
 
 class HandicapCalculator {
     private val yards2metres = 0.9144
+    private val inch2centimetre = 2.54
 
     private var handicap: Int = 0
     private var handicapCoefficient: Double = 0.0

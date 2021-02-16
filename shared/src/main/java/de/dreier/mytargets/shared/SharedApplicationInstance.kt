@@ -49,7 +49,6 @@ open class SharedApplicationInstance : Application() {
     companion object {
 
         lateinit var context: Context
-            internal set
 
         fun getStr(@StringRes string: Int): String {
             return context.getString(string)
