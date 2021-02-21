@@ -29,6 +29,7 @@ import de.dreier.mytargets.shared.targets.zone.CircularZone
 import de.dreier.mytargets.shared.targets.zone.ZoneBase
 import de.dreier.mytargets.shared.utils.Color
 import de.dreier.mytargets.shared.utils.Color.BLACK
+import java.math.BigDecimal
 import java.util.*
 
 open class TargetModelBase protected constructor(
@@ -122,5 +123,28 @@ open class TargetModelBase protected constructor(
             }
         }
         return list
+    }
+
+
+
+    fun getZoneSizeMapByIndex(scoringStyleIndex: Int, targetDimensionIndex: Int): Map<Int, Float> {
+        var zoneMap = HashMap<Int, Float>()
+        return zoneMap
+    }
+
+    fun getZoneSizeMap(scoringStyle: ScoringStyle, targetSize: Dimension): Map<Int, BigDecimal> {
+        var zoneMap = HashMap<Int, BigDecimal>()
+        var targetRadius = targetSize.value.toBigDecimal().div(BigDecimal.valueOf(2))
+        // TODO: convert to unit in a bit
+        for ((zoneIndex, score) in scoringStyle.getPointsList().iterator().withIndex()) {
+                var radius = zones.get(zoneIndex).radius.toBigDecimal().times(targetRadius)
+                zoneMap.put(score, radius)
+        }
+
+        return zoneMap
+    }
+
+    fun getZoneSizeMapFromProperties(scoringStyleIndex: Int, targetSizeIndex: Int): Map<Int, BigDecimal> {
+        return getZoneSizeMap(scoringStyles[scoringStyleIndex], diameters[targetSizeIndex])
     }
 }

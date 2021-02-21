@@ -97,6 +97,10 @@ open class ScoringStyle private constructor(
         return shots.map { getReachedScore(it) }.sum()
     }
 
+    open fun getPointsList(): IntArray {
+        return points[0]
+    }
+
     companion object {
         const val MISS_SYMBOL = "M"
         private const val X_SYMBOL = "X"

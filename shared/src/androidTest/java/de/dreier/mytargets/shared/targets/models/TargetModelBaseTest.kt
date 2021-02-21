@@ -99,4 +99,18 @@ class TargetModelBaseTest {
         Assert.assertEquals(realSize, Dimension(12f, Dimension.Unit.CENTIMETER))
     }
 
+
+    @Test
+    fun get_scoring_zone_sizes_simple_10_zone() {
+        val unit = TargetFactory.getTarget(WAFull.ID)
+//        var targetSize = Dimension(122f, Dimension.Unit.CENTIMETER)
+//        var scoringStyle = ScoringStyle(R.string.recurve_style_x_1, true, 10, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
+
+        var zoneMap = unit.getZoneSizeMapByIndex(0, 4)
+        Assert.assertEquals(10, zoneMap.size)
+        Assert.assertEquals(6.6f, zoneMap.get(10))
+        Assert.assertEquals(33f, zoneMap.get(5))
+        Assert.assertEquals(66f, zoneMap.get(1))
+    }
+
 }

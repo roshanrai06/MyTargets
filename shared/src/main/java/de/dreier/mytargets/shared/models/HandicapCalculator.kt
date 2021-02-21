@@ -1,5 +1,6 @@
 package de.dreier.mytargets.shared.models
 
+import java.math.BigDecimal
 import kotlin.math.pow
 
 class HandicapCalculator {
@@ -66,5 +67,10 @@ class HandicapCalculator {
         return isMetric
 
     }
+
+    fun angularDeviation(): BigDecimal {
+       return  BigDecimal.valueOf((1.036.pow(handicap+12.9))*5*(10.0.pow(-4))*180/Math.PI)
+    }
+
 
 }
