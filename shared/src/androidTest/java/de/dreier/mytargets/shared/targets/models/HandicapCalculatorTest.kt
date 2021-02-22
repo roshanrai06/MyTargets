@@ -28,7 +28,7 @@ import de.dreier.mytargets.shared.SharedApplicationInstance
 import de.dreier.mytargets.shared.models.Dimension
 import de.dreier.mytargets.shared.models.HandicapCalculator
 import de.dreier.mytargets.shared.targets.scoringstyle.ScoringStyle
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -56,28 +56,23 @@ class HandicapCalculatorTest {
         SharedApplicationInstance.context = InstrumentationRegistry.getInstrumentation().targetContext
     }
 
+    fun assertBigDecimalEquals(expected: BigDecimal, actual: BigDecimal, scale: Int=10, roundingMode: RoundingMode=RoundingMode.HALF_UP) {
+        assertEquals(expected.setScale(scale, roundingMode), actual.setScale(scale, roundingMode))
+    }
+
+    @Test
+    fun set_distance_in_metres() {
+        val unit = HandicapCalculator()
+        unit.setTargetDistance(Dimension(18f, Dimension.Unit.METER))
+        assertBigDecimalEquals(BigDecimal.valueOf(18), unit.metricDistance(), scale = 0)
+    }
 
     @Test
     fun test_set_distance_in_yards_calculates_metres() {
         val unit = HandicapCalculator()
-        unit.setTargetDistanceYards(15)
-        assertEquals(15, unit.targetDistanceYards())
-        assertEquals(13.716, unit.targetDistanceMetres())
-    }
-
-    @Test
-    fun set_distance_in_yards_also_sets_metric_false() {
-        val unit = HandicapCalculator()
-        unit.setTargetDistanceYards(33)
-        assertFalse(unit.isMetric())
-    }
-
-    @Test
-    fun set_distance_in_metres_does_not_set_yardage() {
-        val unit = HandicapCalculator()
-        unit.setTargetDistanceMetres(18)
-        assertTrue(unit.isMetric())
-        assertEquals(0, unit.targetDistanceYards())
+        unit.setTargetDistance(Dimension(15f, Dimension.Unit.YARDS))
+        assertBigDecimalEquals(BigDecimal.valueOf(13.716), unit.metricDistance(), scale = 3)
+        assertEquals(Dimension.Unit.YARDS, unit.targetDistance().unit)
     }
 
     @Test
@@ -172,11 +167,11 @@ class HandicapCalculatorTest {
     fun get_angular_deviation_for_handicap() {
         var unit = HandicapCalculator()
         unit.setHandicap(8)
-        assertEquals("0.0599945120", unit.angularDeviation().setScale(10, RoundingMode.HALF_UP).toString())
+        assertBigDecimalEquals(BigDecimal.valueOf(0.0599945120), unit.angularDeviation())
         unit.setHandicap(45)
-        assertEquals("0.2220355297", unit.angularDeviation().setScale(10, RoundingMode.HALF_UP).toString())
+        assertBigDecimalEquals(BigDecimal.valueOf(0.2220355297), unit.angularDeviation())
         unit.setHandicap(82)
-        assertEquals("0.8217381029", unit.angularDeviation().setScale(10, RoundingMode.HALF_UP).toString())
+        assertBigDecimalEquals(BigDecimal.valueOf(0.8217381029), unit.angularDeviation())
     }
 
 }

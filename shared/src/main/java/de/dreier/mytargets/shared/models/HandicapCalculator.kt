@@ -4,22 +4,22 @@ import java.math.BigDecimal
 import kotlin.math.pow
 
 class HandicapCalculator {
+    private lateinit var targetDistance: Dimension
+    private lateinit var metricDistance: BigDecimal
     private val yards2metres = 0.9144
     private val inch2centimetre = 2.54
 
     private var handicap: Int = 0
     private var handicapCoefficient: Double = 0.0
-    private var targetDistanceYards: Int = 0
     private var targetDistanceMetres: Double = 0.0
-    private var isMetric: Boolean = true
 
 
-    fun targetDistanceMetres(): Any {
-        return targetDistanceMetres
+    fun metricDistance(): BigDecimal {
+        return metricDistance
     }
 
-    fun targetDistanceYards(): Any {
-        return targetDistanceYards
+    fun targetDistance(): Dimension {
+        return targetDistance
     }
 
     fun handicap(): Int {
@@ -30,18 +30,13 @@ class HandicapCalculator {
         return handicapCoefficient
     }
 
-    fun setTargetDistanceYards(yards: Int) {
-        this.targetDistanceYards = yards
-        this.targetDistanceMetres = yardsToMetres(yards)
-        this.isMetric = false
-    }
-
     fun yardsToMetres(yards: Int): Double {
         return yards * yards2metres
     }
 
-    fun setTargetDistanceMetres(metres: Int) {
-        this.targetDistanceMetres = metres.toDouble()
+    fun setTargetDistance(distanceDimension: Dimension) {
+        targetDistance = distanceDimension
+        this.metricDistance = BigDecimal.valueOf(distanceDimension.convertTo(Dimension.Unit.METER).value.toDouble())
     }
 
     fun setHandicap(handicap: Int) {
@@ -61,11 +56,6 @@ class HandicapCalculator {
 
     fun dispersionFactorYards(handicap: Int, yards: Int): Double {
         return dispersionFactor(handicap, yardsToMetres(yards))
-    }
-
-    fun isMetric(): Boolean {
-        return isMetric
-
     }
 
     fun angularDeviation(): BigDecimal {
