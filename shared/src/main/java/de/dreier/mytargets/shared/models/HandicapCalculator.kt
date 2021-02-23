@@ -59,8 +59,8 @@ class HandicapCalculator {
     }
 
     fun groupRadius(): BigDecimal {
-    //sigma=groupRadiusCm==100*distance_in_metres*(1.036^(handicap+12.9))*5*(10^-4)*Dispersion_Factor
-        return BigDecimal(100* metricDistance.toDouble() * 1.036.pow(handicap+12.9) * 5 * 10.0.pow(-4)) * dispersionFactor()
+        //sigma=groupRadiusCm==100*distance_in_metres*(1.036^(handicap+12.9))*5*(10^-4)*Dispersion_Factor
+        return BigDecimal("0.05") * metricDistance * BigDecimal.valueOf(1.036.pow(handicap+12.9)) * dispersionFactor()
     }
 
 
