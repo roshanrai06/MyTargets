@@ -71,8 +71,9 @@ class HandicapCalculatorTest {
     fun test_set_distance_in_yards_calculates_metres() {
         val unit = HandicapCalculator()
         unit.setTargetDistance(Dimension(15f, Dimension.Unit.YARDS))
-        assertBigDecimalEquals(BigDecimal.valueOf(13.716), unit.metricDistance(), scale = 3)
         assertEquals(Dimension.Unit.YARDS, unit.targetDistance().unit)
+        assertEquals(15f, unit.targetDistance().value)
+        assertBigDecimalEquals(BigDecimal.valueOf(13.716), unit.metricDistance(), scale = 3)
     }
 
     @Test
@@ -93,20 +94,28 @@ class HandicapCalculatorTest {
     @Test
     fun dispersion_factor_calcs_at_18_metres() {
         var unit = HandicapCalculator()
+        unit.setTargetDistance(Dimension(18f, Dimension.Unit.METER))
 
-        assertBigDecimalEquals(BigDecimal(1.000662691287247), unit.dispersionFactor(1, BigDecimal(18.0)))
-        assertBigDecimalEquals(BigDecimal(1.00539769534959), unit.dispersionFactor(32, BigDecimal(18.0)))
-        assertBigDecimalEquals(BigDecimal(1.15900004719565), unit.dispersionFactor(82, BigDecimal(18.0)))
+        unit.setHandicap(1)
+        assertBigDecimalEquals(BigDecimal(1.000662691287247), unit.dispersionFactor())
+        unit.setHandicap(32)
+        assertBigDecimalEquals(BigDecimal(1.00539769534959), unit.dispersionFactor())
+        unit.setHandicap(82)
+        assertBigDecimalEquals(BigDecimal(1.15900004719565), unit.dispersionFactor())
 
     }
 
     @Test
     fun dispersion_factor_calcs_at_50_metres() {
         var unit = HandicapCalculator()
+        unit.setTargetDistance(Dimension(50f, Dimension.Unit.METER))
 
-        assertBigDecimalEquals(BigDecimal(1.0062640842793422), unit.dispersionFactor(4, BigDecimal(50.0)))
-        assertBigDecimalEquals(BigDecimal(1.2260465117422445), unit.dispersionFactor(57, BigDecimal(50.0)))
-        assertBigDecimalEquals(BigDecimal(4.384923959784047), unit.dispersionFactor(97, BigDecimal(50.0)))
+        unit.setHandicap(4)
+        assertBigDecimalEquals(BigDecimal(1.0062640842793422), unit.dispersionFactor())
+        unit.setHandicap(57)
+        assertBigDecimalEquals(BigDecimal(1.2260465117422445), unit.dispersionFactor())
+        unit.setHandicap(97)
+        assertBigDecimalEquals(BigDecimal(4.384923959784047), unit.dispersionFactor())
 
     }
 
@@ -185,6 +194,7 @@ class HandicapCalculatorTest {
         // TODO - check this calc - may just be imperial rounding error
 //        assertBigDecimalEquals(BigDecimal.valueOf(37.48065477), unit.groupRadius())
     }
+    // https://dzone.com/articles/never-use-float-and-double-for-monetary-calculatio
 }
 
 

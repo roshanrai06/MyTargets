@@ -49,9 +49,9 @@ class HandicapCalculator {
         return 1.429*(10.00.pow(-6))*1.07.pow(handicap+4.3)
     }
 
-    fun dispersionFactor(handicap: Int, distance: BigDecimal): BigDecimal {
+    fun dispersionFactor(): BigDecimal {
         //F=1 + 1.429*10^-6 * 1.07^(handicap+4.3) * distance_in_metres^2
-        return BigDecimal.valueOf(1 + 1.429 * (10.0.pow(-6)) * 1.07.pow(handicap+4.3) * distance.toDouble().pow(2))
+        return BigDecimal.valueOf(1 + 1.429 * (10.0.pow(-6)) * 1.07.pow(handicap+4.3) * metricDistance.toDouble().pow(2))
     }
 
     fun angularDeviation(): BigDecimal {
@@ -60,7 +60,7 @@ class HandicapCalculator {
 
     fun groupRadius(): BigDecimal {
     //sigma=groupRadiusCm==100*distance_in_metres*(1.036^(handicap+12.9))*5*(10^-4)*Dispersion_Factor
-        return BigDecimal(100* metricDistance.toDouble() * 1.036.pow(handicap+12.9) * 5 * 10.0.pow(-4)) * dispersionFactor(handicap, metricDistance)
+        return BigDecimal(100* metricDistance.toDouble() * 1.036.pow(handicap+12.9) * 5 * 10.0.pow(-4)) * dispersionFactor()
     }
 
 
