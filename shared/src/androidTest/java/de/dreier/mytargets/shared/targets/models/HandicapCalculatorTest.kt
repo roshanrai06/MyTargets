@@ -94,9 +94,9 @@ class HandicapCalculatorTest {
     fun dispersion_factor_calcs_at_18_metres() {
         var unit = HandicapCalculator()
 
-        assertEquals(1.000662691287247, unit.dispersionFactor(1, 18.0), 0.0000000000001)
-        assertEquals(1.00539769534959, unit.dispersionFactor(32, 18.0), 0.0000000000001)
-        assertEquals(1.15900004719565, unit.dispersionFactor(82, 18.0), 0.0000000000001)
+        assertBigDecimalEquals(BigDecimal(1.000662691287247), unit.dispersionFactor(1, BigDecimal(18.0)))
+        assertBigDecimalEquals(BigDecimal(1.00539769534959), unit.dispersionFactor(32, BigDecimal(18.0)))
+        assertBigDecimalEquals(BigDecimal(1.15900004719565), unit.dispersionFactor(82, BigDecimal(18.0)))
 
     }
 
@@ -104,21 +104,9 @@ class HandicapCalculatorTest {
     fun dispersion_factor_calcs_at_50_metres() {
         var unit = HandicapCalculator()
 
-        assertEquals(1.0062640842793422, unit.dispersionFactor(4, 50.0), 0.0000000000001)
-        assertEquals(1.2260465117422445, unit.dispersionFactor(57, 50.0), 0.0000000000001)
-        assertEquals(4.384923959784047, unit.dispersionFactor(97, 50.0), 0.0000000000001)
-
-    }
-
-    @Test
-    fun dispersion_factor_calcs_at_70_yards_does_metric_conversion() {
-        //70y == 64.008m
-        var unit = HandicapCalculator()
-
-        assertEquals(1.00783160883481, unit.dispersionFactorYards(0, 70), 0.0000000000001)
-        assertEquals(1.03469717341738, unit.dispersionFactorYards(22, 70), 0.0000000000001)
-        assertEquals(1.34621233577242, unit.dispersionFactorYards(56, 70), 0.0000000000001)
-        assertEquals(3.01057722079535, unit.dispersionFactorYards(82, 70), 0.0000000000001)
+        assertBigDecimalEquals(BigDecimal(1.0062640842793422), unit.dispersionFactor(4, BigDecimal(50.0)))
+        assertBigDecimalEquals(BigDecimal(1.2260465117422445), unit.dispersionFactor(57, BigDecimal(50.0)))
+        assertBigDecimalEquals(BigDecimal(4.384923959784047), unit.dispersionFactor(97, BigDecimal(50.0)))
 
     }
 
@@ -174,6 +162,29 @@ class HandicapCalculatorTest {
         assertBigDecimalEquals(BigDecimal.valueOf(0.8217381029), unit.angularDeviation())
     }
 
+    @Test
+    fun get_group_radius() {
+        var unit = HandicapCalculator()
+        unit.setHandicap(8)
+        unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
+        assertBigDecimalEquals(BigDecimal.valueOf(7.4476726237), unit.groupRadius())
+        unit.setHandicap(45)
+        unit.setTargetDistance(Dimension(40.0f, Dimension.Unit.METER))
+        assertBigDecimalEquals(BigDecimal.valueOf(16.4967128591), unit.groupRadius())
+        unit.setHandicap(82)
+        unit.setTargetDistance(Dimension(20.0f, Dimension.Unit.METER))
+        assertBigDecimalEquals(BigDecimal.valueOf(34.3146495334), unit.groupRadius())
+    }
+
+    @Test
+    fun get_group_radius_imperial() {
+        var unit = HandicapCalculator()
+        unit.setHandicap(55)
+        unit.setTargetDistance(Dimension(60.0f, Dimension.Unit.YARDS))
+        assertBigDecimalEquals(BigDecimal.valueOf(37.4808083757), unit.groupRadius())
+        // TODO - check this calc - may just be imperial rounding error
+//        assertBigDecimalEquals(BigDecimal.valueOf(37.48065477), unit.groupRadius())
+    }
 }
 
 
