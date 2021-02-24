@@ -126,14 +126,8 @@ open class TargetModelBase protected constructor(
     }
 
 
-
-    fun getZoneSizeMapByIndex(scoringStyleIndex: Int, targetDimensionIndex: Int): Map<Int, Float> {
-        var zoneMap = HashMap<Int, Float>()
-        return zoneMap
-    }
-
     fun getZoneSizeMap(scoringStyle: ScoringStyle, targetSize: Dimension): Map<Int, BigDecimal> {
-        var zoneMap = HashMap<Int, BigDecimal>()
+        var zoneMap = LinkedHashMap<Int, BigDecimal>()
         var targetRadius = targetSize.value.toBigDecimal().div(BigDecimal.valueOf(2))
         // TODO: convert to unit in a bit
         for ((zoneIndex, score) in scoringStyle.getPointsList().iterator().withIndex()) {

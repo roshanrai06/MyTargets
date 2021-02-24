@@ -30,6 +30,7 @@ import de.dreier.mytargets.shared.models.HandicapCalculator
 import de.dreier.mytargets.shared.targets.scoringstyle.ScoringStyle
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.math.BigDecimal
@@ -127,10 +128,14 @@ class HandicapCalculatorTest {
 
         var zoneMap = unit.getZoneSizeMap(scoringStyle, targetSize)
         assertEquals(10, zoneMap.size)
+
         assertEquals(BigDecimal.valueOf(6.1), zoneMap.get(10)?.stripTrailingZeros())
         assertEquals(BigDecimal.valueOf(12.2), zoneMap.get(9)?.stripTrailingZeros())
         assertEquals(BigDecimal.valueOf(36.6), zoneMap.get(5)?.stripTrailingZeros())
         assertEquals(BigDecimal.valueOf(61), zoneMap.get(1)?.stripTrailingZeros())
+
+        assertEquals(zoneMap.entries.first().value, zoneMap.get(10))
+        assertEquals(zoneMap.entries.last().value, zoneMap.get(1))
     }
 
     @Test
@@ -164,11 +169,11 @@ class HandicapCalculatorTest {
     fun get_angular_deviation_for_handicap() {
         var unit = HandicapCalculator()
         unit.setHandicap(8)
-        assertBigDecimalEquals(BigDecimal.valueOf(0.0599945120), unit.angularDeviation())
+        assertBigDecimalEquals(BigDecimal("0.0599945120"), unit.angularDeviation())
         unit.setHandicap(45)
-        assertBigDecimalEquals(BigDecimal.valueOf(0.2220355297), unit.angularDeviation())
+        assertBigDecimalEquals(BigDecimal("0.2220355297"), unit.angularDeviation())
         unit.setHandicap(82)
-        assertBigDecimalEquals(BigDecimal.valueOf(0.8217381029), unit.angularDeviation())
+        assertBigDecimalEquals(BigDecimal("0.8217381029"), unit.angularDeviation())
     }
 
     @Test
@@ -176,13 +181,13 @@ class HandicapCalculatorTest {
         var unit = HandicapCalculator()
         unit.setHandicap(8)
         unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal.valueOf(7.4476726237), unit.groupRadius())
+        assertBigDecimalEquals(BigDecimal("7.4476726237"), unit.groupRadius())
         unit.setHandicap(45)
         unit.setTargetDistance(Dimension(40.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal.valueOf(16.4967128591), unit.groupRadius())
+        assertBigDecimalEquals(BigDecimal("16.4967128591"), unit.groupRadius())
         unit.setHandicap(82)
         unit.setTargetDistance(Dimension(20.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal.valueOf(34.3146495334), unit.groupRadius())
+        assertBigDecimalEquals(BigDecimal("34.3146495334"), unit.groupRadius())
     }
 
     @Test
@@ -190,11 +195,98 @@ class HandicapCalculatorTest {
         var unit = HandicapCalculator()
         unit.setHandicap(55)
         unit.setTargetDistance(Dimension(60.0f, Dimension.Unit.YARDS))
-        assertBigDecimalEquals(BigDecimal.valueOf(37.4808083757), unit.groupRadius())
+        assertBigDecimalEquals(BigDecimal("37.4808083757"), unit.groupRadius())
         // TODO - check this calc - may just be imperial rounding error
 //        assertBigDecimalEquals(BigDecimal.valueOf(37.48065477), unit.groupRadius())
     }
     // https://dzone.com/articles/never-use-float-and-double-for-monetary-calculatio
+
+    @Test
+    fun get_average_arrow_for_handicap_10_zone_recurve() {
+        // should we use Target instead of TargetModelBase as this has size and scorestyle bound?
+        // Should be 122 target 70m
+        var unit = HandicapCalculator()
+        unit.setTargetModel(WAFull())
+        unit.setScoringStyleIndex(1)
+
+       // 122cm, 70m
+        unit.setHandicap(18)
+        unit.setTargetSizeIndex(4)
+        unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
+        assertBigDecimalEquals(BigDecimal("8.9900035590"), unit.averageArrowScore())
+
+        // 80cm, 60m
+        unit.setHandicap(45)
+        unit.setTargetSizeIndex(2)
+        unit.setTargetDistance(Dimension(60.0f, Dimension.Unit.METER))
+        assertBigDecimalEquals(BigDecimal("4.8349706596"), unit.averageArrowScore())
+
+        // 40cm, 40m
+        unit.setHandicap(82)
+        unit.setTargetSizeIndex(0)
+        unit.setTargetDistance(Dimension(40.0f, Dimension.Unit.METER))
+        assertBigDecimalEquals(BigDecimal("0.1524555998"), unit.averageArrowScore())
+    }
+
+    @Test
+    fun get_average_arrow_for_handicap_10_zone_compound() {
+        // should we use Target instead of TargetModelBase as this has size and scorestyle bound?
+        // Should be 122 target 70m
+        var unit = HandicapCalculator()
+        unit.setTargetModel(WAFull())
+        unit.setScoringStyleIndex(2)
+
+        // 122cm, 70m
+        unit.setHandicap(41)
+        unit.setTargetSizeIndex(4)
+        unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
+        assertBigDecimalEquals(BigDecimal("6.5866551614"), unit.averageArrowScore())
+
+        // 80cm, 60m
+        unit.setHandicap(11)
+        unit.setTargetSizeIndex(2)
+        unit.setTargetDistance(Dimension(60.0f, Dimension.Unit.METER))
+        assertBigDecimalEquals(BigDecimal("8.8028056795"), unit.averageArrowScore())
+
+        // 40cm, 40m
+        unit.setHandicap(65)
+        unit.setTargetSizeIndex(0)
+        unit.setTargetDistance(Dimension(40.0f, Dimension.Unit.METER))
+        assertBigDecimalEquals(BigDecimal("0.9617396800"), unit.averageArrowScore())
+    }
+
+    @Ignore
+    @Test
+    fun get_average_arrow_for_handicap_5_zone_imperial() {
+        // should we use Target instead of TargetModelBase as this has size and scorestyle bound?
+        // Should be 122 target 70m
+        var unit = HandicapCalculator()
+        unit.setTargetModel(WAFull())
+        unit.setScoringStyleIndex(5)
+
+        // 122cm, 70m
+        unit.setHandicap(36)
+        unit.setTargetSizeIndex(4)
+        unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
+        assertBigDecimalEquals(BigDecimal("6.88"), unit.averageArrowScore())
+
+        // 122cm, 80y (73.152m)
+        unit.setHandicap(36)
+        unit.setTargetSizeIndex(4)
+        unit.setTargetDistance(Dimension(80.0f, Dimension.Unit.YARDS))
+        assertBigDecimalEquals(BigDecimal("6.71"), unit.averageArrowScore())
+
+        // 60cm, 18m
+        unit.setHandicap(26)
+        unit.setTargetSizeIndex(1)
+        unit.setTargetDistance(Dimension(18.0f, Dimension.Unit.METER))
+        assertBigDecimalEquals(BigDecimal("8.92"), unit.averageArrowScore())
+
+    }
+
+    fun test_with_different_arrow_diameter() {
+        assertEquals(1,1)
+    }
 }
 
 
