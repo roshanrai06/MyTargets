@@ -255,7 +255,6 @@ class HandicapCalculatorTest {
         assertBigDecimalEquals(BigDecimal("0.9617396800"), unit.averageArrowScore())
     }
 
-    @Ignore
     @Test
     fun get_average_arrow_for_handicap_5_zone_imperial() {
         // should we use Target instead of TargetModelBase as this has size and scorestyle bound?
@@ -268,24 +267,42 @@ class HandicapCalculatorTest {
         unit.setHandicap(36)
         unit.setTargetSizeIndex(4)
         unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal("6.88"), unit.averageArrowScore())
+        assertBigDecimalEquals(BigDecimal("6.8828612028"), unit.averageArrowScore())
 
         // 122cm, 80y (73.152m)
         unit.setHandicap(36)
         unit.setTargetSizeIndex(4)
         unit.setTargetDistance(Dimension(80.0f, Dimension.Unit.YARDS))
-        assertBigDecimalEquals(BigDecimal("6.71"), unit.averageArrowScore())
+        assertBigDecimalEquals(BigDecimal("6.7122001518"), unit.averageArrowScore())
 
         // 60cm, 18m
         unit.setHandicap(26)
         unit.setTargetSizeIndex(1)
         unit.setTargetDistance(Dimension(18.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal("8.92"), unit.averageArrowScore())
+        assertBigDecimalEquals(BigDecimal("8.9152743398"), unit.averageArrowScore())
 
     }
 
+    @Ignore
+    @Test
     fun test_with_different_arrow_diameter() {
-        assertEquals(1,1)
+
+        var unit = HandicapCalculator()
+        unit.setTargetModel(WAFull())
+        unit.setScoringStyleIndex(2)
+        unit.setArrowRadius(BigDecimal("4.5641"))
+
+        // 122cm, 80y (73.152m)
+        unit.setHandicap(36)
+        unit.setTargetSizeIndex(4)
+        unit.setTargetDistance(Dimension(80.0f, Dimension.Unit.YARDS))
+        assertBigDecimalEquals(BigDecimal("6.7122001518"), unit.averageArrowScore())
+
+        // 60cm, 18m
+        unit.setHandicap(26)
+        unit.setTargetSizeIndex(1)
+        unit.setTargetDistance(Dimension(18.0f, Dimension.Unit.METER))
+        assertBigDecimalEquals(BigDecimal("8.9152743398"), unit.averageArrowScore())
     }
 }
 
