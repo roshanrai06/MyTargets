@@ -17,6 +17,7 @@ class HandicapCalculator {
     private var handicap: Int = 0
     private var handicapCoefficient: Double = 0.0
     private var targetDistanceMetres: Double = 0.0
+    private var arrowRadius = BigDecimal("0.357")
 
 
     fun metricDistance(): BigDecimal {
@@ -82,33 +83,32 @@ class HandicapCalculator {
 
     fun averageArrowScore(): BigDecimal {
     //10-zone-Average_Arrow_Score=10 - (EXP(-(((1*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((2*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((3*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((4*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((5*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((6*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((7*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((8*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((9*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((10*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2))
-        var arrowRadius = BigDecimal("0.357")
         val groupRadiusSquared = groupRadius().pow(2)
         val zoneMap = targetModel.getZoneSizeMapFromProperties(scoringStyleIndex, targetSizeIndex)
         val bestArrowScore = BigDecimal(zoneMap.keys.max().toString())
 
         var zoneScoreStep = (zoneMap.keys.elementAt(0) - zoneMap.keys.elementAt(1))
         if (zoneScoreStep == 2) {
-            return imperialCalc(zoneMap, arrowRadius, groupRadiusSquared, bestArrowScore, zoneScoreStep)
+            return imperialCalc(zoneMap, groupRadiusSquared, bestArrowScore, zoneScoreStep)
         } else {
-            return metricCalc(zoneMap, arrowRadius, groupRadiusSquared, bestArrowScore)
+            return metricCalc(zoneMap, groupRadiusSquared, bestArrowScore)
         }
     }
 
-    private fun metricCalc(zoneMap: Map<Int, BigDecimal>, arrowDiameter: BigDecimal, groupRadiusSquared: BigDecimal, bestArrowScore: BigDecimal): BigDecimal {
+    private fun metricCalc(zoneMap: Map<Int, BigDecimal>, groupRadiusSquared: BigDecimal, bestArrowScore: BigDecimal): BigDecimal {
         var exponentTotals = BigDecimal(0)
         for ((index, radius) in zoneMap.iterator()) {
-            var zoneRadiusSquared = (radius + arrowDiameter).pow(2)
+            var zoneRadiusSquared = (radius + arrowRadius).pow(2)
             exponentTotals += BigDecimal.valueOf(exp(-(zoneRadiusSquared / groupRadiusSquared).toDouble()))
         }
         return bestArrowScore - exponentTotals
     }
 
-    private fun imperialCalc(zoneMap: Map<Int, BigDecimal>, arrowDiameter: BigDecimal, groupRadiusSquared: BigDecimal, bestArrowScore: BigDecimal, zoneScoreStep: Int): BigDecimal {
+    private fun imperialCalc(zoneMap: Map<Int, BigDecimal>, groupRadiusSquared: BigDecimal, bestArrowScore: BigDecimal, zoneScoreStep: Int): BigDecimal {
         var exponentTotals = BigDecimal(0)
         var lastEntry = zoneMap.entries.last()
         for ((index, radius) in zoneMap.iterator()) {
-            var zoneRadiusSquared = (radius + arrowDiameter).pow(2)
+            var zoneRadiusSquared = (radius + arrowRadius).pow(2)
             if (radius == lastEntry.value) {
                 exponentTotals -= BigDecimal.valueOf(exp(-(zoneRadiusSquared / groupRadiusSquared).toDouble()))
             } else {
@@ -118,8 +118,8 @@ class HandicapCalculator {
         return bestArrowScore - exponentTotals
     }
 
-    fun setArrowRadius(bigDecimal: BigDecimal) {
-
+    fun setArrowRadius(newArrowRadius: BigDecimal) {
+        this.arrowRadius = newArrowRadius
     }
 //arrowDiameterCm=arrow_diameter_cm  (0.357cm) 18/64
 //targetSizeCm=target_size_cm (122)

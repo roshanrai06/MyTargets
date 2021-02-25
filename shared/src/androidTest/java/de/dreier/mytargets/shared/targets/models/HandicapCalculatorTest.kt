@@ -30,7 +30,6 @@ import de.dreier.mytargets.shared.models.HandicapCalculator
 import de.dreier.mytargets.shared.targets.scoringstyle.ScoringStyle
 import org.junit.Assert.assertEquals
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.math.BigDecimal
@@ -283,26 +282,25 @@ class HandicapCalculatorTest {
 
     }
 
-    @Ignore
     @Test
     fun test_with_different_arrow_diameter() {
 
         var unit = HandicapCalculator()
         unit.setTargetModel(WAFull())
-        unit.setScoringStyleIndex(2)
-        unit.setArrowRadius(BigDecimal("4.5641"))
+        unit.setScoringStyleIndex(1)
+        unit.setArrowRadius(BigDecimal("0.4564"))
 
-        // 122cm, 80y (73.152m)
-        unit.setHandicap(36)
+        // 122cm, 70m
+        unit.setHandicap(49)
         unit.setTargetSizeIndex(4)
-        unit.setTargetDistance(Dimension(80.0f, Dimension.Unit.YARDS))
-        assertBigDecimalEquals(BigDecimal("6.7122001518"), unit.averageArrowScore())
+        unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
+        assertBigDecimalEquals(BigDecimal("4.9782780054"), unit.averageArrowScore())
 
         // 60cm, 18m
         unit.setHandicap(26)
         unit.setTargetSizeIndex(1)
         unit.setTargetDistance(Dimension(18.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal("8.9152743398"), unit.averageArrowScore())
+        assertBigDecimalEquals(BigDecimal("9.5680222762"), unit.averageArrowScore())
     }
 }
 
