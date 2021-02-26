@@ -15,8 +15,6 @@ class HandicapCalculator {
     private val inch2centimetre = 2.54
 
     private var handicap: Int = 0
-    private var handicapCoefficient: Double = 0.0
-    private var targetDistanceMetres: Double = 0.0
     private var arrowRadius = BigDecimal("0.357")
 
 
@@ -32,10 +30,6 @@ class HandicapCalculator {
         return handicap
     }
 
-    fun handicapCoefficient(): Double {
-        return handicapCoefficient
-    }
-
     fun yardsToMetres(yards: Int): Double {
         return yards * yards2metres
     }
@@ -45,28 +39,23 @@ class HandicapCalculator {
         this.metricDistance = BigDecimal.valueOf(distanceDimension.convertTo(Dimension.Unit.METER).value.toDouble())
     }
 
-    fun setHandicap(handicap: Int) {
-        this.handicap = handicap
-        this.handicapCoefficient = handicapCoefficient(handicap)
-    }
-
     fun handicapCoefficient(handicap: Int) :Double {
         //K=1.429*10^-6 * 1.07^(handicap+4.3)
         return 1.429*(10.00.pow(-6))*1.07.pow(handicap+4.3)
     }
 
-    fun dispersionFactor(): BigDecimal {
+    fun dispersionFactor(handicap: Int): BigDecimal {
         //F=1 + 1.429*10^-6 * 1.07^(handicap+4.3) * distance_in_metres^2
         return BigDecimal.valueOf(1 + 1.429 * (10.0.pow(-6)) * 1.07.pow(handicap+4.3) * metricDistance.toDouble().pow(2))
     }
 
-    fun angularDeviation(): BigDecimal {
+    fun angularDeviation(handicap: Int): BigDecimal {
        return  BigDecimal.valueOf((1.036.pow(handicap+12.9))*5*(10.0.pow(-4))*180/Math.PI)
     }
 
-    fun groupRadius(): BigDecimal {
+    fun groupRadius(handicap: Int): BigDecimal {
         //sigma=groupRadiusCm==100*distance_in_metres*(1.036^(handicap+12.9))*5*(10^-4)*Dispersion_Factor
-        return BigDecimal("0.05") * metricDistance * BigDecimal.valueOf(1.036.pow(handicap+12.9)) * dispersionFactor()
+        return BigDecimal("0.05") * metricDistance * BigDecimal.valueOf(1.036.pow(handicap+12.9)) * dispersionFactor(handicap)
     }
 
     fun setScoringStyleIndex(scoringStyleIndex: Int) {
@@ -81,9 +70,9 @@ class HandicapCalculator {
         this.targetModel = targetModel
     }
 
-    fun averageArrowScore(): BigDecimal {
+    fun averageArrowScoreForHandicap(handicap: Int): BigDecimal {
     //10-zone-Average_Arrow_Score=10 - (EXP(-(((1*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((2*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((3*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((4*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((5*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((6*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((7*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((8*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((9*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((10*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2))
-        val groupRadiusSquared = groupRadius().pow(2)
+        val groupRadiusSquared = groupRadius(handicap).pow(2)
         val zoneMap = targetModel.getZoneSizeMapFromProperties(scoringStyleIndex, targetSizeIndex)
         val bestArrowScore = BigDecimal(zoneMap.keys.max().toString())
 

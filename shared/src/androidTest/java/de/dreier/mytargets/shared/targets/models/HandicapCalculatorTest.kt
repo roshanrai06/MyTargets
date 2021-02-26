@@ -87,8 +87,7 @@ class HandicapCalculatorTest {
     @Test
     fun set_handicap_calcs_and_sets_coefficient_as_well() {
         var unit = HandicapCalculator()
-        unit.setHandicap(15)
-        assertEquals(0.000005273988009897727, unit.handicapCoefficient(), 0.0000000001)
+        assertEquals(0.000005273988009897727, unit.handicapCoefficient(15), 0.0000000001)
     }
 
     @Test
@@ -96,12 +95,9 @@ class HandicapCalculatorTest {
         var unit = HandicapCalculator()
         unit.setTargetDistance(Dimension(18f, Dimension.Unit.METER))
 
-        unit.setHandicap(1)
-        assertBigDecimalEquals(BigDecimal(1.000662691287247), unit.dispersionFactor())
-        unit.setHandicap(32)
-        assertBigDecimalEquals(BigDecimal(1.00539769534959), unit.dispersionFactor())
-        unit.setHandicap(82)
-        assertBigDecimalEquals(BigDecimal(1.15900004719565), unit.dispersionFactor())
+        assertBigDecimalEquals(BigDecimal(1.000662691287247), unit.dispersionFactor(1))
+        assertBigDecimalEquals(BigDecimal(1.00539769534959), unit.dispersionFactor(32))
+        assertBigDecimalEquals(BigDecimal(1.15900004719565), unit.dispersionFactor(82))
 
     }
 
@@ -110,12 +106,9 @@ class HandicapCalculatorTest {
         var unit = HandicapCalculator()
         unit.setTargetDistance(Dimension(50f, Dimension.Unit.METER))
 
-        unit.setHandicap(4)
-        assertBigDecimalEquals(BigDecimal(1.0062640842793422), unit.dispersionFactor())
-        unit.setHandicap(57)
-        assertBigDecimalEquals(BigDecimal(1.2260465117422445), unit.dispersionFactor())
-        unit.setHandicap(97)
-        assertBigDecimalEquals(BigDecimal(4.384923959784047), unit.dispersionFactor())
+        assertBigDecimalEquals(BigDecimal(1.0062640842793422), unit.dispersionFactor(4))
+        assertBigDecimalEquals(BigDecimal(1.2260465117422445), unit.dispersionFactor(57))
+        assertBigDecimalEquals(BigDecimal(4.384923959784047), unit.dispersionFactor(97))
 
     }
 
@@ -167,34 +160,27 @@ class HandicapCalculatorTest {
     @Test
     fun get_angular_deviation_for_handicap() {
         var unit = HandicapCalculator()
-        unit.setHandicap(8)
-        assertBigDecimalEquals(BigDecimal("0.0599945120"), unit.angularDeviation())
-        unit.setHandicap(45)
-        assertBigDecimalEquals(BigDecimal("0.2220355297"), unit.angularDeviation())
-        unit.setHandicap(82)
-        assertBigDecimalEquals(BigDecimal("0.8217381029"), unit.angularDeviation())
+        assertBigDecimalEquals(BigDecimal("0.0599945120"), unit.angularDeviation(8))
+        assertBigDecimalEquals(BigDecimal("0.2220355297"), unit.angularDeviation(45))
+        assertBigDecimalEquals(BigDecimal("0.8217381029"), unit.angularDeviation(82))
     }
 
     @Test
     fun get_group_radius() {
         var unit = HandicapCalculator()
-        unit.setHandicap(8)
         unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal("7.4476726237"), unit.groupRadius())
-        unit.setHandicap(45)
+        assertBigDecimalEquals(BigDecimal("7.4476726237"), unit.groupRadius(8))
         unit.setTargetDistance(Dimension(40.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal("16.4967128591"), unit.groupRadius())
-        unit.setHandicap(82)
+        assertBigDecimalEquals(BigDecimal("16.4967128591"), unit.groupRadius(45))
         unit.setTargetDistance(Dimension(20.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal("34.3146495334"), unit.groupRadius())
+        assertBigDecimalEquals(BigDecimal("34.3146495334"), unit.groupRadius(82))
     }
 
     @Test
     fun get_group_radius_imperial() {
         var unit = HandicapCalculator()
-        unit.setHandicap(55)
         unit.setTargetDistance(Dimension(60.0f, Dimension.Unit.YARDS))
-        assertBigDecimalEquals(BigDecimal("37.4808083757"), unit.groupRadius())
+        assertBigDecimalEquals(BigDecimal("37.4808083757"), unit.groupRadius(55))
         // TODO - check this calc - may just be imperial rounding error
 //        assertBigDecimalEquals(BigDecimal.valueOf(37.48065477), unit.groupRadius())
     }
@@ -209,22 +195,19 @@ class HandicapCalculatorTest {
         unit.setScoringStyleIndex(1)
 
        // 122cm, 70m
-        unit.setHandicap(18)
         unit.setTargetSizeIndex(4)
         unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal("8.9900035590"), unit.averageArrowScore())
+        assertBigDecimalEquals(BigDecimal("8.9900035590"), unit.averageArrowScoreForHandicap(18))
 
         // 80cm, 60m
-        unit.setHandicap(45)
         unit.setTargetSizeIndex(2)
         unit.setTargetDistance(Dimension(60.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal("4.8349706596"), unit.averageArrowScore())
+        assertBigDecimalEquals(BigDecimal("4.8349706596"), unit.averageArrowScoreForHandicap(45))
 
         // 40cm, 40m
-        unit.setHandicap(82)
         unit.setTargetSizeIndex(0)
         unit.setTargetDistance(Dimension(40.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal("0.1524555998"), unit.averageArrowScore())
+        assertBigDecimalEquals(BigDecimal("0.1524555998"), unit.averageArrowScoreForHandicap(82))
     }
 
     @Test
@@ -236,22 +219,19 @@ class HandicapCalculatorTest {
         unit.setScoringStyleIndex(2)
 
         // 122cm, 70m
-        unit.setHandicap(41)
         unit.setTargetSizeIndex(4)
         unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal("6.5866551614"), unit.averageArrowScore())
+        assertBigDecimalEquals(BigDecimal("6.5866551614"), unit.averageArrowScoreForHandicap(41))
 
         // 80cm, 60m
-        unit.setHandicap(11)
         unit.setTargetSizeIndex(2)
         unit.setTargetDistance(Dimension(60.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal("8.8028056795"), unit.averageArrowScore())
+        assertBigDecimalEquals(BigDecimal("8.8028056795"), unit.averageArrowScoreForHandicap(11))
 
         // 40cm, 40m
-        unit.setHandicap(65)
         unit.setTargetSizeIndex(0)
         unit.setTargetDistance(Dimension(40.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal("0.9617396800"), unit.averageArrowScore())
+        assertBigDecimalEquals(BigDecimal("0.9617396800"), unit.averageArrowScoreForHandicap(65))
     }
 
     @Test
@@ -263,22 +243,19 @@ class HandicapCalculatorTest {
         unit.setScoringStyleIndex(5)
 
         // 122cm, 70m
-        unit.setHandicap(36)
         unit.setTargetSizeIndex(4)
         unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal("6.8828612028"), unit.averageArrowScore())
+        assertBigDecimalEquals(BigDecimal("6.8828612028"), unit.averageArrowScoreForHandicap(36))
 
         // 122cm, 80y (73.152m)
-        unit.setHandicap(36)
         unit.setTargetSizeIndex(4)
         unit.setTargetDistance(Dimension(80.0f, Dimension.Unit.YARDS))
-        assertBigDecimalEquals(BigDecimal("6.7122001518"), unit.averageArrowScore())
+        assertBigDecimalEquals(BigDecimal("6.7122001518"), unit.averageArrowScoreForHandicap(36))
 
         // 60cm, 18m
-        unit.setHandicap(26)
         unit.setTargetSizeIndex(1)
         unit.setTargetDistance(Dimension(18.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal("8.9152743398"), unit.averageArrowScore())
+        assertBigDecimalEquals(BigDecimal("8.9152743398"), unit.averageArrowScoreForHandicap(26))
 
     }
 
@@ -291,16 +268,14 @@ class HandicapCalculatorTest {
         unit.setArrowRadius(BigDecimal("0.4564"))
 
         // 122cm, 70m
-        unit.setHandicap(49)
         unit.setTargetSizeIndex(4)
         unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal("4.9782780054"), unit.averageArrowScore())
+        assertBigDecimalEquals(BigDecimal("4.9782780054"), unit.averageArrowScoreForHandicap(49))
 
         // 60cm, 18m
-        unit.setHandicap(26)
         unit.setTargetSizeIndex(1)
         unit.setTargetDistance(Dimension(18.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal("9.5680222762"), unit.averageArrowScore())
+        assertBigDecimalEquals(BigDecimal("9.5680222762"), unit.averageArrowScoreForHandicap(26))
     }
 }
 
