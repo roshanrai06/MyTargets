@@ -3,9 +3,11 @@ package de.dreier.mytargets.shared.models
 import de.dreier.mytargets.shared.targets.models.TargetModelBase
 import java.lang.Math.exp
 import java.math.BigDecimal
+import java.math.RoundingMode
 import kotlin.math.pow
 
 class HandicapCalculator {
+    private var arrowCount: Int = 1
     private lateinit var targetModel: TargetModelBase
     private var targetSizeIndex: Int = 0
     private var scoringStyleIndex: Int = 0
@@ -37,6 +39,10 @@ class HandicapCalculator {
     fun setTargetDistance(distanceDimension: Dimension) {
         targetDistance = distanceDimension
         this.metricDistance = BigDecimal.valueOf(distanceDimension.convertTo(Dimension.Unit.METER).value.toDouble())
+    }
+
+    fun setArrowCount(arrowCount: Int) {
+        this.arrowCount = arrowCount
     }
 
     fun handicapCoefficient(handicap: Int) :Double {
@@ -109,6 +115,25 @@ class HandicapCalculator {
 
     fun setArrowRadius(newArrowRadius: BigDecimal) {
         this.arrowRadius = newArrowRadius
+    }
+
+    fun handicapScoresList(): List<Int> {
+        var handicapList = ArrayList<Int>()
+        for (handicap: Int in 0..100) {
+            handicapList.add((BigDecimal(arrowCount) * averageArrowScoreForHandicap(handicap)).setScale(0, RoundingMode.UP).toInt())
+        }
+        return handicapList
+    }
+
+    fun getHandicap(score: Int): Int {
+        var scoreList = handicapScoresList()
+        for (handicap: Int in 0..100) {
+            if (score > scoreList.get(handicap)) {
+                return  handicap
+            }
+        }
+        return 101
+
     }
 //arrowDiameterCm=arrow_diameter_cm  (0.357cm) 18/64
 //targetSizeCm=target_size_cm (122)

@@ -277,6 +277,46 @@ class HandicapCalculatorTest {
         unit.setTargetDistance(Dimension(18.0f, Dimension.Unit.METER))
         assertBigDecimalEquals(BigDecimal("9.5680222762"), unit.averageArrowScoreForHandicap(26))
     }
+
+    @Test
+    fun test_handicap_list() {
+
+        var unit = HandicapCalculator()
+        unit.setTargetModel(WAFull())
+
+        // 122cm, 70m, WA Metric Recurve
+        unit.setScoringStyleIndex(1)
+        unit.setTargetSizeIndex(4)
+        unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
+
+        unit.setArrowCount(36)
+        var handicapList = unit.handicapScoresList()
+
+        assertEquals(101, handicapList.size)
+
+        assertEquals(324, handicapList.get(18))
+        assertEquals(233, handicapList.get(42))
+        assertEquals(35, handicapList.get(68))
+    }
+
+    @Test
+    fun test_get_handicap_for_score() {
+        var unit = HandicapCalculator()
+        unit.setTargetModel(WAFull())
+
+        // 122cm, 70m, WA Metric Recurve
+        unit.setScoringStyleIndex(1)
+        unit.setTargetSizeIndex(4)
+        unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
+
+        unit.setArrowCount(72)
+
+        assertEquals(10, unit.getHandicap(677))
+        assertEquals(10, unit.getHandicap(678))
+        assertEquals(10, unit.getHandicap(679))
+        assertEquals(9, unit.getHandicap(680))
+
+    }
 }
 
 
