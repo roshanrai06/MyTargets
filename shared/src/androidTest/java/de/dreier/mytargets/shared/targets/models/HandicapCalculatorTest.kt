@@ -1,7 +1,7 @@
 /*
- * Copyright (C) 2018 Florian Dreier
+ * MyTargets Project Copyright (C) 2018 Florian Dreier
  *
- * This file is part of MyTargets.
+ * This file is (c) 2021 Jez McKinley
  *
  * Calculations used in this file are courtesy of Jack Atkinson - see:
  * https://www.jackatkinson.net/post/archery_handicap/
@@ -149,7 +149,7 @@ class HandicapCalculatorTest {
         var unit = WAFull()
 
         // Should be compound target 60cm
-        var zoneMap = unit.getZoneSizeMapFromProperties(2, 1)
+        var zoneMap = unit.getZoneSizeMapFromIndices(2, 1)
         assertEquals(10, zoneMap.size)
         assertEquals("1.500", zoneMap.get(10).toString())
         assertEquals("6.00", zoneMap.get(9).toString())
@@ -195,17 +195,17 @@ class HandicapCalculatorTest {
         unit.setScoringStyleIndex(1)
 
        // 122cm, 70m
-        unit.setTargetSizeIndex(4)
+        unit.setTargetSize(Dimension(122f, Dimension.Unit.CENTIMETER))
         unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
         assertBigDecimalEquals(BigDecimal("8.9900035590"), unit.averageArrowScoreForHandicap(18))
 
         // 80cm, 60m
-        unit.setTargetSizeIndex(2)
+        unit.setTargetSize(Dimension(80f, Dimension.Unit.CENTIMETER))
         unit.setTargetDistance(Dimension(60.0f, Dimension.Unit.METER))
         assertBigDecimalEquals(BigDecimal("4.8349706596"), unit.averageArrowScoreForHandicap(45))
 
         // 40cm, 40m
-        unit.setTargetSizeIndex(0)
+        unit.setTargetSize(Dimension(40f, Dimension.Unit.CENTIMETER))
         unit.setTargetDistance(Dimension(40.0f, Dimension.Unit.METER))
         assertBigDecimalEquals(BigDecimal("0.1524555998"), unit.averageArrowScoreForHandicap(82))
     }
@@ -219,17 +219,17 @@ class HandicapCalculatorTest {
         unit.setScoringStyleIndex(2)
 
         // 122cm, 70m
-        unit.setTargetSizeIndex(4)
+        unit.setTargetSize(Dimension(122f, Dimension.Unit.CENTIMETER))
         unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
         assertBigDecimalEquals(BigDecimal("6.5866551614"), unit.averageArrowScoreForHandicap(41))
 
         // 80cm, 60m
-        unit.setTargetSizeIndex(2)
+        unit.setTargetSize(Dimension(80f, Dimension.Unit.CENTIMETER))
         unit.setTargetDistance(Dimension(60.0f, Dimension.Unit.METER))
         assertBigDecimalEquals(BigDecimal("8.8028056795"), unit.averageArrowScoreForHandicap(11))
 
         // 40cm, 40m
-        unit.setTargetSizeIndex(0)
+        unit.setTargetSize(Dimension(40f, Dimension.Unit.CENTIMETER))
         unit.setTargetDistance(Dimension(40.0f, Dimension.Unit.METER))
         assertBigDecimalEquals(BigDecimal("0.9617396800"), unit.averageArrowScoreForHandicap(65))
     }
@@ -243,17 +243,17 @@ class HandicapCalculatorTest {
         unit.setScoringStyleIndex(5)
 
         // 122cm, 70m
-        unit.setTargetSizeIndex(4)
+        unit.setTargetSize(Dimension(122f, Dimension.Unit.CENTIMETER))
         unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
         assertBigDecimalEquals(BigDecimal("6.8828612028"), unit.averageArrowScoreForHandicap(36))
 
         // 122cm, 80y (73.152m)
-        unit.setTargetSizeIndex(4)
+        unit.setTargetSize(Dimension(122f, Dimension.Unit.CENTIMETER))
         unit.setTargetDistance(Dimension(80.0f, Dimension.Unit.YARDS))
         assertBigDecimalEquals(BigDecimal("6.7122001518"), unit.averageArrowScoreForHandicap(36))
 
         // 60cm, 18m
-        unit.setTargetSizeIndex(1)
+        unit.setTargetSize(Dimension(60f, Dimension.Unit.CENTIMETER))
         unit.setTargetDistance(Dimension(18.0f, Dimension.Unit.METER))
         assertBigDecimalEquals(BigDecimal("8.9152743398"), unit.averageArrowScoreForHandicap(26))
 
@@ -268,12 +268,12 @@ class HandicapCalculatorTest {
         unit.setArrowRadius(BigDecimal("0.4564"))
 
         // 122cm, 70m
-        unit.setTargetSizeIndex(4)
+        unit.setTargetSize(Dimension(122f, Dimension.Unit.CENTIMETER))
         unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
         assertBigDecimalEquals(BigDecimal("4.9782780054"), unit.averageArrowScoreForHandicap(49))
 
         // 60cm, 18m
-        unit.setTargetSizeIndex(1)
+        unit.setTargetSize(Dimension(60f, Dimension.Unit.CENTIMETER))
         unit.setTargetDistance(Dimension(18.0f, Dimension.Unit.METER))
         assertBigDecimalEquals(BigDecimal("9.5680222762"), unit.averageArrowScoreForHandicap(26))
     }
@@ -286,7 +286,7 @@ class HandicapCalculatorTest {
 
         // 122cm, 70m, WA Metric Recurve
         unit.setScoringStyleIndex(1)
-        unit.setTargetSizeIndex(4)
+        unit.setTargetSize(Dimension(122f, Dimension.Unit.CENTIMETER))
         unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
 
         unit.setArrowCount(36)
@@ -306,7 +306,7 @@ class HandicapCalculatorTest {
 
         // 122cm, 70m, WA Metric Recurve
         unit.setScoringStyleIndex(1)
-        unit.setTargetSizeIndex(4)
+        unit.setTargetSize(Dimension(122f, Dimension.Unit.CENTIMETER))
         unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
 
         unit.setArrowCount(72)

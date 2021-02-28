@@ -1,5 +1,24 @@
+/*
+ * MyTargets Project Copyright (C) 2018 Florian Dreier
+ *
+ * This file is (c) 2021 Jez McKinley
+ *
+ * Calculations used in this file are courtesy of Jack Atkinson - see:
+ * https://www.jackatkinson.net/post/archery_handicap/
+ * derived from David Lane's Handicap Calcs for Toxophilus 1979
+ *
+ * MyTargets is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2
+ * as published by the Free Software Foundation.
+ *
+ * MyTargets is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
 package de.dreier.mytargets.shared.models
 
+import de.dreier.mytargets.shared.models.db.Round
 import de.dreier.mytargets.shared.targets.models.TargetModelBase
 import java.lang.Math.exp
 import java.math.BigDecimal
@@ -7,9 +26,18 @@ import java.math.RoundingMode
 import kotlin.math.pow
 
 class HandicapCalculator {
+    constructor(round: Round, targetDiameter: Dimension) {
+        this.arrowCount = round.shotsPerEnd * round.maxEndCount!!
+        this.targetModel = round.target.model
+        this.scoringStyleIndex = round.target.scoringStyleIndex
+//        this.targetSizeIndex =
+//        setTargetDistance(round.distance)
+    }
+    constructor()
+
     private var arrowCount: Int = 1
     private lateinit var targetModel: TargetModelBase
-    private var targetSizeIndex: Int = 0
+    private var targetSize: Dimension = Dimension.UNKNOWN
     private var scoringStyleIndex: Int = 0
     private lateinit var targetDistance: Dimension
     private lateinit var metricDistance: BigDecimal
@@ -68,8 +96,8 @@ class HandicapCalculator {
         this.scoringStyleIndex = scoringStyleIndex
     }
 
-    fun setTargetSizeIndex(targetSizeIndex: Int) {
-        this.targetSizeIndex = targetSizeIndex
+    fun setTargetSize(dimension: Dimension) {
+        this.targetSize = targetModel.getRealSize(dimension)
     }
 
     fun setTargetModel(targetModel: TargetModelBase) {
@@ -79,7 +107,8 @@ class HandicapCalculator {
     fun averageArrowScoreForHandicap(handicap: Int): BigDecimal {
     //10-zone-Average_Arrow_Score=10 - (EXP(-(((1*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((2*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((3*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((4*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((5*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((6*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((7*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((8*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((9*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((10*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2))
         val groupRadiusSquared = groupRadius(handicap).pow(2)
-        val zoneMap = targetModel.getZoneSizeMapFromProperties(scoringStyleIndex, targetSizeIndex)
+        val scoringStyle = targetModel.getScoringStyle(scoringStyleIndex)
+        val zoneMap = targetModel.getZoneSizeMap(scoringStyle, targetSize)
         val bestArrowScore = BigDecimal(zoneMap.keys.max().toString())
 
         var zoneScoreStep = (zoneMap.keys.elementAt(0) - zoneMap.keys.elementAt(1))

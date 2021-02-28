@@ -138,7 +138,7 @@ open class TargetModelBase protected constructor(
         return zoneMap
     }
 
-    fun getZoneSizeMapFromProperties(scoringStyleIndex: Int, targetSizeIndex: Int): Map<Int, BigDecimal> {
+    fun getZoneSizeMapFromIndices(scoringStyleIndex: Int, targetSizeIndex: Int): Map<Int, BigDecimal> {
         return getZoneSizeMap(scoringStyles[scoringStyleIndex], diameters[targetSizeIndex])
     }
 }
