@@ -26,42 +26,32 @@ import java.math.RoundingMode
 import kotlin.math.pow
 
 class HandicapCalculator {
-    constructor(round: Round, targetDiameter: Dimension) {
+    constructor(round: Round) {
         this.arrowCount = round.shotsPerEnd * round.maxEndCount!!
         this.targetModel = round.target.model
         this.scoringStyleIndex = round.target.scoringStyleIndex
-//        this.targetSizeIndex =
-//        setTargetDistance(round.distance)
+        this.targetSize = round.target.diameter
+        setTargetDistance(round.distance)
     }
     constructor()
 
-    private var arrowCount: Int = 1
-    private lateinit var targetModel: TargetModelBase
-    private var targetSize: Dimension = Dimension.UNKNOWN
-    private var scoringStyleIndex: Int = 0
-    private lateinit var targetDistance: Dimension
-    private lateinit var metricDistance: BigDecimal
-    private val yards2metres = 0.9144
-    private val inch2centimetre = 2.54
+    var arrowCount: Int = 1
+        private set
+    lateinit var targetModel: TargetModelBase
+        private set
+    var targetSize: Dimension = Dimension.UNKNOWN
+        private set
+    var scoringStyleIndex: Int = 0
+        private set
+    lateinit var targetDistance: Dimension
+        private set
+    lateinit var metricDistance: BigDecimal
+        private set
+    var arrowRadius = BigDecimal("0.357")
+        private set
 
-    private var handicap: Int = 0
-    private var arrowRadius = BigDecimal("0.357")
-
-
-    fun metricDistance(): BigDecimal {
-        return metricDistance
-    }
-
-    fun targetDistance(): Dimension {
-        return targetDistance
-    }
-
-    fun handicap(): Int {
-        return handicap
-    }
-
-    fun yardsToMetres(yards: Int): Double {
-        return yards * yards2metres
+    fun setArrowCount(arrowCount: Int) {
+        this.arrowCount = arrowCount
     }
 
     fun setTargetDistance(distanceDimension: Dimension) {
@@ -69,9 +59,22 @@ class HandicapCalculator {
         this.metricDistance = BigDecimal.valueOf(distanceDimension.convertTo(Dimension.Unit.METER).value.toDouble())
     }
 
-    fun setArrowCount(arrowCount: Int) {
-        this.arrowCount = arrowCount
+    fun setScoringStyleIndex(scoringStyleIndex: Int) {
+        this.scoringStyleIndex = scoringStyleIndex
     }
+
+    fun setTargetSize(dimension: Dimension) {
+        this.targetSize = targetModel.getRealSize(dimension)
+    }
+
+    fun setTargetModel(targetModel: TargetModelBase) {
+        this.targetModel = targetModel
+    }
+
+    fun setArrowRadius(newArrowRadius: BigDecimal) {
+        this.arrowRadius = newArrowRadius
+    }
+
 
     fun handicapCoefficient(handicap: Int) :Double {
         //K=1.429*10^-6 * 1.07^(handicap+4.3)
@@ -90,18 +93,6 @@ class HandicapCalculator {
     fun groupRadius(handicap: Int): BigDecimal {
         //sigma=groupRadiusCm==100*distance_in_metres*(1.036^(handicap+12.9))*5*(10^-4)*Dispersion_Factor
         return BigDecimal("0.05") * metricDistance * BigDecimal.valueOf(1.036.pow(handicap+12.9)) * dispersionFactor(handicap)
-    }
-
-    fun setScoringStyleIndex(scoringStyleIndex: Int) {
-        this.scoringStyleIndex = scoringStyleIndex
-    }
-
-    fun setTargetSize(dimension: Dimension) {
-        this.targetSize = targetModel.getRealSize(dimension)
-    }
-
-    fun setTargetModel(targetModel: TargetModelBase) {
-        this.targetModel = targetModel
     }
 
     fun averageArrowScoreForHandicap(handicap: Int): BigDecimal {
@@ -140,10 +131,6 @@ class HandicapCalculator {
             }
         }
         return bestArrowScore - exponentTotals
-    }
-
-    fun setArrowRadius(newArrowRadius: BigDecimal) {
-        this.arrowRadius = newArrowRadius
     }
 
     fun handicapScoresList(): List<Int> {

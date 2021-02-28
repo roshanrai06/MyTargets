@@ -27,7 +27,13 @@ import de.dreier.mytargets.shared.R
 import de.dreier.mytargets.shared.SharedApplicationInstance
 import de.dreier.mytargets.shared.models.Dimension
 import de.dreier.mytargets.shared.models.HandicapCalculator
+import de.dreier.mytargets.shared.models.Score
+import de.dreier.mytargets.shared.models.Target
+import de.dreier.mytargets.shared.models.db.Round
 import de.dreier.mytargets.shared.targets.scoringstyle.ScoringStyle
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.CoreMatchers.notNullValue
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -39,16 +45,6 @@ import java.math.RoundingMode
 @RunWith(AndroidJUnit4::class)
 class HandicapCalculatorTest {
     private lateinit var context: Context
-
-    //    @Test
-//    fun handicapTestWithNoArrowSet() {
-//        val distance = 70
-//        val score = 252
-//        val unit = HandicapCalculator()
-//        val handicap = unit.setDistance(distance).setScore(score).setTargetSize(122).setZones(10).setInnerRing(false).calculate();
-//        assertEqual()
-//    }
-
 
     @Before
     @Throws(Exception::class)
@@ -64,16 +60,16 @@ class HandicapCalculatorTest {
     fun set_distance_in_metres() {
         val unit = HandicapCalculator()
         unit.setTargetDistance(Dimension(18f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal.valueOf(18), unit.metricDistance(), scale = 0)
+        assertBigDecimalEquals(BigDecimal.valueOf(18), unit.metricDistance, scale = 0)
     }
 
     @Test
     fun test_set_distance_in_yards_calculates_metres() {
         val unit = HandicapCalculator()
         unit.setTargetDistance(Dimension(15f, Dimension.Unit.YARDS))
-        assertEquals(Dimension.Unit.YARDS, unit.targetDistance().unit)
-        assertEquals(15f, unit.targetDistance().value)
-        assertBigDecimalEquals(BigDecimal.valueOf(13.716), unit.metricDistance(), scale = 3)
+        assertEquals(Dimension.Unit.YARDS, unit.targetDistance.unit)
+        assertEquals(15f, unit.targetDistance.value)
+        assertBigDecimalEquals(BigDecimal.valueOf(13.716), unit.metricDistance, scale = 3)
     }
 
     @Test
@@ -316,6 +312,35 @@ class HandicapCalculatorTest {
         assertEquals(10, unit.getHandicap(679))
         assertEquals(9, unit.getHandicap(680))
 
+    }
+
+    @Test
+    fun handicap_calculator_construction_from_round() {
+//        unit.setTargetModel(WAFull())
+//        unit.setScoringStyleIndex(1)
+//        unit.setTargetSize(Dimension(122f, Dimension.Unit.CENTIMETER))
+//        unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
+
+        var distance = Dimension(70f, Dimension.Unit.METER)
+        var diameter = Dimension(122f, Dimension.Unit.CENTIMETER)
+        var target = Target(WAFull.ID, 2,  diameter)
+        var score = Score(222)
+        var round = Round(0, 0, 0, 6, 6, distance, "test", target, score )
+
+        var unit = HandicapCalculator(round)
+
+        assertThat(unit.targetModel, notNullValue())
+        assertThat(unit.scoringStyleIndex, equalTo(2))
+        assertThat(unit.arrowCount, equalTo(36))
+        assertThat(unit.targetSize.value, equalTo(122f))
+        assertThat(unit.targetSize.unit, equalTo(Dimension.Unit.CENTIMETER))
+        assertThat(unit.targetDistance.value, equalTo(70f))
+        assertThat(unit.targetDistance.unit, equalTo(Dimension.Unit.METER))
+        assertThat(unit.metricDistance, equalTo(BigDecimal("70.0")))
+
+        assertThat(unit.getHandicap(round.score.totalPoints), equalTo(44))
+//        private var arrowRadius = BigDecimal("0.357")
+//          TODO: the same with imperial
     }
 }
 
