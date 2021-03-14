@@ -228,13 +228,16 @@ class DefaultScoreboardLayout(
 
         val topScores = ScoreUtils.getTopScoreDistribution(scoreDistribution)
 
+//        val handicap = "Handicap: 34"
+
         val table = Table(false)
         var row: Table.Row = table.startRow()
         for (topScore in topScores) {
             row.addBoldCell(topScore.first!!)
         }
         row.addBoldCell(context.getString(R.string.hits))
-        row.addBoldCell(context.getString(R.string.average))
+        row.addBoldCell(context.getString(R.string.avg_symbol))
+        row.addBoldCell(context.getString(R.string.handicap_symbol))
         row = table.startRow()
 
         for (topScore in topScores) {
@@ -242,6 +245,9 @@ class DefaultScoreboardLayout(
         }
         row.addCell("$hits/$total")
         row.addCell(getAverageScore(scoreDistribution))
+
+        row.addCell("42")
+
         return table
     }
 
