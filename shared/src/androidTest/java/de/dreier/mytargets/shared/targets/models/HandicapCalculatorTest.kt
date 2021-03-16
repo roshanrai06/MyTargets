@@ -185,7 +185,7 @@ class HandicapCalculatorTest {
         // Should be 122 target 70m
         var unit = HandicapCalculator()
         unit.setTargetModel(WAFull())
-        unit.setScoringStyleIndex(1)
+        unit.setScoringStyle(WAFull().getScoringStyle(1))
 
        // 122cm, 70m
         unit.setTargetSize(Dimension(122f, Dimension.Unit.CENTIMETER))
@@ -209,7 +209,7 @@ class HandicapCalculatorTest {
         // Should be 122 target 70m
         var unit = HandicapCalculator()
         unit.setTargetModel(WAFull())
-        unit.setScoringStyleIndex(2)
+        unit.setScoringStyle(WAFull().getScoringStyle(2))
 
         // 122cm, 70m
         unit.setTargetSize(Dimension(122f, Dimension.Unit.CENTIMETER))
@@ -233,7 +233,7 @@ class HandicapCalculatorTest {
         // Should be 122 target 70m
         var unit = HandicapCalculator()
         unit.setTargetModel(WAFull())
-        unit.setScoringStyleIndex(5)
+        unit.setScoringStyle(WAFull().getScoringStyle(5))
 
         // 122cm, 70m
         unit.setTargetSize(Dimension(122f, Dimension.Unit.CENTIMETER))
@@ -257,7 +257,7 @@ class HandicapCalculatorTest {
 
         var unit = HandicapCalculator()
         unit.setTargetModel(WAFull())
-        unit.setScoringStyleIndex(1)
+        unit.setScoringStyle(WAFull().getScoringStyle(1))
         unit.setArrowRadius(BigDecimal("0.4564"))
 
         // 122cm, 70m
@@ -278,7 +278,7 @@ class HandicapCalculatorTest {
         unit.setTargetModel(WAFull())
 
         // 122cm, 70m, WA Metric Recurve
-        unit.setScoringStyleIndex(1)
+        unit.setScoringStyle(WAFull().getScoringStyle(1))
         unit.setTargetSize(Dimension(122f, Dimension.Unit.CENTIMETER))
         unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
 
@@ -298,7 +298,7 @@ class HandicapCalculatorTest {
         unit.setTargetModel(WAFull())
 
         // 122cm, 70m, WA Metric Recurve
-        unit.setScoringStyleIndex(1)
+        unit.setScoringStyle(WAFull().getScoringStyle(1))
         unit.setTargetSize(Dimension(122f, Dimension.Unit.CENTIMETER))
         unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
 
@@ -319,7 +319,7 @@ class HandicapCalculatorTest {
         unit.setTargetModel(WAFull())
 
         // 122cm, 70m, WA Metric Recurve
-        unit.setScoringStyleIndex(1)
+        unit.setScoringStyle(WAFull().getScoringStyle(1))
         unit.setTargetSize(Dimension(122f, Dimension.Unit.CENTIMETER))
 //        unit.setTargetDistance(Dimension(45.72f, Dimension.Unit.METER))
         unit.setTargetDistance(Dimension(76.5529f, Dimension.Unit.YARDS))
@@ -344,7 +344,7 @@ class HandicapCalculatorTest {
 
         assertThat(unit.arrowRadius, equalTo(BigDecimal("0.357")))
         assertThat(unit.targetModel, notNullValue())
-        assertThat(unit.scoringStyleIndex, equalTo(1))
+        assertThat(unit.scoringStyle.title, equalTo(WAFull().getScoringStyle(1).title))
         assertThat(unit.arrowCount, equalTo(36))
         assertThat(unit.targetSize.value, equalTo(122f))
         assertThat(unit.targetSize.unit, equalTo(Dimension.Unit.CENTIMETER))

@@ -20,6 +20,7 @@ package de.dreier.mytargets.shared.models
 
 import de.dreier.mytargets.shared.models.db.Round
 import de.dreier.mytargets.shared.targets.models.TargetModelBase
+import de.dreier.mytargets.shared.targets.scoringstyle.ScoringStyle
 import java.lang.Math.exp
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -29,7 +30,7 @@ class HandicapCalculator {
     constructor(round: Round) {
         this.arrowCount = round.shotsPerEnd * round.maxEndCount!!
         this.targetModel = round.target.model
-        this.scoringStyleIndex = round.target.scoringStyleIndex
+        this.scoringStyle = round.target.getScoringStyle()
         this.targetSize = round.target.diameter
         setTargetDistance(round.distance)
     }
@@ -41,7 +42,7 @@ class HandicapCalculator {
         private set
     var targetSize: Dimension = Dimension.UNKNOWN
         private set
-    var scoringStyleIndex: Int = 0
+    lateinit var scoringStyle: ScoringStyle
         private set
     lateinit var targetDistance: Dimension
         private set
@@ -59,8 +60,8 @@ class HandicapCalculator {
         this.metricDistance = BigDecimal.valueOf(distanceDimension.convertTo(Dimension.Unit.METER).value.toDouble())
     }
 
-    fun setScoringStyleIndex(scoringStyleIndex: Int) {
-        this.scoringStyleIndex = scoringStyleIndex
+    fun setScoringStyle(scoringStyle: ScoringStyle) {
+        this.scoringStyle = scoringStyle
     }
 
     fun setTargetSize(dimension: Dimension) {
@@ -98,7 +99,6 @@ class HandicapCalculator {
     fun averageArrowScoreForHandicap(handicap: Int): BigDecimal {
     //10-zone-Average_Arrow_Score=10 - (EXP(-(((1*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((2*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((3*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((4*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((5*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((6*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((7*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((8*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((9*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2) + EXP(-(((10*targetSizeCm/20)+arrowDiameterCm)^2)/groupRadiusCm^2))
         val groupRadiusSquared = groupRadius(handicap).pow(2)
-        val scoringStyle = targetModel.getScoringStyle(scoringStyleIndex)
         val zoneMap = targetModel.getZoneSizeMap(scoringStyle, targetSize)
         val bestArrowScore = BigDecimal(zoneMap.keys.max().toString())
 
