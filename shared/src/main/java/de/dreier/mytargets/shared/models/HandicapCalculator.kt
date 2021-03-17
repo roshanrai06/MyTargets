@@ -82,18 +82,18 @@ class HandicapCalculator {
         return 1.429*(10.00.pow(-6))*1.07.pow(handicap+4.3)
     }
 
-    fun dispersionFactor(handicap: Int): BigDecimal {
-        //F=1 + 1.429*10^-6 * 1.07^(handicap+4.3) * distance_in_metres^2
-        return BigDecimal.valueOf(1 + 1.429 * (10.0.pow(-6)) * 1.07.pow(handicap+4.3) * metricDistance.toDouble().pow(2)).setScale(14, RoundingMode.HALF_UP)
+    fun angularDeviation(handicap: Int): BigDecimal {
+        return  BigDecimal.valueOf((1.036.pow(handicap+12.9))*5*(10.0.pow(-4))*180/Math.PI)
     }
 
-    fun angularDeviation(handicap: Int): BigDecimal {
-       return  BigDecimal.valueOf((1.036.pow(handicap+12.9))*5*(10.0.pow(-4))*180/Math.PI)
+    fun dispersionFactor(handicap: Int): BigDecimal {
+        //F=1 + 1.429*10^-6 * 1.07^(handicap+4.3) * distance_in_metres^2
+        return BigDecimal.valueOf(1 + 1.429 * (10.0.pow(-6)) * 1.07.pow(handicap+4.3) * metricDistance.toDouble().pow(2))
     }
 
     fun groupRadius(handicap: Int): BigDecimal {
         //sigma=groupRadiusCm==100*distance_in_metres*(1.036^(handicap+12.9))*5*(10^-4)*Dispersion_Factor
-        return BigDecimal("0.05") * metricDistance * BigDecimal.valueOf(1.036.pow(handicap+12.9)) * dispersionFactor(handicap).setScale(8, RoundingMode.HALF_UP)
+        return BigDecimal("0.05") * metricDistance * BigDecimal.valueOf(1.036.pow(handicap+12.9)) * dispersionFactor(handicap)
     }
 
     fun averageArrowScoreForHandicap(handicap: Int): BigDecimal {
@@ -116,7 +116,7 @@ class HandicapCalculator {
             var zoneRadiusSquared = (radius + arrowRadius).pow(2)
             exponentTotals += BigDecimal.valueOf(exp(-(zoneRadiusSquared / groupRadiusSquared).toDouble()))
         }
-        return (bestArrowScore - exponentTotals).setScale(2, RoundingMode.HALF_UP)
+        return (bestArrowScore - exponentTotals)
     }
 
     private fun imperialCalc(zoneMap: Map<Int, BigDecimal>, groupRadiusSquared: BigDecimal, bestArrowScore: BigDecimal, zoneScoreStep: Int): BigDecimal {
@@ -130,13 +130,16 @@ class HandicapCalculator {
                 exponentTotals += BigDecimal.valueOf(zoneScoreStep * exp(-(zoneRadiusSquared / groupRadiusSquared).toDouble()))
             }
         }
-        return (bestArrowScore - exponentTotals).setScale(2, RoundingMode.HALF_UP)
+        return (bestArrowScore - exponentTotals)
     }
 
     fun handicapScoresList(): List<Int> {
         var handicapList = ArrayList<Int>()
         for (handicap: Int in 0..100) {
-            handicapList.add((BigDecimal(arrowCount) * averageArrowScoreForHandicap(handicap).setScale(2, RoundingMode.UP)).setScale(0, RoundingMode.UP).toInt())
+//            handicapList.add((BigDecimal(arrowCount) * averageArrowScoreForHandicap(handicap).setScale(2, RoundingMode.HALF_UP)).setScale(0, RoundingMode.UP).toInt())
+            var average = averageArrowScoreForHandicap(handicap)
+            var roundScore = (BigDecimal(arrowCount) * average)
+            handicapList.add(roundScore.setScale(0, RoundingMode.HALF_UP).toInt())
         }
         return handicapList
     }
@@ -144,7 +147,7 @@ class HandicapCalculator {
     fun getHandicap(score: Int): Int {
         var scoreList = handicapScoresList()
         for (handicap: Int in 0..100) {
-            if (score > scoreList.get(handicap)) {
+            if (score >= scoreList.get(handicap)) {
                 return  handicap
             }
         }

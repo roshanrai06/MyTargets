@@ -288,8 +288,8 @@ class HandicapCalculatorTest {
         assertEquals(101, handicapList.size)
 
         assertEquals(324, handicapList.get(18))
-        assertEquals(233, handicapList.get(42))
-        assertEquals(35, handicapList.get(68))
+        assertEquals(232, handicapList.get(42))
+        assertEquals(34, handicapList.get(68))
     }
 
     @Test
@@ -374,7 +374,7 @@ class HandicapCalculatorTest {
 
     @Test
     fun handicap_calculator_construction_with_different_arrow_radius() {
-
+        // TODO: set arrow radius as dimension not literal
         var distance = Dimension(70f, Dimension.Unit.METER)
         var diameter = Dimension(122f, Dimension.Unit.CENTIMETER)
         var target = Target(WAFull.ID, 0,  diameter)
@@ -388,13 +388,14 @@ class HandicapCalculatorTest {
 
         //23xx arrows
         unit.setArrowRadius(BigDecimal("0.456"))
-        assertThat(unit.getHandicap(647), equalTo(21))
-        assertThat(unit.getHandicap(648), equalTo(20))
+        assertThat(unit.getHandicap(648), equalTo(18))
+        assertThat(unit.getHandicap(647), equalTo(19))
 
         //27xx arrows
         unit.setArrowRadius(BigDecimal("0.53578"))
-        assertThat(unit.getHandicap(647), equalTo(21))
-        assertThat(unit.getHandicap(649), equalTo(20))
+        assertThat(unit.getHandicap(640), equalTo(20))
+        assertThat(unit.getHandicap(636), equalTo(21))
+        assertThat(unit.getHandicap(632), equalTo(22))
 
     }
 }
