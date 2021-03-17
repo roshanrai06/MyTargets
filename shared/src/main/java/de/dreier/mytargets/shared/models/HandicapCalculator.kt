@@ -1,9 +1,9 @@
 /*
  * MyTargets Project Copyright (C) 2018 Florian Dreier
  *
- * This file is (c) 2021 Jez McKinley
+ * This file is (c) 2021 Jez McKinley - Canford Magna Bowmen
  *
- * Calculations used in this file are courtesy of Jack Atkinson - see:
+* Calculations used in this file are courtesy of Jack Atkinson - see:
  * https://www.jackatkinson.net/post/archery_handicap/
  * derived from David Lane's Handicap Calcs for Toxophilus 1979
  *

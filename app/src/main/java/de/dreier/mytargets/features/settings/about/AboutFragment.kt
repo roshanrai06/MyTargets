@@ -109,6 +109,20 @@ class AboutFragment : Fragment() {
                             + "\n" + getString(R.string.translators), null
                 )
             )
+            .addGroup("Handicap Calculations")
+            .addItem(Element(
+                    "Original Handicap Calculation and Tables" + "\n" +
+                    "   David Lane" + "\n" +
+                    "      Toxophilus 2(1) (1979)" + "\n" +
+                    "\n" +
+                    "Online Tables Creator and Demystification" + "\n" +
+                    "   Jack Atkinson" + "\n" +
+                    "      https://www.jackatkinson.net" + "\n" +
+                    "\n" +
+                    "Java/Kotlin implementation" + "\n" +
+                    "   Jez McKinley" + "\n" +
+                    "      https://canfordmagnabowmen.co.uk/", null)
+            )
             .create()
     }
 
