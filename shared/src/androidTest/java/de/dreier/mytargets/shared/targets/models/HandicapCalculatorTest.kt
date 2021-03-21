@@ -25,7 +25,9 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
 import de.dreier.mytargets.shared.R
 import de.dreier.mytargets.shared.SharedApplicationInstance
-import de.dreier.mytargets.shared.models.*
+import de.dreier.mytargets.shared.models.Dimension
+import de.dreier.mytargets.shared.models.HandicapCalculator
+import de.dreier.mytargets.shared.models.Score
 import de.dreier.mytargets.shared.models.Target
 import de.dreier.mytargets.shared.models.db.Round
 import de.dreier.mytargets.shared.targets.scoringstyle.ScoringStyle
@@ -52,6 +54,14 @@ class HandicapCalculatorTest {
 
     fun assertBigDecimalEquals(expected: BigDecimal, actual: BigDecimal, scale: Int=2, roundingMode: RoundingMode=RoundingMode.HALF_UP) {
         assertEquals(expected.setScale(scale, roundingMode), actual.setScale(scale, roundingMode))
+    }
+
+    fun assertBigDecimalEquals(expected: String, actual: BigDecimal, scale: Int=2, roundingMode: RoundingMode=RoundingMode.HALF_UP) {
+        assertEquals(BigDecimal(expected).setScale(scale, roundingMode), actual.setScale(scale, roundingMode))
+    }
+
+    fun assertBigDecimalEquals(expected: Int, actual: BigDecimal, scale: Int=2, roundingMode: RoundingMode=RoundingMode.HALF_UP) {
+        assertEquals(BigDecimal(expected.toString()).setScale(scale, roundingMode), actual.setScale(scale, roundingMode))
     }
 
     @Test
@@ -89,9 +99,9 @@ class HandicapCalculatorTest {
         var unit = HandicapCalculator()
         unit.setTargetDistance(Dimension(18f, Dimension.Unit.METER))
 
-        assertBigDecimalEquals(BigDecimal(1.000662691287247), unit.dispersionFactor(1))
-        assertBigDecimalEquals(BigDecimal(1.00539769534959), unit.dispersionFactor(32))
-        assertBigDecimalEquals(BigDecimal(1.15900004719565), unit.dispersionFactor(82))
+        assertBigDecimalEquals("1.000662691287247", unit.dispersionFactor(1))
+        assertBigDecimalEquals("1.00539769534959", unit.dispersionFactor(32))
+        assertBigDecimalEquals("1.15900004719565", unit.dispersionFactor(82))
 
     }
 
@@ -100,9 +110,9 @@ class HandicapCalculatorTest {
         var unit = HandicapCalculator()
         unit.setTargetDistance(Dimension(50f, Dimension.Unit.METER))
 
-        assertBigDecimalEquals(BigDecimal(1.0062640842793422), unit.dispersionFactor(4))
-        assertBigDecimalEquals(BigDecimal(1.2260465117422445), unit.dispersionFactor(57))
-        assertBigDecimalEquals(BigDecimal(4.384923959784047), unit.dispersionFactor(97))
+        assertBigDecimalEquals("1.0062640842793422", unit.dispersionFactor(4))
+        assertBigDecimalEquals("1.2260465117422445", unit.dispersionFactor(57))
+        assertBigDecimalEquals("4.384923959784047", unit.dispersionFactor(97))
 
     }
 
@@ -154,20 +164,20 @@ class HandicapCalculatorTest {
     @Test
     fun get_angular_deviation_for_handicap() {
         var unit = HandicapCalculator()
-        assertBigDecimalEquals(BigDecimal("0.0599945120"), unit.angularDeviation(8))
-        assertBigDecimalEquals(BigDecimal("0.2220355297"), unit.angularDeviation(45))
-        assertBigDecimalEquals(BigDecimal("0.8217381029"), unit.angularDeviation(82))
+        assertBigDecimalEquals("0.0599945120", unit.angularDeviation(8))
+        assertBigDecimalEquals("0.2220355297", unit.angularDeviation(45))
+        assertBigDecimalEquals("0.8217381029", unit.angularDeviation(82))
     }
 
     @Test
     fun get_group_radius() {
         var unit = HandicapCalculator()
         unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal("7.4476726237"), unit.groupRadius(8))
+        assertBigDecimalEquals("7.4476726237", unit.groupRadius(8))
         unit.setTargetDistance(Dimension(40.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal("16.4967128591"), unit.groupRadius(45))
+        assertBigDecimalEquals("16.4967128591", unit.groupRadius(45))
         unit.setTargetDistance(Dimension(20.0f, Dimension.Unit.METER))
-        assertBigDecimalEquals(BigDecimal("34.3146495334"), unit.groupRadius(82))
+        assertBigDecimalEquals("34.3146495334", unit.groupRadius(82))
     }
 
     @Test
@@ -285,11 +295,31 @@ class HandicapCalculatorTest {
 
         assertEquals(101, handicapList.size)
 
-        assertEquals(324, handicapList.get(18))
-        assertEquals(232, handicapList.get(42))
-        assertEquals(34, handicapList.get(68))
+        assertBigDecimalEquals(324, handicapList.get(18))
+        assertBigDecimalEquals(232, handicapList.get(42))
+        assertBigDecimalEquals(34, handicapList.get(68))
     }
 
+    @Test
+    fun test_unrounded_handicap_list() {
+
+        var unit = HandicapCalculator()
+        unit.setTargetModel(WAFull())
+
+        // 122cm, 70m, WA Metric Recurve
+        unit.setScoringStyle(WAFull().getScoringStyle(1))
+        unit.setTargetSize(Dimension(122f, Dimension.Unit.CENTIMETER))
+        unit.setTargetDistance(Dimension(70.0f, Dimension.Unit.METER))
+
+        unit.setArrowCount(36)
+        var handicapList = unit.handicapScoresList(false)
+
+        assertEquals(101, handicapList.size)
+
+        assertBigDecimalEquals("323.64", handicapList.get(18))
+        assertBigDecimalEquals("232.19", handicapList.get(42))
+        assertBigDecimalEquals("34.40", handicapList.get(68))
+    }
 
     @Test
     fun test_get_handicap_for_score() {
@@ -398,43 +428,6 @@ class HandicapCalculatorTest {
         assertThat(unit.getHandicapForScore(636), equalTo(21))
         assertThat(unit.getHandicapForScore(632), equalTo(22))
 
-    }
-
-    @Test
-    fun handicap_calculator_construction_from_multiple_sub_rounds() {
-        // TODO: Find out if there are any hybrid rounds in existence that use different scoring per distance
-        // ARCHERY_GB, R.string.york,
-        // YARDS, CENTIMETER,
-        // first params here are targetface, scoringstyle and shotsperend, the tuples are distance, diameter and ends
-        // WAFull.ID, 5, 6, 100, 122, 12, 80, 122, 8, 60, 122, 4
-        var longDistance = Dimension(100f, Dimension.Unit.YARDS)
-        var longDiameter = Dimension(122f, Dimension.Unit.CENTIMETER)
-        var longTarget = Target(WAFull.ID, 5, longDiameter)
-        var longScore = Score(504)
-        var longRound = Round(0, 0, 0, 6, 12, longDistance, "100y", longTarget, longScore)
-
-        var midDistance = Dimension(80f, Dimension.Unit.YARDS)
-        var midDiameter = Dimension(122f, Dimension.Unit.CENTIMETER)
-        var midTarget = Target(WAFull.ID, 5, midDiameter)
-        var midScore = Score(336)
-        var midRound = Round(0, 0, 0, 6, 8, midDistance, "80y", midTarget, midScore)
-
-        var shortDistance = Dimension(60f, Dimension.Unit.YARDS)
-        var shortDiameter = Dimension(122f, Dimension.Unit.CENTIMETER)
-        var shortTarget = Target(WAFull.ID, 5, shortDiameter)
-        var shortScore = Score(168)
-        var shortRound = Round(0, 0, 0, 6, 4, shortDistance, "60y", shortTarget, shortScore)
-
-        // Score 1008 = Handicap 32 apparently
-
-        var rounds = ArrayList<Round>()
-        rounds.add(longRound)
-        rounds.add(midRound)
-        rounds.add(shortRound)
-        var unit = MultiRoundHandicapCalculator(rounds)
-
-        assertThat(unit.getHandicap(), equalTo(32))
-        assertThat(unit.getHandicapForScore(1008), equalTo(32))
     }
 
 }

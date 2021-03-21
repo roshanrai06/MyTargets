@@ -143,18 +143,20 @@ class HandicapCalculator {
         return (bestArrowScore - exponentTotals)
     }
 
-    fun handicapScoresList(): List<Int> {
-        var handicapList = ArrayList<Int>()
+    fun handicapScoresList(rounded: Boolean = true): List<BigDecimal> {
+        val decimalPlaces: Int = if (rounded) 0 else 2
+        var handicapList = ArrayList<BigDecimal>()
         for (handicap: Int in  handicapLowerBound()..handicapUpperBound()) {
 //            handicapList.add((BigDecimal(arrowCount) * averageArrowScoreForHandicap(handicap).setScale(2, RoundingMode.HALF_UP)).setScale(0, RoundingMode.UP).toInt())
             var average = averageArrowScoreForHandicap(handicap)
             var roundScore = (BigDecimal(arrowCount) * average)
-            handicapList.add(roundScore.setScale(0, RoundingMode.HALF_UP).toInt())
+            handicapList.add(roundScore.setScale(decimalPlaces, RoundingMode.HALF_UP))
         }
         return handicapList
     }
 
-    fun getHandicapForScore(score: Int): Int {
+    fun getHandicapForScore(totalScore: Int): Int {
+        val score = BigDecimal(totalScore.toString())
         var scoreList = handicapScoresList()
         for (handicap: Int in  handicapLowerBound()..handicapUpperBound()) {
             if (score >= scoreList.get(handicap)) {
@@ -167,6 +169,7 @@ class HandicapCalculator {
     fun getHandicap(): Int {
         return getHandicapForScore(this.scoreForRound)
     }
+
 //arrowDiameterCm=arrow_diameter_cm  (0.357cm) 18/64
 //targetSizeCm=target_size_cm (122)
 //targetDistanceMetres=distance_m (70)
