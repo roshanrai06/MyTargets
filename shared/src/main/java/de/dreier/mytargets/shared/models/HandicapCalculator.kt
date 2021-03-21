@@ -32,10 +32,13 @@ class HandicapCalculator {
         this.targetModel = round.target.model
         this.scoringStyle = round.target.getScoringStyle()
         this.targetSize = round.target.diameter
+        this.scoreForRound = round.score.totalPoints
         setTargetDistance(round.distance)
     }
     constructor()
 
+    var scoreForRound: Int = 0
+        private set
     var arrowCount: Int = 1
         private set
     lateinit var targetModel: TargetModelBase
@@ -50,6 +53,13 @@ class HandicapCalculator {
         private set
     var arrowRadius = BigDecimal("0.357")
         private set
+
+    companion object {
+        @JvmStatic
+        fun handicapLowerBound() : Int = 0
+        @JvmStatic
+        fun handicapUpperBound() : Int = 100
+    }
 
     fun setArrowCount(arrowCount: Int) {
         this.arrowCount = arrowCount
@@ -135,7 +145,7 @@ class HandicapCalculator {
 
     fun handicapScoresList(): List<Int> {
         var handicapList = ArrayList<Int>()
-        for (handicap: Int in 0..100) {
+        for (handicap: Int in  handicapLowerBound()..handicapUpperBound()) {
 //            handicapList.add((BigDecimal(arrowCount) * averageArrowScoreForHandicap(handicap).setScale(2, RoundingMode.HALF_UP)).setScale(0, RoundingMode.UP).toInt())
             var average = averageArrowScoreForHandicap(handicap)
             var roundScore = (BigDecimal(arrowCount) * average)
@@ -144,15 +154,18 @@ class HandicapCalculator {
         return handicapList
     }
 
-    fun getHandicap(score: Int): Int {
+    fun getHandicapForScore(score: Int): Int {
         var scoreList = handicapScoresList()
-        for (handicap: Int in 0..100) {
+        for (handicap: Int in  handicapLowerBound()..handicapUpperBound()) {
             if (score >= scoreList.get(handicap)) {
                 return  handicap
             }
         }
         return 101
+    }
 
+    fun getHandicap(): Int {
+        return getHandicapForScore(this.scoreForRound)
     }
 //arrowDiameterCm=arrow_diameter_cm  (0.357cm) 18/64
 //targetSizeCm=target_size_cm (122)

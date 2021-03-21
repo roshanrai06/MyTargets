@@ -25,9 +25,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
 import de.dreier.mytargets.shared.R
 import de.dreier.mytargets.shared.SharedApplicationInstance
-import de.dreier.mytargets.shared.models.Dimension
-import de.dreier.mytargets.shared.models.HandicapCalculator
-import de.dreier.mytargets.shared.models.Score
+import de.dreier.mytargets.shared.models.*
 import de.dreier.mytargets.shared.models.Target
 import de.dreier.mytargets.shared.models.db.Round
 import de.dreier.mytargets.shared.targets.scoringstyle.ScoringStyle
@@ -292,6 +290,7 @@ class HandicapCalculatorTest {
         assertEquals(34, handicapList.get(68))
     }
 
+
     @Test
     fun test_get_handicap_for_score() {
         var unit = HandicapCalculator()
@@ -305,11 +304,11 @@ class HandicapCalculatorTest {
         unit.setArrowCount(72)
 
 
-        assertEquals(11, unit.getHandicap(675))
-        assertEquals(10, unit.getHandicap(676))
-        assertEquals(10, unit.getHandicap(678))
-        assertEquals(9, unit.getHandicap(679))
-        assertEquals(9, unit.getHandicap(680))
+        assertEquals(11, unit.getHandicapForScore(675))
+        assertEquals(10, unit.getHandicapForScore(676))
+        assertEquals(10, unit.getHandicapForScore(678))
+        assertEquals(9, unit.getHandicapForScore(679))
+        assertEquals(9, unit.getHandicapForScore(680))
 
     }
 
@@ -326,7 +325,7 @@ class HandicapCalculatorTest {
 
         unit.setArrowCount(72)
 
-        assertEquals(50, unit.getHandicap(341))
+        assertEquals(50, unit.getHandicapForScore(341))
 
     }
 
@@ -351,8 +350,10 @@ class HandicapCalculatorTest {
         assertThat(unit.targetDistance.value, equalTo(70f))
         assertThat(unit.targetDistance.unit, equalTo(Dimension.Unit.METER))
         assertThat(unit.metricDistance, equalTo(BigDecimal("70.0")))
+        assertThat(unit.scoreForRound, equalTo(222))
 
-        assertThat(unit.getHandicap(round.score.totalPoints), equalTo(44))
+        assertThat(unit.getHandicapForScore(round.score.totalPoints), equalTo(44))
+        assertThat(unit.getHandicap(), equalTo(44))
     }
 
     @Test
@@ -369,7 +370,7 @@ class HandicapCalculatorTest {
         assertThat(unit.targetDistance.value, equalTo(76.5529f))
         assertThat(unit.targetDistance.unit, equalTo(Dimension.Unit.YARDS))
 
-        assertThat(unit.getHandicap(round.score.totalPoints), equalTo(50))
+        assertThat(unit.getHandicapForScore(round.score.totalPoints), equalTo(50))
     }
 
     @Test
@@ -377,31 +378,66 @@ class HandicapCalculatorTest {
         // TODO: set arrow radius as dimension not literal
         var distance = Dimension(70f, Dimension.Unit.METER)
         var diameter = Dimension(122f, Dimension.Unit.CENTIMETER)
-        var target = Target(WAFull.ID, 0,  diameter)
+        var target = Target(WAFull.ID, 0, diameter)
         var score = Score(647)
-        var round = Round(0, 0, 0, 6, 12, distance, "test", target, score )
+        var round = Round(0, 0, 0, 6, 12, distance, "test", target, score)
 
         var unit = HandicapCalculator(round)
         unit.setArrowRadius(BigDecimal("0.357"))
         // 18xx arrows (Default)
-        assertThat(unit.getHandicap(647), equalTo(18))
+        assertThat(unit.getHandicapForScore(647), equalTo(18))
 
         //23xx arrows
         unit.setArrowRadius(BigDecimal("0.456"))
-        assertThat(unit.getHandicap(648), equalTo(18))
-        assertThat(unit.getHandicap(647), equalTo(19))
+        assertThat(unit.getHandicapForScore(648), equalTo(18))
+        assertThat(unit.getHandicapForScore(647), equalTo(19))
 
         //27xx arrows
         unit.setArrowRadius(BigDecimal("0.53578"))
-        assertThat(unit.getHandicap(640), equalTo(20))
-        assertThat(unit.getHandicap(636), equalTo(21))
-        assertThat(unit.getHandicap(632), equalTo(22))
+        assertThat(unit.getHandicapForScore(640), equalTo(20))
+        assertThat(unit.getHandicapForScore(636), equalTo(21))
+        assertThat(unit.getHandicapForScore(632), equalTo(22))
 
     }
+
+    @Test
+    fun handicap_calculator_construction_from_multiple_sub_rounds() {
+        // TODO: Find out if there are any hybrid rounds in existence that use different scoring per distance
+        // ARCHERY_GB, R.string.york,
+        // YARDS, CENTIMETER,
+        // first params here are targetface, scoringstyle and shotsperend, the tuples are distance, diameter and ends
+        // WAFull.ID, 5, 6, 100, 122, 12, 80, 122, 8, 60, 122, 4
+        var longDistance = Dimension(100f, Dimension.Unit.YARDS)
+        var longDiameter = Dimension(122f, Dimension.Unit.CENTIMETER)
+        var longTarget = Target(WAFull.ID, 5, longDiameter)
+        var longScore = Score(504)
+        var longRound = Round(0, 0, 0, 6, 12, longDistance, "100y", longTarget, longScore)
+
+        var midDistance = Dimension(80f, Dimension.Unit.YARDS)
+        var midDiameter = Dimension(122f, Dimension.Unit.CENTIMETER)
+        var midTarget = Target(WAFull.ID, 5, midDiameter)
+        var midScore = Score(336)
+        var midRound = Round(0, 0, 0, 6, 8, midDistance, "80y", midTarget, midScore)
+
+        var shortDistance = Dimension(60f, Dimension.Unit.YARDS)
+        var shortDiameter = Dimension(122f, Dimension.Unit.CENTIMETER)
+        var shortTarget = Target(WAFull.ID, 5, shortDiameter)
+        var shortScore = Score(168)
+        var shortRound = Round(0, 0, 0, 6, 4, shortDistance, "60y", shortTarget, shortScore)
+
+        // Score 1008 = Handicap 32 apparently
+
+        var rounds = ArrayList<Round>()
+        rounds.add(longRound)
+        rounds.add(midRound)
+        rounds.add(shortRound)
+        var unit = MultiRoundHandicapCalculator(rounds)
+
+        assertThat(unit.getHandicap(), equalTo(32))
+        assertThat(unit.getHandicapForScore(1008), equalTo(32))
+    }
+
 }
-
-
-
 
 //sigma=groupRadiusCm==100*distance_in_metres*(1.036^(handicap+12.9))*5*(10^-4)*Dispersion_Factor
 //Inverse_Angular_Deviation=1/Angular_Deviation
