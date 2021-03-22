@@ -32,12 +32,15 @@ class HandicapCalculator {
         this.targetModel = round.target.model
         this.scoringStyle = round.target.getScoringStyle()
         this.targetSize = round.target.diameter
-        this.scoreForRound = round.score.totalPoints
+        this.maxScore = round.score.totalPoints
+        this.reachedScore = round.score.reachedPoints
         setTargetDistance(round.distance)
     }
     constructor()
 
-    var scoreForRound: Int = 0
+    var reachedScore: Int = 0
+        private set
+    var maxScore: Int = 0
         private set
     var arrowCount: Int = 1
         private set
@@ -167,7 +170,7 @@ class HandicapCalculator {
     }
 
     fun getHandicap(): Int {
-        return getHandicapForScore(this.scoreForRound)
+        return getHandicapForScore(this.reachedScore)
     }
 
 //arrowDiameterCm=arrow_diameter_cm  (0.357cm) 18/64

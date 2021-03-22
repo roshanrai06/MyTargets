@@ -366,7 +366,7 @@ class HandicapCalculatorTest {
         var distance = Dimension(70f, Dimension.Unit.METER)
         var diameter = Dimension(122f, Dimension.Unit.CENTIMETER)
         var target = Target(WAFull.ID, 1,  diameter)
-        var score = Score(222)
+        var score = Score(222, 720)
         var round = Round(0, 0, 0, 6, 6, distance, "test", target, score )
 
         var unit = HandicapCalculator(round)
@@ -380,9 +380,10 @@ class HandicapCalculatorTest {
         assertThat(unit.targetDistance.value, equalTo(70f))
         assertThat(unit.targetDistance.unit, equalTo(Dimension.Unit.METER))
         assertThat(unit.metricDistance, equalTo(BigDecimal("70.0")))
-        assertThat(unit.scoreForRound, equalTo(222))
+        assertThat(unit.maxScore, equalTo(720))
+        assertThat(unit.reachedScore, equalTo(222))
 
-        assertThat(unit.getHandicapForScore(round.score.totalPoints), equalTo(44))
+        assertThat(unit.getHandicapForScore(round.score.reachedPoints), equalTo(44))
         assertThat(unit.getHandicap(), equalTo(44))
     }
 
@@ -392,7 +393,7 @@ class HandicapCalculatorTest {
         var distance = Dimension(76.5529f, Dimension.Unit.YARDS)
         var diameter = Dimension(122f, Dimension.Unit.CENTIMETER)
         var target = Target(WAFull.ID, 0,  diameter)
-        var score = Score(341)
+        var score = Score(341, 999)
         var round = Round(0, 0, 0, 6, 12, distance, "test", target, score )
 
         var unit = HandicapCalculator(round)
@@ -400,7 +401,7 @@ class HandicapCalculatorTest {
         assertThat(unit.targetDistance.value, equalTo(76.5529f))
         assertThat(unit.targetDistance.unit, equalTo(Dimension.Unit.YARDS))
 
-        assertThat(unit.getHandicapForScore(round.score.totalPoints), equalTo(50))
+        assertThat(unit.getHandicapForScore(round.score.reachedPoints), equalTo(50))
     }
 
     @Test
@@ -409,7 +410,7 @@ class HandicapCalculatorTest {
         var distance = Dimension(70f, Dimension.Unit.METER)
         var diameter = Dimension(122f, Dimension.Unit.CENTIMETER)
         var target = Target(WAFull.ID, 0, diameter)
-        var score = Score(647)
+        var score = Score(647, 720)
         var round = Round(0, 0, 0, 6, 12, distance, "test", target, score)
 
         var unit = HandicapCalculator(round)

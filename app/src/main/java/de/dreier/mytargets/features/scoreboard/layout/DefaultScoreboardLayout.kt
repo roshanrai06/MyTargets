@@ -26,6 +26,7 @@ import de.dreier.mytargets.features.scoreboard.ScoreboardConfiguration
 import de.dreier.mytargets.features.scoreboard.builder.model.Table
 import de.dreier.mytargets.features.scoreboard.builder.model.TextCell
 import de.dreier.mytargets.features.settings.SettingsManager
+import de.dreier.mytargets.shared.models.MultiRoundHandicapCalculator
 import de.dreier.mytargets.shared.models.SelectableZone
 import de.dreier.mytargets.shared.models.Target
 import de.dreier.mytargets.shared.models.db.Round
@@ -228,8 +229,6 @@ class DefaultScoreboardLayout(
 
         val topScores = ScoreUtils.getTopScoreDistribution(scoreDistribution)
 
-//        val handicap = "Handicap: 34"
-
         val table = Table(false)
         var row: Table.Row = table.startRow()
         for (topScore in topScores) {
@@ -246,7 +245,8 @@ class DefaultScoreboardLayout(
         row.addCell("$hits/$total")
         row.addCell(getAverageScore(scoreDistribution))
 
-        row.addCell("42")
+        var handicap = MultiRoundHandicapCalculator(rounds).getHandicap()
+        row.addCell(handicap.toString())
 
         return table
     }

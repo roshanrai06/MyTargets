@@ -5,14 +5,20 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 
 class MultiRoundHandicapCalculator{
-    private lateinit var rounds: List<Round>
-    private var roundHandicapScoreLists = ArrayList<List<BigDecimal>>()
-    private var totalScore: Int = 0
+    var rounds: List<Round>
+        private set
+    var roundHandicapScoreLists = ArrayList<List<BigDecimal>>()
+        private set
+    var totalScore: Int = 0
+        private set
+    var reachedScore: Int = 0
+        private set
 
     constructor(roundList: List<Round>) {
-       this.rounds = roundList
+        this.rounds = roundList
         for (round: Round in rounds) {
             totalScore += round.score.totalPoints
+            reachedScore += round.score.reachedPoints
         }
         for (round: Round in rounds) {
             roundHandicapScoreLists.add(HandicapCalculator(round).handicapScoresList(false))
@@ -43,7 +49,7 @@ class MultiRoundHandicapCalculator{
     }
 
     fun getHandicap(): Int {
-        return getHandicapForScore(totalScore)
+        return getHandicapForScore(reachedScore)
     }
 
 }
