@@ -234,21 +234,28 @@ class DefaultScoreboardLayout(
         for (topScore in topScores) {
             row.addBoldCell(topScore.first!!)
         }
-        row.addBoldCell(context.getString(R.string.hits))
-        row.addBoldCell(context.getString(R.string.avg_symbol))
-        row.addBoldCell(context.getString(R.string.handicap_symbol))
         row = table.startRow()
 
         for (topScore in topScores) {
             row.addCell(topScore.second!!)
         }
-        row.addCell("$hits/$total")
-        row.addCell(getAverageScore(scoreDistribution))
 
-        var handicap = MultiRoundHandicapCalculator(rounds).getHandicap()
-        row.addCell(handicap.toString())
+        val summaryTable = Table(false)
+        var summaryRow: Table.Row = summaryTable.startRow()
+        summaryRow.addBoldCell(context.getString(R.string.hits))
+        summaryRow.addCell("$hits/$total")
+        summaryRow.addBoldCell(context.getString(R.string.avg_symbol))
+        summaryRow.addCell(getAverageScore(scoreDistribution))
+        summaryRow.addBoldCell(context.getString(R.string.handicap_symbol))
+        summaryRow.addCell(MultiRoundHandicapCalculator(rounds).getHandicap())
 
-        return table
+        val enclosingTable = Table(false)
+        var scoresRow = enclosingTable.startRow()
+        scoresRow.addCell(table)
+        var summaryLine = enclosingTable.startRow()
+        summaryLine.addCell(summaryTable)
+
+        return enclosingTable
     }
 
     private fun getAverageScore(scoreDistribution: List<Map.Entry<SelectableZone, Int>>): String {
