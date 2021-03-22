@@ -97,10 +97,34 @@
                     <summary>Statistics elements</summary>
                     <p>In the following the main UI components are described:</p>
                     <ul>
-                        <li><strong>Line chart</strong>: Shows the average score per arrow per end. The orange linear regression line shows the overall trend. The chart can be zoomed by pinching two fingers horizontally.</li>
+                        <li><strong>Line chart</strong>: Shows the average score per arrow per end. The orange linear regression line shows the overall trend. The chart can be zoomed by pinching two fingers horizontally. May be denoted with "Ø" Symbol</li>
                         <li><strong>Distribution chart</strong>: Shows the distribution of arrows amongst the available rings. If no segment is selected, the overall count of hits and misses is shown. By tapping on a segment the exact number of shots in this category is shown.</li>
                         <li><strong>Dispersion pattern</strong>: Shows all shots on a single target face including the selected grouping method (can be changed in the app's settings). If you tap on the dispersion pattern you get a bigger version of the dispersion pattern. From the details screen you can also share the dispersion pattern image or print it.</li>
                         <li><strong>Arrow ranking</strong>: If you have used the arrow numbering feature in one of the selected trainings, the arrow rankings are shown below. The arrows with the best average score are placed at the top of the list. Tapping on an arrow number takes you to a dispersion pattern, which only shows the shots of the selected arrow.</li>
+                        <li><strong>Handicaps</strong>: These are calculated for each distance making up a round and the total for all rounds. May be denoted with "∑" symbol. See next section for more detailed intormation.</li>
+                    </ul>
+                </details>
+                <details>
+                   <summary>Handicaps</summary>
+                    <p>Where used in table summaries with limited space, may be denoted with "∑" symbol.</p>
+                    <p>Note that the calculation is based on a complete round so will *not* be accurate on partly completed rounds currently.</p>
+                    <p>Handicaps are calculated and shown for each round and also for different distances during the round</p>
+                    <p>They are calculated as per the formulae developed by David Lane. His work is documented here:</p>
+                    <ul>
+                        <li>"The Construction of the Graduated Handicap Tables for Target Archery", David Lane, Sep 2013.</li>
+                        <li>"Handicap Tables", David Lane, published in Toxophilus Vol II Number 1 1979</li>
+                        <li>"The variation of accuracy with range", David Lane, published in Toxophilus Vol II Number 3 1979</li>
+                        <li>"The Construction of Handicap Tables for Archers", David Lane, March 1978</li>
+                    </ul>
+                    <p>A simplified explanation of David Lane's work has been done by Jack Atkinson on his blog. Of particular note for this app is his suggested uses for progress tracking along the the critique of using the score allowance for score comparisons</p>
+                    <ul>
+                        <li>"The Archery Handicap System", Jack Atkinson, Apr 2020</li>
+                        <li>https://www.jackatkinson.net/post/archery_handicap/</li>
+                    </ul>
+                    <p>Android implementation for handicaps implemented by Jez McKinley at Canford Magna Bowmen</p>
+                    <ul>
+                        <li>https://www.mckinley.biz/</li>
+                        <li>https://www.canfordmagnabowmen.co.uk/</li>
                     </ul>
                 </details>
                 <details>
