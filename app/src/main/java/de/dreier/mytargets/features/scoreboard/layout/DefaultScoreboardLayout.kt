@@ -26,6 +26,7 @@ import de.dreier.mytargets.features.scoreboard.ScoreboardConfiguration
 import de.dreier.mytargets.features.scoreboard.builder.model.Table
 import de.dreier.mytargets.features.scoreboard.builder.model.TextCell
 import de.dreier.mytargets.features.settings.SettingsManager
+import de.dreier.mytargets.shared.models.Dimension
 import de.dreier.mytargets.shared.models.MultiRoundHandicapCalculator
 import de.dreier.mytargets.shared.models.SelectableZone
 import de.dreier.mytargets.shared.models.Target
@@ -89,7 +90,7 @@ class DefaultScoreboardLayout(
         }
 
         if (configuration.showStatistics) {
-            appendStatistics(rounds)
+            appendStatistics(rounds, training)
         }
 
         if (configuration.showComments) {
@@ -140,7 +141,7 @@ class DefaultScoreboardLayout(
 
         if (training.arrowId != null) {
             val arrow = arrowDAO.loadArrow(training.arrowId!!)
-            info.addLine(R.string.arrow, arrow.name)
+            info.addLine(R.string.arrow, arrow.name + " - " + arrow.diameter.formatString())
         }
 
         if (training.standardRoundId != null) {
@@ -180,9 +181,9 @@ class DefaultScoreboardLayout(
         }
     }
 
-    private fun appendStatistics(rounds: List<Round>) {
+    private fun appendStatistics(rounds: List<Round>, training: Training) {
         if (rounds.size == 1) {
-            builder.table(getStatisticsForRound(rounds))
+            builder.table(getStatisticsForRound(rounds, training))
         } else if (rounds.size > 1) {
             for (round in rounds) {
                 builder.openSection()
@@ -192,12 +193,12 @@ class DefaultScoreboardLayout(
                             .index + 1, round.index + 1
                     )
                 )
-                builder.table(getStatisticsForRound(listOf(round)))
+                builder.table(getStatisticsForRound(listOf(round), training))
                 builder.closeSection()
             }
             builder.openSection()
             builder.subtitle(context.getString(R.string.scoreboard_title_all_rounds))
-            builder.table(getStatisticsForRound(rounds))
+            builder.table(getStatisticsForRound(rounds, training))
             builder.closeSection()
         }
     }
@@ -216,7 +217,7 @@ class DefaultScoreboardLayout(
         return info.info
     }
 
-    private fun getStatisticsForRound(rounds: List<Round>): Table {
+    private fun getStatisticsForRound(rounds: List<Round>, training: Training): Table {
         val scoreDistribution = ScoreUtils.getSortedScoreDistribution(roundDAO, endDAO, rounds)
         var hits = 0
         var total = 0
@@ -247,7 +248,14 @@ class DefaultScoreboardLayout(
         summaryRow.addBoldCell(context.getString(R.string.avg_symbol))
         summaryRow.addCell(getAverageScore(scoreDistribution))
         summaryRow.addBoldCell(context.getString(R.string.handicap_symbol))
-        summaryRow.addCell(MultiRoundHandicapCalculator(rounds).getHandicap())
+        var arrowDiameter = Dimension(0.714f, Dimension.Unit.CENTIMETER)
+        if (training.arrowId != null) {
+            val arrow = arrowDAO.loadArrow(training.arrowId!!)
+            if (arrow.diameter != null){
+                arrowDiameter = arrow.diameter
+            }
+        }
+        summaryRow.addCell(MultiRoundHandicapCalculator(rounds, arrowDiameter).getHandicap())
 
         val enclosingTable = Table(false)
         var scoresRow = enclosingTable.startRow()

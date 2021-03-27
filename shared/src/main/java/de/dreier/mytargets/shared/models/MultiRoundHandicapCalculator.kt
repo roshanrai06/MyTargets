@@ -5,6 +5,7 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 
 class MultiRoundHandicapCalculator{
+    var arrowRadius: BigDecimal = BigDecimal("0.357")
     var rounds: List<Round>
         private set
     var roundHandicapScoreLists = ArrayList<List<BigDecimal>>()
@@ -14,14 +15,18 @@ class MultiRoundHandicapCalculator{
     var reachedScore: Int = 0
         private set
 
-    constructor(roundList: List<Round>) {
+    constructor(roundList: List<Round>, arrowDiameter: Dimension) {
         this.rounds = roundList
+        this.arrowRadius = BigDecimal((arrowDiameter.convertTo(Dimension.Unit.CENTIMETER).value / 2).toString()).setScale(3, RoundingMode.HALF_UP)
+
         for (round: Round in rounds) {
             totalScore += round.score.totalPoints
             reachedScore += round.score.reachedPoints
         }
         for (round: Round in rounds) {
-            roundHandicapScoreLists.add(HandicapCalculator(round).handicapScoresList(false))
+            var calulator = HandicapCalculator(round)
+            calulator.setArrowRadius(arrowRadius)
+            roundHandicapScoreLists.add(calulator.handicapScoresList(false))
         }
     }
 

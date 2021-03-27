@@ -54,6 +54,10 @@ data class Dimension(val value: Float, val unit: Unit?) : IIdProvider, Comparabl
         return Dimension(newValue, unit)
     }
 
+    fun formatString(): String {
+        return this.value.toString() + " " + unit.toString()
+    }
+
     enum class Unit(
         internal val abbreviation: String,
         /* factor <units> = 1 meter */

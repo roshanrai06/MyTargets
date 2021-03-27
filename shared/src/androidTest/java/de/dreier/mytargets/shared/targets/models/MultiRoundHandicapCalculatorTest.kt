@@ -34,6 +34,7 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.math.BigDecimal
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
@@ -54,10 +55,12 @@ class MultiRoundHandicapCalculatorTest {
         var longScore = Score(685, 720)
         var longRound = Round(0, 0, 0, 6, 12, longDistance, "70m", longTarget, longScore)
 
+        var arrowDiameter = Dimension(0.281f, Dimension.Unit.INCH)
         var rounds = ArrayList<Round>()
         rounds.add(longRound)
-        var unit = MultiRoundHandicapCalculator(rounds)
+        var unit = MultiRoundHandicapCalculator(rounds, arrowDiameter)
 
+        assertThat(unit.arrowRadius, equalTo(BigDecimal("0.357")))
         assertThat(unit.totalScore, equalTo(720))
         assertThat(unit.reachedScore, equalTo(685))
         assertThat(unit.rounds.size, equalTo(1))
@@ -66,6 +69,7 @@ class MultiRoundHandicapCalculatorTest {
 
     @Test
     fun construction_multi_round() {
+        var arrowDiameter = Dimension(0.714f, Dimension.Unit.CENTIMETER)
         var longDistance = Dimension(100f, Dimension.Unit.YARDS)
         var longDiameter = Dimension(122f, Dimension.Unit.CENTIMETER)
         var longTarget = Target(WAFull.ID, 5, longDiameter)
@@ -88,8 +92,9 @@ class MultiRoundHandicapCalculatorTest {
         rounds.add(longRound)
         rounds.add(midRound)
         rounds.add(shortRound)
-        var unit = MultiRoundHandicapCalculator(rounds)
+        var unit = MultiRoundHandicapCalculator(rounds, arrowDiameter)
 
+        assertThat(unit.arrowRadius, equalTo(BigDecimal("0.357")))
         assertThat(unit.totalScore, equalTo(1296))
         assertThat(unit.reachedScore, equalTo(1008))
         assertThat(unit.rounds.size, equalTo(3))
@@ -108,9 +113,10 @@ class MultiRoundHandicapCalculatorTest {
         var longScore = Score(685, 720)
         var longRound = Round(0, 0, 0, 6, 12, longDistance, "70m", longTarget, longScore)
 
+        var arrowDiameter = Dimension(0.714f, Dimension.Unit.CENTIMETER)
         var rounds = ArrayList<Round>()
         rounds.add(longRound)
-        var unit = MultiRoundHandicapCalculator(rounds)
+        var unit = MultiRoundHandicapCalculator(rounds, arrowDiameter)
 
         assertThat(unit.getHandicap(), equalTo(7))
 
@@ -134,10 +140,11 @@ class MultiRoundHandicapCalculatorTest {
         var shortScore = Score(591, 600)
         var shortRound = Round(0, 0, 0, 3, 20, shortDistance, "60y", shortTarget, shortScore)
 
+        var arrowDiameter = Dimension(0.714f, Dimension.Unit.CENTIMETER)
         var rounds = ArrayList<Round>()
         rounds.add(longRound)
         rounds.add(shortRound)
-        var unit = MultiRoundHandicapCalculator(rounds)
+        var unit = MultiRoundHandicapCalculator(rounds, arrowDiameter)
 
         assertThat(unit.getHandicap(), equalTo(6))
 
@@ -177,11 +184,12 @@ class MultiRoundHandicapCalculatorTest {
         var shortScore = Score(168, 216)
         var shortRound = Round(0, 0, 0, 6, 4, shortDistance, "60y", shortTarget, shortScore)
 
+        var arrowDiameter = Dimension(0.714f, Dimension.Unit.CENTIMETER)
         var rounds = ArrayList<Round>()
         rounds.add(longRound)
         rounds.add(midRound)
         rounds.add(shortRound)
-        var unit = MultiRoundHandicapCalculator(rounds)
+        var unit = MultiRoundHandicapCalculator(rounds, arrowDiameter)
 
         // Score 1008
         assertThat(unit.getHandicap(), equalTo(32))
@@ -194,5 +202,16 @@ class MultiRoundHandicapCalculatorTest {
         //If you round the scores of rounds before adding them together, this will calc to a 33
         assertThat(unit.getHandicapForScore(996), equalTo(32))
     }
+
+    @Test
+    fun dimensionToString() {
+        var unit = Dimension(22.5487f, Dimension.Unit.CENTIMETER)
+        assertThat(unit.formatString(), equalTo("22.5487 cm"))
+
+        unit = Dimension(22.54f, Dimension.Unit.INCH)
+        assertThat(unit.formatString(), equalTo("22.54 in"))
+    }
+
+
 }
 
