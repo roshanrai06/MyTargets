@@ -15,9 +15,9 @@
 
 package de.dreier.mytargets.shared.targets.models
 
-import androidx.test.platform.app.InstrumentationRegistry
-import android.support.test.filters.SmallTest
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.SmallTest
+import androidx.test.platform.app.InstrumentationRegistry
 import de.dreier.mytargets.shared.SharedApplicationInstance
 
 import org.junit.Assert
@@ -34,7 +34,7 @@ class WAVertical3SpotTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        SharedApplicationInstance.context = InstrumentationRegistry.getContext()
+        SharedApplicationInstance.context = InstrumentationRegistry.getInstrumentation().targetContext
     }
 
     @Test

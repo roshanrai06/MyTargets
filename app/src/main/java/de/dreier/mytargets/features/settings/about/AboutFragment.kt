@@ -109,6 +109,20 @@ class AboutFragment : Fragment() {
                             + "\n" + getString(R.string.translators), null
                 )
             )
+            .addGroup("Handicap Calculations (" + getString(R.string.handicap_symbol) + ")")
+            .addItem(Element(
+                    "Original Handicap Calculation and Tables" + "\n" +
+                    "   David Lane" + "\n" +
+                    "\n" +
+                    "Online Tables Creator and Demystification" + "\n" +
+                    "   Jack Atkinson" + "\n" +
+                    "\n" +
+                    "Java/Kotlin implementation" + "\n" +
+                    "   Jez McKinley" + "\n" +
+                    "\n" +
+                    "See in-app help pages for detailed information",
+                    null)
+            )
             .create()
     }
 

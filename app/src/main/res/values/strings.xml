@@ -116,6 +116,8 @@
     <string name="carry">R.Total</string>
     <string name="action_print">Print</string>
     <string name="average">Average</string>
+    <string name="avg_symbol">Ø</string>
+    <string name="handicap_symbol">∑</string>
 
     <!-- Input mode -->
     <string name="comment">Comment</string>

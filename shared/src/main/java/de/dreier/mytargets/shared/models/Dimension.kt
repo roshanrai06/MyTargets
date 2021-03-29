@@ -54,6 +54,10 @@ data class Dimension(val value: Float, val unit: Unit?) : IIdProvider, Comparabl
         return Dimension(newValue, unit)
     }
 
+    fun formatString(): String {
+        return this.value.toString() + " " + unit.toString()
+    }
+
     enum class Unit(
         internal val abbreviation: String,
         /* factor <units> = 1 meter */
@@ -62,7 +66,7 @@ data class Dimension(val value: Float, val unit: Unit?) : IIdProvider, Comparabl
         CENTIMETER("cm", 100f),
         INCH("in", 39.3701f),
         METER("m", 1f),
-        YARDS("yd", 1.09361f),
+        YARDS("yd", 1.093613f),
         FEET("ft", 3.28084f),
         MILLIMETER("mm", 1000f);
 

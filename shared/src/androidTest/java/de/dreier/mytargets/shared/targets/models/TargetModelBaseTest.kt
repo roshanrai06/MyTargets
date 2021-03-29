@@ -16,7 +16,7 @@
 package de.dreier.mytargets.shared.targets.models
 
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.runner.AndroidJUnit4
 import de.dreier.mytargets.shared.SharedApplicationInstance
 import de.dreier.mytargets.shared.models.Dimension
 import de.dreier.mytargets.shared.targets.TargetFactory
@@ -30,7 +30,7 @@ class TargetModelBaseTest {
 
     @Before
     fun setUp() {
-        SharedApplicationInstance.context = InstrumentationRegistry.getContext()
+        SharedApplicationInstance.context = InstrumentationRegistry.getInstrumentation().targetContext
     }
 
     @Test
@@ -97,6 +97,20 @@ class TargetModelBaseTest {
         val diameter = Dimension(40f, Dimension.Unit.CENTIMETER)
         val realSize = target.getRealSize(diameter)
         Assert.assertEquals(realSize, Dimension(12f, Dimension.Unit.CENTIMETER))
+    }
+
+
+    @Test
+    fun get_scoring_zone_sizes_simple_10_zone() {
+        val unit = TargetFactory.getTarget(WAFull.ID)
+//        var targetSize = Dimension(122f, Dimension.Unit.CENTIMETER)
+//        var scoringStyle = ScoringStyle(R.string.recurve_style_x_1, true, 10, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
+
+        var zoneMap = unit.getZoneSizeMapFromIndices(0, 4)
+        Assert.assertEquals(10, zoneMap.size)
+        Assert.assertEquals(6.6f, zoneMap.get(10))
+        Assert.assertEquals(33f, zoneMap.get(5))
+        Assert.assertEquals(66f, zoneMap.get(1))
     }
 
 }

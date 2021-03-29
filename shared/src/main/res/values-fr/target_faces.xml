@@ -60,4 +60,6 @@
     <string name="recurve_style_x_8">Style classique (X-8)</string>
     <string name="recurve_style_10_8">Style classique (10-8)</string>
     <string name="compound_style">Style poulies</string>
+    <string name="imperial_outdoor_5_zone">Imperial extérieure Zone 5</string>
+
 </resources>
