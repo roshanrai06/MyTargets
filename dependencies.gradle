@@ -115,7 +115,6 @@ ext {
             permissionsDispatcher         : "org.permissionsdispatcher:permissionsdispatcher:4.5.0",
             permissionsDispatcherProcessor: "org.permissionsdispatcher:permissionsdispatcher-processor:4.5.0",
 
-            iab                           : "com.anjlab.android.iab.v3:library:1.1.0",
 
              mpAndroidChart                : "com.github.PhilJay:MPAndroidChart:v3.0.3",
 

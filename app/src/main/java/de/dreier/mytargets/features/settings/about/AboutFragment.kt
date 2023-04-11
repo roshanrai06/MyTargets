@@ -51,9 +51,6 @@ class AboutFragment : Fragment() {
             URL_SLACK
         )
 
-    private val payPalDonateElement: Element
-        get() = WebElement(R.string.donate_via_paypal, R.drawable.about_icon_paypal, URL_PAYPAL)
-
     private val linkedInItem: Element
         get() = WebElement(
             R.string.network_linkedin, R.drawable.about_icon_linkedin,
@@ -73,12 +70,7 @@ class AboutFragment : Fragment() {
             return shareElement
         }
 
-    private val donateElement: Element
-        get() {
-            val donateElement = Element(getString(R.string.donate), R.drawable.about_icon_donate)
-            donateElement.intent = Intent(context, DonateActivity::class.java)
-            return donateElement
-        }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -93,8 +85,6 @@ class AboutFragment : Fragment() {
             .addItem(shareElement)
             .addItem(crowdinElement)
             .addItem(betaTesterElement)
-            .addItem(donateElement)
-            .addItem(payPalDonateElement)
             .addGroup(getString(R.string.connect))
             .addEmail("dreier.florian@gmail.com")
             .addPlayStore("de.dreier.mytargets")

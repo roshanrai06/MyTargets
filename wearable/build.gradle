@@ -29,7 +29,7 @@ android {
     defaultConfig {
         applicationId 'de.dreier.mytargets'
         minSdkVersion 23
-        targetSdkVersion 28
+        targetSdkVersion 33
         versionCode gitVersionCode
         versionName gitVersionName
     }
@@ -46,10 +46,11 @@ android {
         debug {
         }
         release {
-            storeFile file(KEYSTORE_NAME)
-            storePassword KEYSTORE_PASSWORD
-            keyAlias KEY_ALIAS
             keyPassword KEY_PASSWORD
+            storeFile file("../keystore.jks")
+            storePassword 'XBmtzdqQkHyANWmbcexKzEW6K6VNAM'
+            keyAlias 'mytargets'
+            keyPassword 'yzsCNAWLgpxrpvNtRdjutMLQRn7nm9'
         }
     }
 

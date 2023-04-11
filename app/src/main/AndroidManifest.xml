@@ -30,7 +30,6 @@
     <uses-permission android:name="android.permission.READ_SYNC_STATS"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
-    <uses-permission android:name="com.android.vending.BILLING"/>
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -78,7 +77,8 @@
             android:name=".features.main.MainActivity"
             android:label="@string/my_targets"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.CustomToolbar.Launcher">
+            android:theme="@style/AppTheme.CustomToolbar.Launcher"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -284,14 +284,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".features.settings.SettingsActivity"/>
         </activity>
-        <activity
-            android:name=".features.settings.about.DonateActivity"
-            android:parentActivityName=".features.settings.about.AboutActivity"
-            android:theme="@style/AppTheme.Translucent">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".features.settings.about.AboutActivity"/>
-        </activity>
+
         <activity android:name=".features.statistics.DispersionPatternActivity"/>
 
         <activity
@@ -326,7 +319,8 @@
                 android:resource="@xml/sync_adapter"/>
         </service>
 
-        <service android:name=".features.settings.backup.synchronization.GenericAccountService">
+        <service android:name=".features.settings.backup.synchronization.GenericAccountService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
@@ -335,7 +329,8 @@
                 android:resource="@xml/authenticator"/>
         </service>
 
-        <service android:name=".utils.MobileWearableListener">
+        <service android:name=".utils.MobileWearableListener"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED"/>
 
