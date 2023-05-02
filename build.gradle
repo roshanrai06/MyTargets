@@ -29,11 +29,12 @@ buildscript {
         classpath 'com.google.firebase:firebase-plugins:2.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0"
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.46.0"
     }
 }
 
 plugins {
-    id 'com.github.ben-manes.versions' version '0.21.0'
+    id 'com.github.ben-manes.versions' version '0.46.0'
 }
 
 apply from: 'dependencies.gradle'
