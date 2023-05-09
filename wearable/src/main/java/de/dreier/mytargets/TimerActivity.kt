@@ -45,7 +45,7 @@ class TimerActivity : FragmentActivity(), MenuItem.OnMenuItemClickListener, Ambi
         ambientController = AmbientModeSupport.attach(this)
 
         val settings = intent.getParcelableExtra<TimerSettings>(EXTRA_TIMER_SETTINGS)
-        timerFragment = TimerFragment.getInstance(settings)
+        timerFragment = TimerFragment.getInstance(settings!!)
         supportFragmentManager.beginTransaction().replace(R.id.content_frame, timerFragment).commit()
 
         binding.primaryActionPeek
@@ -108,7 +108,7 @@ class TimerActivity : FragmentActivity(), MenuItem.OnMenuItemClickListener, Ambi
     /**
      * Fragment that appears in the "content_frame".
      */
-    class TimerFragment : TimerFragmentBase() {
+     class TimerFragment : TimerFragmentBase() {
 
         private lateinit var binding: FragmentTimerBinding
 

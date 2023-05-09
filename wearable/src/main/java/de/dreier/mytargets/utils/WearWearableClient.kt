@@ -35,11 +35,15 @@ class WearWearableClient(context: Context) : WearableClientBase(context) {
                 BROADCAST_REQUEST_TRAINING_TEMPLATE -> sendMessage(WearableClientBase.Companion.REQUEST_TRAINING_TEMPLATE, ByteArray(0))
                 BROADCAST_TRAINING_CREATE -> {
                     val training = intent.getParcelableExtra<AugmentedTraining>(EXTRA_TRAINING)
-                    createTraining(training)
+                    if (training != null) {
+                        createTraining(training)
+                    }
                 }
                 BROADCAST_UPDATE_END_FROM_LOCAL -> {
                     val end = intent.getParcelableExtra<AugmentedEnd>(EXTRA_END)
-                    updateEnd(end)
+                    if (end != null) {
+                        updateEnd(end)
+                    }
                 }
                 else -> {
                 }

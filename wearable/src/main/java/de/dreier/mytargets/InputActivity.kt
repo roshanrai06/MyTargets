@@ -43,7 +43,7 @@ class InputActivity : WearableActivity(), TargetViewBase.OnEndFinishedListener {
 
         setAmbientEnabled()
 
-        round = intent!!.getParcelableExtra(EXTRA_ROUND)
+        round = intent!!.getParcelableExtra(EXTRA_ROUND)!!
 
         // Workaround to avoid crash happening when setting invisible via xml layout
         binding.circularProgress.visibility = View.INVISIBLE

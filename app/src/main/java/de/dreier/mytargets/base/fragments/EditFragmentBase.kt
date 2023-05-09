@@ -21,7 +21,7 @@ import de.dreier.mytargets.R
 
 abstract class EditFragmentBase : FragmentBase() {
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.save, menu)
     }
 

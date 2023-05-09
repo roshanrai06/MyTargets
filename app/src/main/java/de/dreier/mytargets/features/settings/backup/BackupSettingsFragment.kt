@@ -144,7 +144,7 @@ class BackupSettingsFragment : SettingsFragmentBase(), IAsyncBackupRestore.OnLoa
         return binding.root
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.settings_backup, menu)
     }
@@ -185,7 +185,7 @@ class BackupSettingsFragment : SettingsFragmentBase(), IAsyncBackupRestore.OnLoa
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         backup?.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IMPORT_FROM_URI && resultCode == AppCompatActivity.RESULT_OK && data != null) {
-            importFromUri(data.data)
+            data.data?.let { importFromUri(it) }
         }
         super.onActivityResult(requestCode, resultCode, data)
     }

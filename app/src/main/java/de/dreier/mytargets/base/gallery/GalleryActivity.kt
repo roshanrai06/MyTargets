@@ -60,13 +60,15 @@ class GalleryActivity : ChildActivityBase() {
 
         val title = intent.getStringExtra(EXTRA_TITLE)
         if (savedInstanceState == null) {
-            imageList = intent.getParcelableExtra(EXTRA_IMAGES)
+            imageList = intent.getParcelableExtra(EXTRA_IMAGES)!!
         }
 
         setSupportActionBar(binding.toolbar)
 
         ToolbarUtils.showHomeAsUp(this)
-        ToolbarUtils.setTitle(this, title)
+        if (title != null) {
+            ToolbarUtils.setTitle(this, title)
+        }
         Utils.showSystemUI(this)
 
         layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -260,7 +262,7 @@ class GalleryActivity : ChildActivityBase() {
         const val EXTRA_TITLE = "title"
 
         fun getResult(data: Intent): ImageList {
-            return data.getParcelableExtra(NavigationController.ITEM)
+            return data.getParcelableExtra(NavigationController.ITEM)!!
         }
     }
 }

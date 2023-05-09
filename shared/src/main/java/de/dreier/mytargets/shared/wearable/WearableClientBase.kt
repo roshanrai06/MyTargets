@@ -33,7 +33,9 @@ open class WearableClientBase(protected val context: Context) {
     private val timerReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val settings = intent.getParcelableExtra<TimerSettings>(EXTRA_TIMER_SETTINGS)
-            sendTimerSettings(settings)
+            if (settings != null) {
+                sendTimerSettings(settings)
+            }
         }
     }
 

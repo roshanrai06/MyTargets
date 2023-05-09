@@ -162,7 +162,7 @@ class EnvironmentSelector @JvmOverloads constructor(
         val geoCoder = Geocoder(context, Utils.getCurrentLocale(context))
 
         return try {
-            val addresses = geoCoder.getFromLocation(latitude, longitude, 1)
+            val addresses = geoCoder.getFromLocation(latitude, longitude, 1)!!
 
             if (addresses.size > 0) {
                 val fetchedAddress = addresses[0]

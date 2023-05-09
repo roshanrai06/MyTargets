@@ -87,7 +87,7 @@ class EnvironmentFragment : FragmentBase() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.environment_switch, menu)
         val item = menu.findItem(R.id.action_switch)
-        switchView = item.actionView.findViewById(R.id.action_switch_control)
+        switchView = item.actionView?.findViewById(R.id.action_switch_control)
         switchView!!.setOnCheckedChangeListener { _, checked -> setOutdoor(checked) }
         setOutdoor(!environment!!.indoor)
         switchView!!.isChecked = !environment!!.indoor

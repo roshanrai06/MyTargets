@@ -64,7 +64,7 @@ class AverageResultRenderer(private val average: Average) : IAggregationResultRe
                 average.weightedAverage.x + nUniStdDev.left,
                 average.weightedAverage.y + nUniStdDev.bottom), 180.0f, 90.0f)
 
-        val smallestNonUniStdDev = listOf(nUniStdDev.top, nUniStdDev.bottom, nUniStdDev.left, nUniStdDev.right).min()!!
+        val smallestNonUniStdDev = listOf(nUniStdDev.top, nUniStdDev.bottom, nUniStdDev.left, nUniStdDev.right).minOrNull()!!
 
         val tmp = smallestNonUniStdDev / 4.0f
         symbolPath.rewind()

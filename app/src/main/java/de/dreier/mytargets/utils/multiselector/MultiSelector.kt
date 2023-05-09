@@ -52,7 +52,7 @@ class MultiSelector : SelectorBase() {
     override fun restoreSelectionStates(savedStates: Bundle) {
         super.restoreSelectionStates(savedStates)
         val selectedIds = savedStates.getLongArray(SELECTION_IDS)
-        restoreSelections(selectedIds.toList())
+        restoreSelections(selectedIds?.toList())
     }
 
     private fun restoreSelections(selected: List<Long>?) {

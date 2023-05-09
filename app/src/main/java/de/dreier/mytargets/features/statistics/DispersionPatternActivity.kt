@@ -49,7 +49,7 @@ class DispersionPatternActivity : ChildActivityBase() {
         binding = DataBindingUtil
             .setContentView(this, R.layout.activity_arrow_ranking_details)
 
-        statistic = intent.getParcelableExtra(ITEM)
+        statistic = intent.getParcelableExtra(ITEM)!!
 
         ToolbarUtils.showHomeAsUp(this)
         if (statistic.arrowName != null) {

@@ -43,11 +43,15 @@ class MainActivity : WearableActivity() {
             when (intent.action) {
                 BROADCAST_TRAINING_TEMPLATE -> {
                     val training = intent.getParcelableExtra<AugmentedTraining>(WearWearableClient.EXTRA_TRAINING)
-                    trainingTemplateReceived(training)
+                    if (training != null) {
+                        trainingTemplateReceived(training)
+                    }
                 }
                 BROADCAST_TRAINING_UPDATED -> {
                     val info = intent.getParcelableExtra<TrainingInfo>(WearWearableClient.EXTRA_INFO)
-                    trainingUpdated(info)
+                    if (info != null) {
+                        trainingUpdated(info)
+                    }
                 }
                 else -> {}
             }
