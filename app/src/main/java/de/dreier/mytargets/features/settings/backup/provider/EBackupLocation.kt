@@ -60,9 +60,9 @@ enum class EBackupLocation constructor(
     companion object {
         val list: List<EBackupLocation>
             get() = if (ExternalStorageBackup.microSdCardPath != null) {
-                Arrays.asList(INTERNAL_STORAGE, EXTERNAL_STORAGE, GOOGLE_DRIVE)
+                listOf(INTERNAL_STORAGE, EXTERNAL_STORAGE, GOOGLE_DRIVE)
             } else {
-                Arrays.asList(INTERNAL_STORAGE, GOOGLE_DRIVE)
+                listOf(INTERNAL_STORAGE, GOOGLE_DRIVE)
             }
     }
 }
