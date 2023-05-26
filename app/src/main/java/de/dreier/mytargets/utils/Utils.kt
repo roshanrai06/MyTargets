@@ -69,7 +69,12 @@ object Utils {
         // We use an AlarmManager to call this intent in 100ms
         val mPendingIntentId = 223344
         val mPendingIntent = PendingIntent
-                .getActivity(context, mPendingIntentId, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+                .getActivity(
+                    context,
+                    mPendingIntentId,
+                    intent,
+                    PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
         context.getSystemService<AlarmManager>()!!
             .set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent)
 
@@ -80,7 +85,7 @@ object Utils {
     fun humanReadableByteCount(bytes: Long, si: Boolean): String {
         val unit = if (si) 1000 else 1024
         if (bytes < unit) {
-            return bytes.toString() + " B"
+            return "$bytes B"
         }
         val exp = (Math.log(bytes.toDouble()) / Math.log(unit.toDouble())).toInt()
         val pre = (if (si) "kMGTPE" else "KMGTPE")[exp - 1] + if (si) "" else "i"

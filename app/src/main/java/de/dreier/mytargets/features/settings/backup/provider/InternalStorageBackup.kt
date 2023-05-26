@@ -15,19 +15,27 @@
 
 package de.dreier.mytargets.features.settings.backup.provider
 
+import android.content.ContentResolver
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Environment
+import android.provider.MediaStore
+import androidx.core.content.ContextCompat
 import de.dreier.mytargets.R
 import de.dreier.mytargets.app.ApplicationInstance
 import de.dreier.mytargets.features.settings.backup.BackupEntry
 import de.dreier.mytargets.features.settings.backup.BackupException
+import de.dreier.mytargets.shared.SharedApplicationInstance.Companion.context
 import de.dreier.mytargets.shared.SharedApplicationInstance.Companion.getStr
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import java.lang.ref.WeakReference
+import java.nio.channels.FileChannel
 
 object InternalStorageBackup {
     private const val FOLDER_NAME = "MyTargets"
@@ -51,7 +59,7 @@ object InternalStorageBackup {
         }
 
         override fun getBackups(listener: IAsyncBackupRestore.OnLoadFinishedListener) {
-            val backupDir = File(Environment.getExternalStorageDirectory(), FOLDER_NAME)
+            val backupDir = File(context?.get()?.let { getStorageDirectory(it) }, FOLDER_NAME)
             if (backupDir.isDirectory) {
                 val backups = backupDir.listFiles()
                     ?.filter { isBackup(it) }
@@ -109,7 +117,7 @@ object InternalStorageBackup {
         override fun performBackup(context: Context) {
             try {
                 val backupDir = File(
-                    Environment.getExternalStorageDirectory(),
+                    getStorageDirectory(context),
                     FOLDER_NAME
                 )
                 createDirectory(backupDir)
@@ -121,4 +129,54 @@ object InternalStorageBackup {
 
         }
     }
+
+    private fun getStorageDirectory(context: Context): File {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ContextCompat.getExternalFilesDirs(context, null)[0] // Scoped Storage
+        } else {
+            Environment.getExternalStorageDirectory() // Legacy Storage
+        }
+    }
+
+    private fun copyFileToScopedStorage(contentResolver: ContentResolver, zipFile: File): Uri? {
+        val displayName = BackupUtils.backupName // Set the desired display name for the file
+
+        val collection = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            MediaStore.Downloads.EXTERNAL_CONTENT_URI
+        } else {
+            MediaStore.Files.getContentUri("external")
+        }
+
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, displayName)
+            put(MediaStore.MediaColumns.MIME_TYPE, "application/zip")
+            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+        }
+
+        var outputStream: FileOutputStream? = null
+        var inputStream: FileInputStream? = null
+        var fileChannelOut: FileChannel? = null
+        var fileChannelIn: FileChannel? = null
+
+        return try {
+            val contentUri: Uri? = contentResolver.insert(collection, contentValues)
+            outputStream =
+                contentUri?.let { contentResolver.openOutputStream(it) as FileOutputStream? }
+            inputStream = FileInputStream(zipFile)
+            BackupUtils.zip(context, ApplicationInstance.db, FileOutputStream(zipFile))
+            fileChannelOut = outputStream?.channel
+            fileChannelIn = inputStream.channel
+            fileChannelIn.transferTo(0, fileChannelIn.size(), fileChannelOut)
+            contentUri
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        } finally {
+            fileChannelIn?.close()
+            inputStream?.close()
+            fileChannelOut?.close()
+            outputStream?.close()
+        }
+    }
+
 }

@@ -25,6 +25,7 @@ import android.content.Intent
 import android.content.SyncStatusObserver
 import android.net.Uri
 import android.os.AsyncTask
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.text.format.DateUtils
@@ -246,7 +247,12 @@ class BackupSettingsFragment : SettingsFragmentBase(), IAsyncBackupRestore.OnLoa
 
     private fun internalApplyBackupLocationWithPermissionCheck(item: EBackupLocation) {
         if (item.needsStoragePermissions()) {
-            applyBackupLocationWithPermissionCheck(item)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                retrieveBackup(item)
+            } else {
+                applyBackupLocationWithPermissionCheck(item)
+            }
+
         } else {
             applyBackupLocation(item)
         }
@@ -254,6 +260,10 @@ class BackupSettingsFragment : SettingsFragmentBase(), IAsyncBackupRestore.OnLoa
 
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     internal fun applyBackupLocation(item: EBackupLocation) {
+        retrieveBackup(item)
+    }
+
+    private fun retrieveBackup(item: EBackupLocation) {
         SettingsManager.backupLocation = item
         backup = item.createAsyncRestore()
         binding.recentBackupsProgress.visibility = VISIBLE
@@ -292,6 +302,7 @@ class BackupSettingsFragment : SettingsFragmentBase(), IAsyncBackupRestore.OnLoa
                 }
             })
     }
+
 
     override fun setActivityTitle() {
         activity!!.setTitle(R.string.backup_action)

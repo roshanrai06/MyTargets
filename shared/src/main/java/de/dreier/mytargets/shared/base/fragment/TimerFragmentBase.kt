@@ -15,7 +15,6 @@
 
 package de.dreier.mytargets.shared.base.fragment
 
-import android.app.Activity
 import android.content.Context
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -26,7 +25,11 @@ import android.view.WindowManager
 import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import de.dreier.mytargets.shared.R
-import de.dreier.mytargets.shared.base.fragment.ETimerState.*
+import de.dreier.mytargets.shared.base.fragment.ETimerState.COUNTDOWN
+import de.dreier.mytargets.shared.base.fragment.ETimerState.FINISHED
+import de.dreier.mytargets.shared.base.fragment.ETimerState.PREPARATION
+import de.dreier.mytargets.shared.base.fragment.ETimerState.SHOOTING
+import de.dreier.mytargets.shared.base.fragment.ETimerState.WAIT_FOR_START
 import de.dreier.mytargets.shared.models.TimerSettings
 import de.dreier.mytargets.shared.utils.VibratorCompat
 
@@ -38,10 +41,10 @@ abstract class TimerFragmentBase : Fragment(), View.OnClickListener {
     lateinit var settings: TimerSettings
     private var exitAfterStop = true
 
-//    override fun onAttach(context: Context?) {
-//        super.onAttach(context)
-//        horn = MediaPlayer.create(context, R.raw.horn)
-//    }
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        horn = MediaPlayer.create(context, R.raw.horn)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
