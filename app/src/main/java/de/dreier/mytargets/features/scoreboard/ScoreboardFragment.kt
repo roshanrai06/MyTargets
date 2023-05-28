@@ -193,9 +193,9 @@ class ScoreboardFragment : FragmentBase() {
         reloadData()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater!!.inflate(R.menu.menu_scoreboard, menu)
-        menu!!.findItem(R.id.action_print).isVisible = Utils.isKitKat
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_scoreboard, menu)
+        menu.findItem(R.id.action_print).isVisible = Utils.isKitKat
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

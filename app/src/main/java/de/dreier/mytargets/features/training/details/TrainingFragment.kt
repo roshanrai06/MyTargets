@@ -136,7 +136,7 @@ open class TrainingFragment : EditableListFragmentBase<Round, SimpleListAdapterB
         })
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.statistics_scoresheet, menu)
     }
 

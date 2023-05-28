@@ -41,7 +41,11 @@ class DistanceFragment : Fragment() {
                 false
             )
         val distance = arguments!!.getParcelable<Dimension>(ITEM)
-        binding.viewPager.adapter = DistanceTabsFragmentPagerAdapter(activity!!, distance)
+        binding.viewPager.adapter = distance?.let {
+            DistanceTabsFragmentPagerAdapter(activity!!,
+                it
+            )
+        }
         binding.slidingTabs.setupWithViewPager(binding.viewPager)
 
         // Select current unit

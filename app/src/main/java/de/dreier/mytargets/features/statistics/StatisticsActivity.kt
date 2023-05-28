@@ -96,7 +96,7 @@ class StatisticsActivity : ChildActivityBase(),
         }
         return object : AsyncTaskLoader<List<Pair<Training, Round>>>(this) {
             override fun loadInBackground(): List<Pair<Training, Round>> {
-                val rounds = roundDAO.loadRounds(roundIds)
+                val rounds = roundDAO.loadRounds(roundIds!!)
                 val trainingsMap = rounds.map { (_, trainingId) -> trainingId!! }
                     .distinct()
                     .map { id -> Pair(id, trainingDAO.loadTraining(id)) }

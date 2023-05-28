@@ -36,7 +36,9 @@ class MobileWearableClient(context: Context) : WearableClientBase(context) {
     private val updateReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val training = intent.getParcelableExtra<AugmentedTraining>(EXTRA_TRAINING)
-            updateTraining(training)
+            if (training != null) {
+                updateTraining(training)
+            }
         }
     }
 
@@ -122,7 +124,9 @@ class MobileWearableClient(context: Context) : WearableClientBase(context) {
             if (trainingId == -1L || roundId == -1L) {
                 Timber.w("Incomplete request!")
             }
-            onUpdate(trainingId, roundId, end)
+            if (end != null) {
+                onUpdate(trainingId, roundId, end)
+            }
         }
 
         protected abstract fun onUpdate(trainingId: Long, roundId: Long, end: End)

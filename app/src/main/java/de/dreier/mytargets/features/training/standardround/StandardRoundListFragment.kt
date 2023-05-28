@@ -176,7 +176,7 @@ class StandardRoundListFragment :
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == NEW_STANDARD_ROUND && data != null) {
-            persistSelection(data.getParcelableExtra(ITEM))
+            persistSelection(data.getParcelableExtra(ITEM)!!)
             navigationController.setResultSuccess(data)
             navigationController.finish()
         } else if (requestCode == EDIT_STANDARD_ROUND && data != null) {

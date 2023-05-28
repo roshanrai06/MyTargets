@@ -121,10 +121,14 @@ class EditBowFragment : EditWithImageFragmentBase<BowImage>(R.drawable.recurve_b
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == SimpleDistanceSelector.SIMPLE_DISTANCE_REQUEST_CODE && data != null) {
             val intentData = data.getBundleExtra(INTENT)
-            val index = intentData.getInt(SelectorBase.INDEX)
+            val index = intentData?.getInt(SelectorBase.INDEX)
             val parcelable = data.getParcelableExtra<Dimension>(ITEM)
-            sightMarks[index].distance = parcelable
-            adapter.notifyItemChanged(index)
+            if (parcelable != null) {
+                sightMarks[index!!].distance = parcelable
+            }
+            if (index != null) {
+                adapter.notifyItemChanged(index)
+            }
         }
     }
 

@@ -74,7 +74,7 @@ class MobileWearableListener : WearableListenerService() {
 
     private fun trainingTemplate() {
         val lastTraining = trainingDAO.loadTrainings()
-            .minWith(compareByDescending(Training::date).thenByDescending(Training::id))
+            .minWithOrNull(compareByDescending(Training::date).thenByDescending(Training::id))
         if (lastTraining != null && lastTraining.date.isEqual(LocalDate.now())) {
             val training = trainingRepository.loadAugmentedTraining(lastTraining.id)
             ApplicationInstance.wearableClient.updateTraining(training)

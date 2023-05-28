@@ -16,16 +16,17 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
     compileSdkVersion compileSdkVersionCode
-
+    namespace = "de.dreier.mytargets"
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
     defaultConfig {
         applicationId 'de.dreier.mytargets'
         minSdkVersion 23
@@ -33,13 +34,11 @@ android {
         versionCode gitVersionCode
         versionName gitVersionName
     }
-
     dataBinding {
         enabled = true
     }
-
-    androidExtensions {
-        experimental = true
+    buildFeatures {
+        viewBinding true
     }
 
     signingConfigs {

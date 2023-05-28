@@ -23,12 +23,9 @@ import androidx.fragment.app.transaction
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceFragmentCompat.ARG_PREFERENCE_ROOT
 import androidx.preference.PreferenceScreen
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.common.api.ApiException
 import de.dreier.mytargets.base.activities.SimpleFragmentActivityBase
 import de.dreier.mytargets.features.settings.ESettingsScreens.MAIN
-import de.dreier.mytargets.features.settings.backup.provider.GoogleDriveBackup.AsyncRestore.Companion.REQUEST_CODE_SIGN_IN
 import timber.log.Timber
 
 class SettingsActivity : SimpleFragmentActivityBase(),

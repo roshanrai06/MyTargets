@@ -166,15 +166,15 @@ class EditStandardRoundFragment : EditFragmentBase() {
 
         if (resultCode == Activity.RESULT_OK && data != null) {
             val intentData = data.getBundleExtra(INTENT)
-            val index = intentData.getInt(SelectorBase.INDEX)
+            val index = intentData?.getInt(SelectorBase.INDEX)
             when (requestCode) {
                 DistanceSelector.DISTANCE_REQUEST_CODE -> {
-                    standardRound!!.roundTemplates[index].distance = data.getParcelableExtra(ITEM)
+                    standardRound!!.roundTemplates[index!!].distance = data.getParcelableExtra(ITEM)!!
                     adapter!!.notifyItemChanged(index)
                 }
                 TargetSelector.TARGET_REQUEST_CODE -> {
-                    standardRound!!.roundTemplates[index]
-                        .targetTemplate = data.getParcelableExtra(ITEM)
+                    standardRound!!.roundTemplates[index!!]
+                        .targetTemplate = data.getParcelableExtra(ITEM)!!
                     adapter!!.notifyItemChanged(index)
                 }
             }

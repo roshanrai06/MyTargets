@@ -15,7 +15,6 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="de.dreier.mytargets"
           android:installLocation="auto">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -25,10 +24,12 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
     <uses-permission android:name="android.permission.READ_SYNC_STATS"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
 
     <uses-feature
@@ -54,6 +55,8 @@
         android:required="false"/>
 
     <application
+        android:preserveLegacyExternalStorage="true"
+        android:requestLegacyExternalStorage="true"
         android:name=".app.ApplicationInstance"
         android:allowBackup="true"
         android:backupAgent=".utils.backup.MyBackupAgent"

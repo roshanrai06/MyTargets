@@ -54,7 +54,7 @@ class RoundActivity : WearableActivity() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.action) {
                 BROADCAST_TRAINING_UPDATED -> {
-                    val (_, _, round1) = intent.getParcelableExtra<TrainingInfo>(WearWearableClient.EXTRA_INFO)
+                    val (_, _, round1) = intent.getParcelableExtra<TrainingInfo>(WearWearableClient.EXTRA_INFO)!!
                     round = round1
                     showRoundData()
                 }
@@ -75,7 +75,7 @@ class RoundActivity : WearableActivity() {
         if (savedInstanceState == null) {
             val intent = intent
             if (intent != null && intent.extras != null) {
-                round = intent.getParcelableExtra(EXTRA_ROUND)
+                round = intent.getParcelableExtra(EXTRA_ROUND)!!
             }
         }
 

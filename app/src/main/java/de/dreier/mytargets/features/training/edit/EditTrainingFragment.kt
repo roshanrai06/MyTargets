@@ -327,7 +327,11 @@ class EditTrainingFragment : EditFragmentBase(), DatePickerDialog.OnDateSetListe
         if (resultCode == Activity.RESULT_OK && requestCode == SR_TARGET_REQUEST_CODE && data != null) {
             val target = data.getParcelableExtra<Target>(ITEM)
             val item = binding.standardRound.selectedItem
-            item!!.roundTemplates.forEach { it.targetTemplate = target }
+            item!!.roundTemplates.forEach {
+                if (target != null) {
+                    it.targetTemplate = target
+                }
+            }
             binding.standardRound.setItem(item)
         }
     }
