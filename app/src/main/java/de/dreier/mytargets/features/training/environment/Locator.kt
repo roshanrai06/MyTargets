@@ -77,6 +77,8 @@ class Locator(private val context: Context) : LocationListener {
                     this.requestUpdates(LocationManager.GPS_PROVIDER)
                 }
             }
+
+            else -> {}
         }
     }
 

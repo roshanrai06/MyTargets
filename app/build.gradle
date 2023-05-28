@@ -28,14 +28,16 @@ apply plugin: 'kotlin-parcelize'
 
 
 android {
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
     namespace = "de.dreier.mytargets"
     testNamespace = "de.dreier.mytargets.test"
     compileSdkVersion compileSdkVersionCode
-
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
     defaultConfig {
         applicationId 'de.dreier.mytargets'
         minSdkVersion 16
