@@ -16,14 +16,14 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-parcelize'
 
 android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
+    namespace = "de.dreier.mytargets.shared"
     compileSdkVersion compileSdkVersionCode
 
     defaultConfig {
@@ -32,9 +32,12 @@ android {
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary true
     }
+    dataBinding {
+        enabled = true
+    }
 
-    androidExtensions {
-        experimental = true
+    buildFeatures {
+        viewBinding true
     }
 
     buildTypes {

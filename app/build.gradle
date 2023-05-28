@@ -21,10 +21,10 @@ plugins {
 
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'androidx.navigation.safeargs'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'kotlin-parcelize'
 
 
 android {
@@ -32,7 +32,8 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
+    namespace = "de.dreier.mytargets"
+    testNamespace = "de.dreier.mytargets.test"
     compileSdkVersion compileSdkVersionCode
 
     defaultConfig {
@@ -60,12 +61,11 @@ android {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 
-    dataBinding {
-        enabled true
+    buildFeatures {
+        viewBinding true
     }
-
-    androidExtensions {
-        experimental true
+    dataBinding {
+        enabled = true
     }
 
     signingConfigs {
@@ -240,7 +240,7 @@ dependencies {
     testImplementation dependencies.kotlinTestJunit
 
     androidTestImplementation dependencies.truth
- //   androidTestImplementation dependencies.androidxTestCore
+    //   androidTestImplementation dependencies.androidxTestCore
 //    androidTestImplementation dependencies.androidxTestMonitor
     androidTestImplementation 'androidx.test:core:1.1.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
@@ -274,7 +274,6 @@ configurations.all {
         }
     }
 }
-
 
 
 // Must be at the bottom

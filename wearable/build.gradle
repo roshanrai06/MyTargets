@@ -16,7 +16,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
 
 android {
     compileOptions {
@@ -25,6 +24,7 @@ android {
     }
 
     compileSdkVersion compileSdkVersionCode
+    namespace = "de.dreier.mytargets"
 
     defaultConfig {
         applicationId 'de.dreier.mytargets'
@@ -33,13 +33,11 @@ android {
         versionCode gitVersionCode
         versionName gitVersionName
     }
-
     dataBinding {
         enabled = true
     }
-
-    androidExtensions {
-        experimental = true
+    buildFeatures {
+        viewBinding true
     }
 
     signingConfigs {
