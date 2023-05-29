@@ -138,45 +138,4 @@ object InternalStorageBackup {
         }
     }
 
-    private fun copyFileToScopedStorage(contentResolver: ContentResolver, zipFile: File): Uri? {
-        val displayName = BackupUtils.backupName // Set the desired display name for the file
-
-        val collection = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            MediaStore.Downloads.EXTERNAL_CONTENT_URI
-        } else {
-            MediaStore.Files.getContentUri("external")
-        }
-
-        val contentValues = ContentValues().apply {
-            put(MediaStore.MediaColumns.DISPLAY_NAME, displayName)
-            put(MediaStore.MediaColumns.MIME_TYPE, "application/zip")
-            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
-        }
-
-        var outputStream: FileOutputStream? = null
-        var inputStream: FileInputStream? = null
-        var fileChannelOut: FileChannel? = null
-        var fileChannelIn: FileChannel? = null
-
-        return try {
-            val contentUri: Uri? = contentResolver.insert(collection, contentValues)
-            outputStream =
-                contentUri?.let { contentResolver.openOutputStream(it) as FileOutputStream? }
-            inputStream = FileInputStream(zipFile)
-            BackupUtils.zip(context, ApplicationInstance.db, FileOutputStream(zipFile))
-            fileChannelOut = outputStream?.channel
-            fileChannelIn = inputStream.channel
-            fileChannelIn.transferTo(0, fileChannelIn.size(), fileChannelOut)
-            contentUri
-        } catch (e: IOException) {
-            e.printStackTrace()
-            null
-        } finally {
-            fileChannelIn?.close()
-            inputStream?.close()
-            fileChannelOut?.close()
-            outputStream?.close()
-        }
-    }
-
 }
