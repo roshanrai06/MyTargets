@@ -411,8 +411,9 @@ class BackupSettingsFragment : SettingsFragmentBase(), IAsyncBackupRestore.OnLoa
         MaterialDialog.Builder(context!!)
             .title(R.string.permission_required)
             .content(R.string.backup_permission_explanation)
-            .positiveText(android.R.string.ok)
+            .positiveText(android.R.string.ok).negativeText(android.R.string.cancel)
             .onPositive { _, _ -> leaveBackupSettings() }
+            .onNegative { _, _ -> onBackupLocationClicked() }
             .show()
     }
 
