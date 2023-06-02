@@ -42,8 +42,8 @@ android {
         applicationId 'de.dreier.mytargets'
         minSdkVersion 16
         targetSdkVersion 33
-        versionCode 325
-        versionName "3.2.5"
+        versionCode 326
+        versionName "3.2.6"
         vectorDrawables.useSupportLibrary true
         javaCompileOptions {
             annotationProcessorOptions {
@@ -99,6 +99,7 @@ android {
         release {
             signingConfig signingConfigs.release
             shrinkResources true
+            debuggable true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), '../tools/rules-proguard.pro'
         }
