@@ -18,7 +18,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import android.os.Parcelable
 import de.dreier.mytargets.shared.models.IIdSettable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity

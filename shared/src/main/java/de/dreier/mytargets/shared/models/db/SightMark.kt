@@ -23,7 +23,7 @@ import android.os.Parcelable
 import de.dreier.mytargets.shared.models.Dimension
 import de.dreier.mytargets.shared.models.Dimension.Unit.METER
 import de.dreier.mytargets.shared.models.IIdSettable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity(

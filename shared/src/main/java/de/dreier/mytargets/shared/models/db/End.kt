@@ -20,7 +20,7 @@ import androidx.room.ForeignKey.CASCADE
 import android.os.Parcelable
 import de.dreier.mytargets.shared.models.IIdSettable
 import de.dreier.mytargets.shared.models.Score
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import org.threeten.bp.LocalTime
 
 @Parcelize

@@ -22,7 +22,7 @@ import de.dreier.mytargets.shared.models.Dimension
 import de.dreier.mytargets.shared.models.IIdSettable
 import de.dreier.mytargets.shared.models.Score
 import de.dreier.mytargets.shared.models.Target
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity(

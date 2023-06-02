@@ -22,7 +22,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import android.os.Parcelable
 import de.dreier.mytargets.shared.models.Image
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity(

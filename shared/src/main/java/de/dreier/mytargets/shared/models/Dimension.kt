@@ -17,7 +17,7 @@ package de.dreier.mytargets.shared.models
 import android.os.Parcelable
 import de.dreier.mytargets.shared.R
 import de.dreier.mytargets.shared.SharedApplicationInstance
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Dimension(val value: Float, val unit: Unit?) : IIdProvider, Comparable<Dimension>,

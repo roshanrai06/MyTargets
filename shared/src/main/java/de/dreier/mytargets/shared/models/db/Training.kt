@@ -21,7 +21,7 @@ import android.os.Parcelable
 import de.dreier.mytargets.shared.models.Environment
 import de.dreier.mytargets.shared.models.IIdSettable
 import de.dreier.mytargets.shared.models.Score
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle

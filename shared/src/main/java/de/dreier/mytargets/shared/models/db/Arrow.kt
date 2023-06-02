@@ -22,7 +22,7 @@ import android.os.Parcelable
 import de.dreier.mytargets.shared.models.Dimension
 import de.dreier.mytargets.shared.models.IIdSettable
 import de.dreier.mytargets.shared.models.Thumbnail
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity
