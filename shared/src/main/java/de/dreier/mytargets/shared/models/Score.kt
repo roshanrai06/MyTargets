@@ -16,7 +16,7 @@
 package de.dreier.mytargets.shared.models
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import java.util.*
 
 @Parcelize

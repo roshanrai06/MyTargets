@@ -91,3 +91,10 @@
 -keep class * extends com.google.api.client.json.GenericJson { *; }
 -keep class com.google.api.services.drive.** { *; }
 -keepclassmembers class * { @com.google.api.client.util.Key <fields>; }
+-keepnames class * implements android.os.Parcelable {
+    *;
+}
+
+-keepnames class * implements kotlinx.parcelize.Parcelize {
+    *;
+}

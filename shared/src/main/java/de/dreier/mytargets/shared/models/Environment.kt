@@ -16,7 +16,7 @@ package de.dreier.mytargets.shared.models
 
 import android.content.Context
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Environment(
