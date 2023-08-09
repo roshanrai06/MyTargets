@@ -223,7 +223,6 @@ dependencies {
 
     implementation dependencies.androidLanguages
 
-    implementation dependencies.versionInfoMaterialDialog
 
     implementation dependencies.signaturePad
 
@@ -242,10 +241,8 @@ dependencies {
     testImplementation dependencies.kotlinTestJunit
 
     androidTestImplementation dependencies.truth
-    //   androidTestImplementation dependencies.androidxTestCore
-//    androidTestImplementation dependencies.androidxTestMonitor
-    androidTestImplementation 'androidx.test:core:1.1.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.test:core:1.5.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation dependencies.runner
     androidTestImplementation dependencies.rules
     androidTestUtil dependencies.androidTestOrchestrator

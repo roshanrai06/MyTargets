@@ -116,34 +116,26 @@ ext {
             permissionsDispatcherProcessor: "org.permissionsdispatcher:permissionsdispatcher-processor:4.5.0",
 
 
-             mpAndroidChart                : "com.github.PhilJay:MPAndroidChart:v3.0.3",
+            mpAndroidChart                : "com.github.PhilJay:MPAndroidChart:v3.0.3",
 
             discreteSeekbar               : "org.adw.library:discrete-seekbar:1.0.1",
 
-             easyImage                     : "com.github.jkwiecien:EasyImage:2.1.0",
+            easyImage                     : "com.github.jkwiecien:EasyImage:2.1.0",
 
             materialDialogs               : "com.afollestad.material-dialogs:core:0.9.6.0",
 
-             androidAboutPage              : "com.github.medyo:android-about-page:1.2.5",
+            androidAboutPage              : "com.github.medyo:android-about-page:1.2.5",
 
-             homageCore                    : "com.github.oriley-me.homage:homage-core:0.2.0",
-             homageRecyclerView            : "com.github.oriley-me.homage:homage-recyclerview:0.2.0",
+            homageCore                    : "com.github.oriley-me.homage:homage-core:0.2.0",
+            homageRecyclerView            : "com.github.oriley-me.homage:homage-recyclerview:0.2.0",
 
             roundedImageView              : "com.makeramen:roundedimageview:2.3.0",
 
-             materialIntroScreen           : "io.github.dreierf:material-intro-screen:0.0.6",
-
-            // dbFlowProcessor               : "com.github.Raizlabs.DBFlow:dbflow-processor:$libraryVersion.dbFlow",
-            // dbFlowKotlinExtensions        : "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:$libraryVersion.dbFlow",
-            // dbFlowCore                    : "com.github.Raizlabs.DBFlow:dbflow-core:$libraryVersion.dbFlow",
-            // dbFlow                        : "com.github.Raizlabs.DBFlow:dbflow:$libraryVersion.dbFlow",
+            materialIntroScreen           : "io.github.dreierf:material-intro-screen:0.0.6",
 
             photoView                     : "com.github.chrisbanes:PhotoView:2.1.3",
 
-             androidLanguages              : "com.github.delight-im:Android-Languages:v1.0.1",
-
-            versionInfoMaterialDialog     : "uk.co.hassie:version-info-material-dialog:0.1.0",
-
+            androidLanguages              : "com.github.delight-im:Android-Languages:v1.0.1",
             signaturePad                  : "com.github.gcacace:signature-pad:$libraryVersion.signaturePad",
 
             truth                         : "com.google.truth:truth:1.0",

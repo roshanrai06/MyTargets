@@ -35,19 +35,19 @@
     <string name="new_round">Nuova sessione</string>
     <plurals name="training_selected">
         <item quantity="one">%d allenamento selezionato</item>
-        <item quantity="other">%d allenamenti selezionati</item>
+        <item quantity="many">%d allenamenti selezionati</item>
     </plurals>
     <plurals name="bow_selected">
         <item quantity="one">%d arco selezionato</item>
-        <item quantity="other">%d archi selezionati</item>
+        <item quantity="many">%d archi selezionati</item>
     </plurals>
     <plurals name="arrow_selected">
         <item quantity="one">%d freccia selezionata</item>
-        <item quantity="other">%d frecce selezionate</item>
+        <item quantity="many">%d frecce selezionate</item>
     </plurals>
     <plurals name="passe_selected">
         <item quantity="one">%d volée selezionata</item>
-        <item quantity="other">%d volée selezionate</item>
+        <item quantity="many">%d volée selezionate</item>
     </plurals>
     <string name="edit">Modifica</string>
     <string name="delete">Elimina</string>
@@ -90,12 +90,12 @@
     <!-- x ends of y arrows -->
     <plurals name="passe">
         <item quantity="one">%d volée</item>
-        <item quantity="other">%d volée</item>
+        <item quantity="many">%d volée</item>
     </plurals>
     <string name="with">di</string>
     <plurals name="arrow">
         <item quantity="one">%d freccia</item>
-        <item quantity="other">%d frecce</item>
+        <item quantity="many">%d frecce</item>
     </plurals>
     <string name="target_face">Aspetto del bersaglio</string>
     <!-- Scoreboard -->
@@ -141,7 +141,7 @@
     <string name="version">Versione %s</string>
     <plurals name="second">
         <item quantity="one">%d secondo</item>
-        <item quantity="other">%d secondi</item>
+        <item quantity="many">%d secondi</item>
     </plurals>
     <string name="info">Informazioni</string>
     <string name="data">Dati</string>
@@ -170,31 +170,31 @@
     <string name="edit_standard_round">Modifica Sessione Standard</string>
     <plurals name="arrow_deleted">
         <item quantity="one">%d freccia cancellata</item>
-        <item quantity="other">%d frecce cancellate</item>
+        <item quantity="many">%d frecce cancellate</item>
     </plurals>
     <plurals name="bow_deleted">
         <item quantity="one">%d arco cancellato</item>
-        <item quantity="other">%d archi cancellati</item>
+        <item quantity="many">%d archi cancellati</item>
     </plurals>
     <plurals name="training_deleted">
         <item quantity="one">%d allenamento cancellato</item>
-        <item quantity="other">%d allenamenti cancellati</item>
+        <item quantity="many">%d allenamenti cancellati</item>
     </plurals>
     <plurals name="passe_deleted">
         <item quantity="one">%d volée cancellata</item>
-        <item quantity="other">%d volée cancellate</item>
+        <item quantity="many">%d volée cancellate</item>
     </plurals>
     <plurals name="rounds">
         <item quantity="one">Sessione %d</item>
-        <item quantity="other">Sessione %d</item>
+        <item quantity="many">Sessione %d</item>
     </plurals>
     <plurals name="round_selected">
         <item quantity="one">%d sessione selezionata</item>
-        <item quantity="other">%d sessioni selezionate</item>
+        <item quantity="many">%d sessioni selezionate</item>
     </plurals>
     <plurals name="round_deleted">
         <item quantity="one">%d sessione cancellata</item>
-        <item quantity="other">%d sessioni cancellate</item>
+        <item quantity="many">%d sessioni cancellate</item>
     </plurals>
     <string name="date">Data</string>
     <string name="edit_round">Modifica sessione</string>

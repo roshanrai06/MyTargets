@@ -73,7 +73,7 @@ dependencies {
     testImplementation dependencies.mockito
     testImplementation dependencies.truth
     androidTestImplementation dependencies.runner
-    androidTestImplementation 'androidx.test:core:1.1.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.test:core:1.5.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     implementation dependencies.kotlinStdlibJdk7
 }

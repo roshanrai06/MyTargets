@@ -111,6 +111,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.action_arrows -> EditArrowListFragment()
                 R.id.action_bows -> EditBowListFragment()
                 R.id.action_trainings -> TrainingsFragment()
+                R.id.action_shop -> ShopFragment()
                 else -> throw IllegalStateException("Illegal action id")
             }
             supportFragmentManager

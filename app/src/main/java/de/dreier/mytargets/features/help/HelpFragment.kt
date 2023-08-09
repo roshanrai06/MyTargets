@@ -15,6 +15,7 @@
 
 package de.dreier.mytargets.features.help
 
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.databinding.DataBindingUtil
 import android.os.Bundle
@@ -26,7 +27,6 @@ import de.dreier.mytargets.base.navigation.NavigationController
 import de.dreier.mytargets.databinding.FragmentWebBinding
 import de.dreier.mytargets.features.help.licences.LicencesActivity
 import de.dreier.mytargets.utils.ToolbarUtils
-import uk.co.hassie.library.versioninfomdialog.VersionInfoMDialog
 import java.io.IOException
 
 /**
@@ -58,7 +58,7 @@ class HelpFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_web, container, false)
         val prompt = helpHtmlPage
         binding.webView
@@ -79,23 +79,18 @@ class HelpFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_version_info -> {
-                VersionInfoMDialog.Builder(context)
-                    .setCopyrightText(R.string.app_copyright)
-                    .setVersionPrefix(R.string.version_prefix)
-                    .show()
-                return true
-            }
+        return when (item.itemId) {
             R.id.action_open_source_licences -> {
                 startActivity(Intent(context, LicencesActivity::class.java))
-                return true
+                true
             }
+
             R.id.action_about -> {
                 navigationController.navigateToAbout()
-                return true
+                true
             }
-            else -> return super.onOptionsItemSelected(item)
+
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

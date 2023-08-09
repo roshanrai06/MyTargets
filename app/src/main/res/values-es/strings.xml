@@ -170,31 +170,31 @@
     <string name="edit_standard_round">Editar Serie estándar</string>
     <plurals name="arrow_deleted">
         <item quantity="one">Una flecha eliminada</item>
-        <item quantity="other">%d Flechas eliminadas</item>
+        <item quantity="many">%d Flechas eliminadas</item>
     </plurals>
     <plurals name="bow_deleted">
         <item quantity="one">Un Arco eliminado</item>
-        <item quantity="other">%d Arcos eliminados</item>
+        <item quantity="many">%d Arcos eliminados</item>
     </plurals>
     <plurals name="training_deleted">
         <item quantity="one">Un Entrenamiento eliminado</item>
-        <item quantity="other">%d Entrenamientos eliminados</item>
+        <item quantity="many">%d Entrenamientos eliminados</item>
     </plurals>
     <plurals name="passe_deleted">
         <item quantity="one">Una Tanda Eliminada</item>
-        <item quantity="other">%d Tandas eliminadas</item>
+        <item quantity="many">%d Tandas eliminadas</item>
     </plurals>
     <plurals name="rounds">
         <item quantity="one">%d Serie</item>
-        <item quantity="other">%d Series</item>
+        <item quantity="many">%d Series</item>
     </plurals>
     <plurals name="round_selected">
         <item quantity="one">Una Serie seleccionada</item>
-        <item quantity="other">%d Series Seleccionadas</item>
+        <item quantity="many">%d Series Seleccionadas</item>
     </plurals>
     <plurals name="round_deleted">
         <item quantity="one">Una Serie elminada</item>
-        <item quantity="other">%d Series Eliminadas</item>
+        <item quantity="many">%d Series Eliminadas</item>
     </plurals>
     <string name="date">Fecha</string>
     <string name="edit_round">Editar Serie</string>

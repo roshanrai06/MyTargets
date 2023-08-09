@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2018 Florian Dreier
   ~
   ~ This file is part of MyTargets.
@@ -15,25 +14,30 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/action_trainings"
         android:icon="@drawable/ic_archery_24dp"
         android:title="@string/training"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_bows"
         android:icon="@drawable/ic_bow_24dp"
         android:title="@string/bow"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_arrows"
         android:icon="@drawable/ic_arrow_24dp"
         android:title="@string/arrow"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_shop"
+        android:icon="@drawable/shop"
+        android:title="Shop"
+        app:showAsAction="ifRoom" />
 
 </menu>
 
