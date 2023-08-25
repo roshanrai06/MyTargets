@@ -30,7 +30,6 @@ apply plugin: 'kotlin-parcelize'
 android {
     namespace = "de.dreier.mytargets"
     testNamespace = "de.dreier.mytargets.test"
-    compileSdkVersion compileSdkVersionCode
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -41,9 +40,10 @@ android {
     defaultConfig {
         applicationId 'de.dreier.mytargets'
         minSdkVersion 16
+        compileSdk compileSdkVersionCode
         targetSdkVersion 33
-        versionCode 327
-        versionName "3.2.7"
+        versionCode 329
+        versionName "3.2.9"
         vectorDrawables.useSupportLibrary true
         javaCompileOptions {
             annotationProcessorOptions {
@@ -101,6 +101,7 @@ android {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), '../tools/rules-proguard.pro'
+
         }
     }
 
@@ -260,7 +261,7 @@ dependencies {
 
 }
 
-configurations.all {
+configurations.configureEach {
     exclude module: 'httpclient'
     exclude module: 'commons-logging'
     resolutionStrategy.eachDependency { details ->

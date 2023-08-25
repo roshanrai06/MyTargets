@@ -34,6 +34,7 @@ import de.dreier.mytargets.features.settings.ESettingsScreens
 import de.dreier.mytargets.features.settings.SettingsManager
 import de.dreier.mytargets.utils.ToolbarUtils
 import de.dreier.mytargets.utils.Utils
+import de.dreier.mytargets.utils.parcelableExtra
 import de.dreier.mytargets.utils.print.CustomPrintDocumentAdapter
 import de.dreier.mytargets.utils.print.DrawableToPdfWriter
 import de.dreier.mytargets.utils.toUri
@@ -49,7 +50,7 @@ class DispersionPatternActivity : ChildActivityBase() {
         binding = DataBindingUtil
             .setContentView(this, R.layout.activity_arrow_ranking_details)
 
-        statistic = intent.getParcelableExtra(ITEM)!!
+        statistic = intent.parcelableExtra(ITEM)!!
 
         ToolbarUtils.showHomeAsUp(this)
         if (statistic.arrowName != null) {
@@ -131,7 +132,7 @@ class DispersionPatternActivity : ChildActivityBase() {
             statistic.exportFileName
         }
         if (!name.isNullOrEmpty()) {
-            name = "-" + name
+            name = "-$name"
         }
         return getString(R.string.dispersion_pattern) + name + "." + extension.name.toLowerCase()
     }

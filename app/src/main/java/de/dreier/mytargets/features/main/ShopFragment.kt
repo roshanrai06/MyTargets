@@ -19,7 +19,8 @@ class ShopFragment : FragmentBase() {
         val view = inflater.inflate(R.layout.fragment_shop, container, false)
         val webView = view.findViewById<WebView>(R.id.webViewShop)
         val webSettings = webView.settings
-        webView.loadUrl("https://mantisarchery.com")
+        webView.loadUrl("https://mantisarchery.com?utm_source=android&utm_medium=app&utm_app=MyTarget")
+
         // Enable Javascript
         webSettings.javaScriptEnabled = true
         // Force links and redirects to open in the WebView instead of in a browser

@@ -60,7 +60,7 @@ class GalleryActivity : ChildActivityBase() {
 
         val title = intent.getStringExtra(EXTRA_TITLE)
         if (savedInstanceState == null) {
-            imageList = intent.getParcelableExtra(EXTRA_IMAGES)!!
+            imageList = intent.parcelableExtra(EXTRA_IMAGES) ?: ImageList()
         }
 
         setSupportActionBar(binding.toolbar)
@@ -77,7 +77,7 @@ class GalleryActivity : ChildActivityBase() {
         adapter = ViewPagerAdapter(this, imageList, binding.toolbar, binding.imagesHorizontalList)
         binding.pager.adapter = adapter
 
-        previewAdapter = HorizontalListAdapters(this, imageList, { this.goToImage(it) })
+        previewAdapter = HorizontalListAdapters(this, imageList) { this.goToImage(it) }
         binding.imagesHorizontalList.adapter = previewAdapter
         previewAdapter.notifyDataSetChanged()
 
@@ -127,15 +127,18 @@ class GalleryActivity : ChildActivityBase() {
                 shareImage(currentItem)
                 return true
             }
+
             R.id.action_delete -> {
                 val currentItem = binding.pager.currentItem
                 deleteImage(currentItem)
                 return true
             }
+
             android.R.id.home -> {
                 navigationController.finish()
                 return true
             }
+
             else -> return super.onOptionsItemSelected(item)
         }
     }

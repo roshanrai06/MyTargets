@@ -18,12 +18,12 @@ package de.dreier.mytargets.features.bows
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.evernote.android.state.State
 import de.dreier.mytargets.R
 import de.dreier.mytargets.app.ApplicationInstance
@@ -40,6 +40,8 @@ import de.dreier.mytargets.shared.models.db.Bow
 import de.dreier.mytargets.shared.models.db.BowImage
 import de.dreier.mytargets.shared.models.db.SightMark
 import de.dreier.mytargets.utils.ToolbarUtils
+import de.dreier.mytargets.utils.parcelable
+import de.dreier.mytargets.utils.parcelableExtra
 import de.dreier.mytargets.views.selector.SelectorBase
 import de.dreier.mytargets.views.selector.SimpleDistanceSelector
 
@@ -122,13 +124,12 @@ class EditBowFragment : EditWithImageFragmentBase<BowImage>(R.drawable.recurve_b
         if (resultCode == Activity.RESULT_OK && requestCode == SimpleDistanceSelector.SIMPLE_DISTANCE_REQUEST_CODE && data != null) {
             val intentData = data.getBundleExtra(INTENT)
             val index = intentData?.getInt(SelectorBase.INDEX)
-            val parcelable = data.getParcelableExtra<Dimension>(ITEM)
-            if (parcelable != null) {
-                sightMarks[index!!].distance = parcelable
-            }
-            if (index != null) {
+            val parcelable = data.parcelableExtra<Dimension>(ITEM)
+            if (parcelable != null && index != null) {
+                sightMarks[index].distance = parcelable
                 adapter.notifyItemChanged(index)
             }
+
         }
     }
 

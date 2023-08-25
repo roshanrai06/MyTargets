@@ -26,7 +26,7 @@ open class ScoringStyle private constructor(
         private val showAsX: Boolean,
         protected val points: Array<IntArray>
 ) {
-    private val maxScorePerShot: List<Int> by lazy { points.map { it.maxOrNull() ?: 0 } }
+    private val maxScorePerShot: List<Int> by lazy { points.map { it.max() ?: 0 } }
 
     internal constructor(showAsX: Boolean, points: Array<IntArray>) : this(null, showAsX, points)
 

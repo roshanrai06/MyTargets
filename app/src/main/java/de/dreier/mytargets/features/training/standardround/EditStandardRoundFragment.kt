@@ -39,6 +39,8 @@ import de.dreier.mytargets.shared.models.db.RoundTemplate
 import de.dreier.mytargets.shared.models.db.StandardRound
 import de.dreier.mytargets.utils.ToolbarUtils
 import de.dreier.mytargets.utils.Utils
+import de.dreier.mytargets.utils.parcelable
+import de.dreier.mytargets.utils.parcelableExtra
 import de.dreier.mytargets.views.selector.DistanceSelector
 import de.dreier.mytargets.views.selector.SelectorBase
 import de.dreier.mytargets.views.selector.TargetSelector
@@ -67,7 +69,7 @@ class EditStandardRoundFragment : EditFragmentBase() {
 
         if (savedInstanceState == null) {
             if (arguments != null) {
-                standardRound = arguments!!.getParcelable(ITEM)
+                standardRound = arguments!!.parcelable(ITEM)
             }
             if (standardRound == null) {
                 ToolbarUtils.setTitle(this, R.string.new_round_template)
@@ -169,12 +171,12 @@ class EditStandardRoundFragment : EditFragmentBase() {
             val index = intentData?.getInt(SelectorBase.INDEX)
             when (requestCode) {
                 DistanceSelector.DISTANCE_REQUEST_CODE -> {
-                    standardRound!!.roundTemplates[index!!].distance = data.getParcelableExtra(ITEM)!!
+                    standardRound!!.roundTemplates[index!!].distance = data.parcelableExtra(ITEM)!!
                     adapter!!.notifyItemChanged(index)
                 }
                 TargetSelector.TARGET_REQUEST_CODE -> {
                     standardRound!!.roundTemplates[index!!]
-                        .targetTemplate = data.getParcelableExtra(ITEM)!!
+                        .targetTemplate = data.parcelableExtra(ITEM)!!
                     adapter!!.notifyItemChanged(index)
                 }
             }

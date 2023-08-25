@@ -26,7 +26,7 @@ import de.dreier.mytargets.shared.models.Target
 import de.dreier.mytargets.shared.models.db.Round
 import de.dreier.mytargets.shared.models.db.Shot
 import de.dreier.mytargets.shared.models.sum
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import java.lang.Math.ceil
 
 @Parcelize

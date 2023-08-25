@@ -43,6 +43,7 @@ import de.dreier.mytargets.utils.ToolbarUtils
 import de.dreier.mytargets.utils.contains
 import de.dreier.mytargets.utils.multiselector.OnItemLongClickListener
 import de.dreier.mytargets.utils.multiselector.SelectableViewHolder
+import de.dreier.mytargets.utils.parcelable
 
 class StandardRoundListFragment :
     SelectItemFragmentBase<AugmentedStandardRound, HeaderListAdapter<AugmentedStandardRound>>(),
@@ -59,7 +60,7 @@ class StandardRoundListFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            currentSelection = arguments!!.getParcelable(ITEM)
+            currentSelection = arguments!!.parcelable(ITEM)
         }
     }
 

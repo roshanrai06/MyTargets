@@ -88,7 +88,7 @@ open class TrainingFragment : EditableListFragmentBase<Round, SimpleListAdapterB
 
         val factory = ViewModelFactory(activity!!.application!!)
         viewModel = ViewModelProviders.of(this, factory).get(TrainingViewModel::class.java)
-        trainingId = arguments.getLongOrNull(EditableListFragmentBase.ITEM_ID)!!
+        trainingId = arguments.getLongOrNull(ITEM_ID)!!
         viewModel.setTrainingId(trainingId)
 //        binding.training = viewModel
         viewModel.training.observe(this, Observer { training1 ->
@@ -195,7 +195,7 @@ open class TrainingFragment : EditableListFragmentBase<Round, SimpleListAdapterB
         }
     }
 
-    private inner class ViewHolder internal constructor(
+    private inner class ViewHolder(
         itemView: View,
         val equals: BooleanArray
     ) :
