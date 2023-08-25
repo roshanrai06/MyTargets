@@ -51,7 +51,7 @@ abstract class SettingsFragmentBase : PreferenceFragmentCompat(),
         )
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
         updateItemSummaries()
     }
 

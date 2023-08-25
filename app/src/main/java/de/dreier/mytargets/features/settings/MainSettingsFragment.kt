@@ -21,7 +21,7 @@ import im.delight.android.languages.Language
 
 class MainSettingsFragment : SettingsFragmentBase() {
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         if (key == SettingsManager.KEY_LANGUAGE) {
             Language.setFromPreference(activity, SettingsManager.KEY_LANGUAGE, true)

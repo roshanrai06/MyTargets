@@ -30,7 +30,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         compileSdk compileSdkVersionCode
-        targetSdkVersion 33
+        targetSdkVersion 34
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary true
     }
