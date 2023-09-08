@@ -15,16 +15,16 @@
 
 package de.dreier.mytargets.shared.models
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Ignore
-import android.os.Parcelable
 import de.dreier.mytargets.shared.models.db.Shot
 import de.dreier.mytargets.shared.targets.TargetFactory
 import de.dreier.mytargets.shared.targets.drawable.TargetDrawable
 import de.dreier.mytargets.shared.targets.models.TargetModelBase
 import de.dreier.mytargets.shared.targets.scoringstyle.ScoringStyle
-import kotlinx.android.parcel.IgnoredOnParcel
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.IgnoredOnParcel
+import kotlinx.parcelize.Parcelize
 
 /**
  * Represents a target face, which is in contrast to a [TargetModelBase] bound to a specific

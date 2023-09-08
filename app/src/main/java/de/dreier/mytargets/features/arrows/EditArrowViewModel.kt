@@ -19,7 +19,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableFloat
@@ -32,6 +31,7 @@ import de.dreier.mytargets.shared.models.Dimension.Unit.MILLIMETER
 import de.dreier.mytargets.shared.models.Thumbnail
 import de.dreier.mytargets.shared.models.db.Arrow
 import de.dreier.mytargets.shared.models.db.ArrowImage
+import androidx.lifecycle.Transformations
 
 
 class EditArrowViewModel(app: Application) : AndroidViewModel(app) {

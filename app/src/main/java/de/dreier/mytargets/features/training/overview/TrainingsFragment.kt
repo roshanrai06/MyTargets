@@ -68,11 +68,11 @@ class TrainingsFragment : ExpandableListFragment<Header, Training>() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_trainings, container, false)
         binding.recyclerView.setHasFixedSize(true)
-        adapter = TrainingAdapter(context!!)
+        adapter = TrainingAdapter(requireContext())
         binding.recyclerView.itemAnimator = SlideInItemAnimator()
         binding.recyclerView.adapter = adapter
         binding.recyclerView.addItemDecoration(
-            DividerItemDecoration(context!!, R.drawable.full_divider)
+            DividerItemDecoration(requireContext(), R.drawable.full_divider)
         )
         binding.fabSpeedDial.setMenuListener { menuItem ->
             when (menuItem.itemId) {

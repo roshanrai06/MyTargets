@@ -41,7 +41,7 @@ abstract class TimerFragmentBase : Fragment(), View.OnClickListener {
     lateinit var settings: TimerSettings
     private var exitAfterStop = true
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         horn = MediaPlayer.create(context, R.raw.horn)
     }

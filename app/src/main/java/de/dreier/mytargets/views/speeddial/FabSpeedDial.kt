@@ -478,12 +478,12 @@ class FabSpeedDial : LinearLayout, View.OnClickListener, CoordinatorLayout.Attac
             .alpha(0f)
             .setInterpolator(FastOutLinearInInterpolator())
             .setListener(object : ViewPropertyAnimatorListenerAdapter() {
-                override fun onAnimationStart(view: View?) {
+                override fun onAnimationStart(view: View) {
                     super.onAnimationStart(view)
                     isAnimating = true
                 }
 
-                override fun onAnimationEnd(view: View?) {
+                override fun onAnimationEnd(view: View) {
                     super.onAnimationEnd(view)
                     menuItemsLayout!!.removeAllViews()
                     isAnimating = false
@@ -525,12 +525,12 @@ class FabSpeedDial : LinearLayout, View.OnClickListener, CoordinatorLayout.Attac
             .setStartDelay((4 * position * VSYNC_RHYTHM).toLong())
             .setInterpolator(FastOutSlowInInterpolator())
             .setListener(object : ViewPropertyAnimatorListenerAdapter() {
-                override fun onAnimationStart(view: View?) {
+                override fun onAnimationStart(view: View) {
                     super.onAnimationStart(view)
                     isAnimating = true
                 }
 
-                override fun onAnimationEnd(view: View?) {
+                override fun onAnimationEnd(view: View) {
                     super.onAnimationEnd(view)
                     isAnimating = false
                 }

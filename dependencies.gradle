@@ -51,12 +51,12 @@ ext {
 
     dependencies = [
             androidxAnnotations           : 'androidx.annotation:annotation:1.0.2',
-            androidxCore                  : 'androidx.core:core:1.0.2',
+            androidxCore                  : 'androidx.core:core:1.10.1',
             androidxCoreUtils             : 'androidx.legacy:legacy-support-core-utils:1.0.0',
             androidxCoreUi                : 'androidx.legacy:legacy-support-core-ui:1.0.0',
-            androidxFragment              : 'androidx.fragment:fragment:1.0.0',
+            androidxFragment              : 'androidx.fragment:fragment:1.5.7',
             androidxV13                   : 'androidx.legacy:legacy-support-v13:1.0.0',
-            appCompat                     : 'androidx.appcompat:appcompat:1.0.2',
+            appCompat                     : 'androidx.appcompat:appcompat:1.6.1',
             androidxDesign                : 'com.google.android.material:material:1.0.0',
             androidxPreference            : 'androidx.legacy:legacy-preference-v14:1.0.0',
             recyclerView                  : 'androidx.recyclerview:recyclerview:1.0.0',
@@ -72,8 +72,8 @@ ext {
 
             supportDesign                 : 'com.android.support:design:28.0.0',
 
-            androidxCoreKtx               : 'androidx.core:core-ktx:1.0.2',
-            androidFragmentKtx            : 'androidx.fragment:fragment-ktx:1.0.0',
+            androidxCoreKtx               : 'androidx.core:core-ktx:1.10.1',
+            androidFragmentKtx            : 'androidx.fragment:fragment-ktx:1.5.7',
 
             androidxWear                  : 'androidx.wear:wear:1.0.0',
             androidxWearable              : 'com.google.android.support:wearable:2.4.0',
