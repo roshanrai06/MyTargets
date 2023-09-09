@@ -40,7 +40,6 @@ import de.dreier.mytargets.shared.models.db.Bow
 import de.dreier.mytargets.shared.models.db.BowImage
 import de.dreier.mytargets.shared.models.db.SightMark
 import de.dreier.mytargets.utils.ToolbarUtils
-import de.dreier.mytargets.utils.parcelable
 import de.dreier.mytargets.utils.parcelableExtra
 import de.dreier.mytargets.views.selector.SelectorBase
 import de.dreier.mytargets.views.selector.SimpleDistanceSelector
@@ -124,7 +123,7 @@ class EditBowFragment : EditWithImageFragmentBase<BowImage>(R.drawable.recurve_b
         if (resultCode == Activity.RESULT_OK && requestCode == SimpleDistanceSelector.SIMPLE_DISTANCE_REQUEST_CODE && data != null) {
             val intentData = data.getBundleExtra(INTENT)
             val index = intentData?.getInt(SelectorBase.INDEX)
-            val parcelable = data.parcelableExtra<Dimension>(ITEM)
+            val parcelable = data.parcelableExtra<Dimension>(data, ITEM)
             if (parcelable != null && index != null) {
                 sightMarks[index].distance = parcelable
                 adapter.notifyItemChanged(index)

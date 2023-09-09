@@ -69,7 +69,7 @@ class EditStandardRoundFragment : EditFragmentBase() {
 
         if (savedInstanceState == null) {
             if (arguments != null) {
-                standardRound = arguments!!.parcelable(ITEM)
+                standardRound = requireArguments().parcelable(requireArguments(),ITEM)
             }
             if (standardRound == null) {
                 ToolbarUtils.setTitle(this, R.string.new_round_template)
@@ -171,12 +171,12 @@ class EditStandardRoundFragment : EditFragmentBase() {
             val index = intentData?.getInt(SelectorBase.INDEX)
             when (requestCode) {
                 DistanceSelector.DISTANCE_REQUEST_CODE -> {
-                    standardRound!!.roundTemplates[index!!].distance = data.parcelableExtra(ITEM)!!
+                    standardRound!!.roundTemplates[index!!].distance = data.parcelableExtra(data,ITEM)!!
                     adapter!!.notifyItemChanged(index)
                 }
                 TargetSelector.TARGET_REQUEST_CODE -> {
                     standardRound!!.roundTemplates[index!!]
-                        .targetTemplate = data.parcelableExtra(ITEM)!!
+                        .targetTemplate = data.parcelableExtra(data,ITEM)!!
                     adapter!!.notifyItemChanged(index)
                 }
             }

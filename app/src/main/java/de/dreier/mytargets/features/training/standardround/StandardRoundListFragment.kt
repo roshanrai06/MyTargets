@@ -60,7 +60,7 @@ class StandardRoundListFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            currentSelection = arguments!!.parcelable(ITEM)
+            currentSelection = requireArguments().parcelable(requireArguments(), ITEM)
         }
     }
 

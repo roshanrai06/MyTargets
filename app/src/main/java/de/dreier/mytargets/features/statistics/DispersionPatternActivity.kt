@@ -16,15 +16,15 @@
 package de.dreier.mytargets.features.statistics
 
 import android.content.Intent
-import androidx.databinding.DataBindingUtil
 import android.os.Build
 import android.os.Bundle
 import android.print.PrintAttributes
 import android.print.PrintManager
-import androidx.annotation.RequiresApi
 import android.view.Menu
 import android.view.MenuItem
+import androidx.annotation.RequiresApi
 import androidx.core.content.getSystemService
+import androidx.databinding.DataBindingUtil
 import com.google.android.material.snackbar.Snackbar
 import de.dreier.mytargets.R
 import de.dreier.mytargets.base.activities.ChildActivityBase
@@ -50,7 +50,7 @@ class DispersionPatternActivity : ChildActivityBase() {
         binding = DataBindingUtil
             .setContentView(this, R.layout.activity_arrow_ranking_details)
 
-        statistic = intent.parcelableExtra(ITEM)!!
+        statistic = intent.parcelableExtra(intent,ITEM)!!
 
         ToolbarUtils.showHomeAsUp(this)
         if (statistic.arrowName != null) {

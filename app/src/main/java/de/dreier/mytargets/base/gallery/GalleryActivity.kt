@@ -60,7 +60,7 @@ class GalleryActivity : ChildActivityBase() {
 
         val title = intent.getStringExtra(EXTRA_TITLE)
         if (savedInstanceState == null) {
-            imageList = intent.parcelableExtra(EXTRA_IMAGES) ?: ImageList()
+            imageList = intent.parcelableExtra(intent,EXTRA_IMAGES) ?: ImageList()
         }
 
         setSupportActionBar(binding.toolbar)
