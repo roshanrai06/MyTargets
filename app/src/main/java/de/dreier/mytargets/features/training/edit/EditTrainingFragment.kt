@@ -17,7 +17,6 @@ package de.dreier.mytargets.features.training.edit
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +24,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.DatePicker
+import androidx.databinding.DataBindingUtil
 import de.dreier.mytargets.R
 import de.dreier.mytargets.app.ApplicationInstance
 import de.dreier.mytargets.base.fragments.EditFragmentBase
@@ -45,6 +45,7 @@ import de.dreier.mytargets.shared.targets.models.WA3Ring3Spot
 import de.dreier.mytargets.utils.ToolbarUtils
 import de.dreier.mytargets.utils.Utils
 import de.dreier.mytargets.utils.getLongOrNull
+import de.dreier.mytargets.utils.parcelableExtra
 import de.dreier.mytargets.views.selector.ArrowSelector
 import de.dreier.mytargets.views.selector.BowSelector
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
@@ -236,7 +237,7 @@ class EditTrainingFragment : EditFragmentBase(), DatePickerDialog.OnDateSetListe
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Utils.setupFabTransform(activity!!, binding.root)
+        Utils.setupFabTransform(requireActivity(), binding.root)
     }
 
     private fun applyTrainingType() {
@@ -252,7 +253,7 @@ class EditTrainingFragment : EditFragmentBase(), DatePickerDialog.OnDateSetListe
     private fun onDateClick() {
         val datePickerDialog = DatePickerFragment.newInstance(date)
         datePickerDialog.setTargetFragment(this, REQ_SELECTED_DATE)
-        datePickerDialog.show(activity!!.supportFragmentManager, "date_picker")
+        datePickerDialog.show(requireActivity().supportFragmentManager, "date_picker")
     }
 
     override fun onRequestPermissionsResult(
@@ -261,7 +262,7 @@ class EditTrainingFragment : EditFragmentBase(), DatePickerDialog.OnDateSetListe
         grantResults: IntArray
     ) {
         if (requestCode == REQUEST_LOCATION_PERMISSION) {
-            binding.environment.onPermissionResult(activity!!, grantResults)
+            binding.environment.onPermissionResult(requireActivity(), grantResults)
         }
     }
 
@@ -312,7 +313,7 @@ class EditTrainingFragment : EditFragmentBase(), DatePickerDialog.OnDateSetListe
         } else {
             // Edit training
             trainingDAO.updateTraining(training)
-            activity!!.overridePendingTransition(R.anim.left_in, R.anim.right_out)
+            requireActivity().overridePendingTransition(R.anim.left_in, R.anim.right_out)
         }
     }
 
@@ -325,9 +326,9 @@ class EditTrainingFragment : EditFragmentBase(), DatePickerDialog.OnDateSetListe
         binding.bow.onActivityResult(requestCode, resultCode, data)
         binding.environment.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == SR_TARGET_REQUEST_CODE && data != null) {
-            val target = data.getParcelableExtra<Target>(ITEM)
+            val target = data.parcelableExtra<Target>(data, ITEM)
             val item = binding.standardRound.selectedItem
-            item!!.roundTemplates.forEach {
+            item?.roundTemplates?.forEach {
                 if (target != null) {
                     it.targetTemplate = target
                 }

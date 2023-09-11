@@ -23,11 +23,11 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
-import androidx.annotation.RequiresPermission
-import androidx.fragment.app.Fragment
-import androidx.core.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
+import androidx.annotation.RequiresPermission
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import de.dreier.mytargets.R
 import de.dreier.mytargets.databinding.SelectorItemImageDetailsBinding
 import de.dreier.mytargets.features.settings.SettingsManager
@@ -97,14 +97,14 @@ class EnvironmentSelector @JvmOverloads constructor(
             return
         }
         if (ContextCompat.checkSelfPermission(
-                fragment.context!!,
+                fragment.requireContext(),
                 ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             setDefaultWeather()
             fragment.requestPermissions(arrayOf(ACCESS_FINE_LOCATION), requestCode)
         } else {
-            queryWeatherInfo(fragment.context!!)
+            queryWeatherInfo(fragment.requireContext())
         }
     }
 
@@ -133,10 +133,10 @@ class EnvironmentSelector @JvmOverloads constructor(
                         call: Call<CurrentWeather>,
                         response: Response<CurrentWeather>
                     ) {
-                        if (response.isSuccessful && response.body()!!.httpCode == 200) {
-                            val toEnvironment = response.body()!!.toEnvironment()
+                        if (response.isSuccessful && response.body()?.httpCode == 200) {
+                            val toEnvironment = response.body()?.toEnvironment()
                             setItem(
-                                toEnvironment.copy(
+                                toEnvironment?.copy(
                                     location = locationStr
                                             ?: toEnvironment.location
                                 )

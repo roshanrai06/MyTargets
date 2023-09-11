@@ -106,3 +106,4 @@
 -keepattributes EnclosingClass,InnerClasses
 -keep,allowshrinking,allowobfuscation class * implements android.os.Parcelable {}
 -keep,allowshrinking,allowobfuscation class * implements android.os.Parcelable$Creator {}
+
