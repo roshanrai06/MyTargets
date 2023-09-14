@@ -25,36 +25,32 @@ import android.view.WindowManager
 import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import de.dreier.mytargets.shared.R
-import de.dreier.mytargets.shared.base.fragment.ETimerState.COUNTDOWN
-import de.dreier.mytargets.shared.base.fragment.ETimerState.FINISHED
-import de.dreier.mytargets.shared.base.fragment.ETimerState.PREPARATION
-import de.dreier.mytargets.shared.base.fragment.ETimerState.SHOOTING
-import de.dreier.mytargets.shared.base.fragment.ETimerState.WAIT_FOR_START
 import de.dreier.mytargets.shared.models.TimerSettings
 import de.dreier.mytargets.shared.utils.VibratorCompat
+import de.dreier.mytargets.shared.utils.parcelable
+import kotlin.math.ceil
 
 abstract class TimerFragmentBase : Fragment(), View.OnClickListener {
 
-    private var currentStatus = WAIT_FOR_START
+    private var currentStatus = ETimerState.WAIT_FOR_START
     private var countdown: CountDownTimer? = null
-    private lateinit var horn: MediaPlayer
+    private val horn by lazy { MediaPlayer.create(requireContext(), R.raw.horn) }
     lateinit var settings: TimerSettings
     private var exitAfterStop = true
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        horn = MediaPlayer.create(context, R.raw.horn)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        settings = arguments!!.getParcelable(ARG_TIMER_SETTINGS)!!
-        exitAfterStop = arguments!!.getBoolean(ARG_EXIT_AFTER_STOP)
+        settings = requireArguments().parcelable(requireArguments(), ARG_TIMER_SETTINGS)!!
+        exitAfterStop = requireArguments().getBoolean(ARG_EXIT_AFTER_STOP)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        activity!!.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,7 +78,7 @@ abstract class TimerFragmentBase : Fragment(), View.OnClickListener {
             if (exitAfterStop) {
                 activity?.finish()
             } else {
-                changeStatus(WAIT_FOR_START)
+                changeStatus(ETimerState.WAIT_FOR_START)
             }
             return
         }
@@ -90,7 +86,7 @@ abstract class TimerFragmentBase : Fragment(), View.OnClickListener {
         applyStatus(status)
         playSignal(status.signalCount)
 
-        if (status === FINISHED) {
+        if (status === ETimerState.FINISHED) {
             applyTime(getString(R.string.stop))
             countdown = object : CountDownTimer(6000, 100) {
                 override fun onTick(millisUntilFinished: Long) {}
@@ -100,13 +96,13 @@ abstract class TimerFragmentBase : Fragment(), View.OnClickListener {
                 }
             }.start()
         } else {
-            if (status !== PREPARATION && status !== SHOOTING && status !== COUNTDOWN) {
+            if (status !== ETimerState.PREPARATION && status !== ETimerState.SHOOTING && status !== ETimerState.COUNTDOWN) {
                 applyTime("")
             } else {
                 val offset = getOffset(status)
                 countdown = object : CountDownTimer((getDuration(status) * 1000).toLong(), 1000) {
                     override fun onTick(millisUntilFinished: Long) {
-                        val countdown = offset + Math.ceil(millisUntilFinished / 1000.0).toInt()
+                        val countdown = offset + ceil(millisUntilFinished / 1000.0).toInt()
                         applyTime(countdown.toString())
                     }
 
@@ -120,15 +116,15 @@ abstract class TimerFragmentBase : Fragment(), View.OnClickListener {
 
     protected fun getDuration(status: ETimerState): Int {
         return when (status) {
-            PREPARATION -> settings.waitTime
-            SHOOTING -> settings.shootTime - settings.warnTime
-            COUNTDOWN -> settings.warnTime
+            ETimerState.PREPARATION -> settings.waitTime
+            ETimerState.SHOOTING -> settings.shootTime - settings.warnTime
+            ETimerState.COUNTDOWN -> settings.warnTime
             else -> throw IllegalArgumentException()
         }
     }
 
     private fun getOffset(status: ETimerState): Int {
-        return if (status === SHOOTING) {
+        return if (status === ETimerState.SHOOTING) {
             settings.warnTime
         } else {
             0
@@ -142,7 +138,7 @@ abstract class TimerFragmentBase : Fragment(), View.OnClickListener {
             }
             if (settings.vibrate) {
                 val pattern = LongArray(1 + n * 2)
-                val v = activity!!.getSystemService<Vibrator>()!!
+                val v = requireActivity().getSystemService<Vibrator>()!!
                 pattern[0] = 150
                 for (i in 0 until n) {
                     pattern[i * 2 + 1] = 400
@@ -154,15 +150,21 @@ abstract class TimerFragmentBase : Fragment(), View.OnClickListener {
     }
 
     private fun playHorn(n: Int) {
-        if (!horn.isPlaying && !isDetached) {
-            horn.start()
-            horn.setOnCompletionListener {
-                if (n > 1) {
-                    playHorn(n - 1)
+        try {
+            if (!horn.isPlaying && !isDetached) {
+                horn.setOnCompletionListener(null) // Remove any existing completion listener
+                horn.setOnCompletionListener {
+                    if (n > 1) {
+                        playHorn(n - 1)
+                    }
                 }
+                horn.start()
             }
+        } catch (e: IllegalStateException) {
+            // Handle the exception appropriately (e.g., log the error)
         }
     }
+
 
     abstract fun applyTime(text: String)
 

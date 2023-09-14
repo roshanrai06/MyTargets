@@ -158,7 +158,7 @@ ext {
 
             multiDex                      : "androidx.multidex:multidex:2.0.1",
 
-            threeTenABP                   : "com.jakewharton.threetenabp:threetenabp:1.2.1",
+            threeTenABP                   : "com.jakewharton.threetenabp:threetenabp:1.4.6",
 
             timber                        : "com.jakewharton.timber:timber:4.7.1"
     ]

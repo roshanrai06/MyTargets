@@ -15,8 +15,12 @@
 
 package de.dreier.mytargets.shared.utils
 
+import android.content.Intent
+import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.core.content.IntentCompat
+import androidx.core.os.BundleCompat
 
 fun Parcelable.marshall(): ByteArray {
     val parcel = Parcel.obtain()
@@ -33,4 +37,13 @@ fun <T : Parcelable> ByteArray.unmarshall(creator: Parcelable.Creator<T>): T {
     val result = creator.createFromParcel(parcel)
     parcel.recycle()
     return result
+}
+inline fun <reified T : Parcelable> Intent.parcelableExtra(intent: Intent, key: String): T? {
+    return IntentCompat.getParcelableExtra(intent, key, T::class.java)
+
+}
+
+inline fun <reified T : Parcelable> Bundle.parcelable(bundle: Bundle, key: String): T? {
+    return BundleCompat.getParcelable(bundle, key, T::class.java)
+
 }
