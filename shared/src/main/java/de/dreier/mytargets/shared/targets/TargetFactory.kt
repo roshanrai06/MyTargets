@@ -15,8 +15,36 @@
 package de.dreier.mytargets.shared.targets
 
 import de.dreier.mytargets.shared.models.Target
-import de.dreier.mytargets.shared.targets.models.*
-import java.util.*
+import de.dreier.mytargets.shared.targets.models.ASA3D
+import de.dreier.mytargets.shared.targets.models.ASA3D14
+import de.dreier.mytargets.shared.targets.models.Beursault
+import de.dreier.mytargets.shared.targets.models.DAIR3D
+import de.dreier.mytargets.shared.targets.models.DBSCBlowpipe
+import de.dreier.mytargets.shared.targets.models.HitOrMiss
+import de.dreier.mytargets.shared.targets.models.IBO3D
+import de.dreier.mytargets.shared.targets.models.IFAAAnimal
+import de.dreier.mytargets.shared.targets.models.NFAAAnimal
+import de.dreier.mytargets.shared.targets.models.NFAAExpertField
+import de.dreier.mytargets.shared.targets.models.NFAAField
+import de.dreier.mytargets.shared.targets.models.NFAAHunter
+import de.dreier.mytargets.shared.targets.models.NFAAIndoor
+import de.dreier.mytargets.shared.targets.models.NFAAIndoor5Spot
+import de.dreier.mytargets.shared.targets.models.NFAS3D
+import de.dreier.mytargets.shared.targets.models.NFASField
+import de.dreier.mytargets.shared.targets.models.SCAPeriod
+import de.dreier.mytargets.shared.targets.models.TargetModelBase
+import de.dreier.mytargets.shared.targets.models.WA3Ring
+import de.dreier.mytargets.shared.targets.models.WA3Ring3Spot
+import de.dreier.mytargets.shared.targets.models.WA5Ring
+import de.dreier.mytargets.shared.targets.models.WA6Ring
+import de.dreier.mytargets.shared.targets.models.WADanage3Spot
+import de.dreier.mytargets.shared.targets.models.WADanage6Spot
+import de.dreier.mytargets.shared.targets.models.WAField
+import de.dreier.mytargets.shared.targets.models.WAField3Spot
+import de.dreier.mytargets.shared.targets.models.WAFull
+import de.dreier.mytargets.shared.targets.models.WAVegas3Spot
+import de.dreier.mytargets.shared.targets.models.WAVertical3Spot
+import de.dreier.mytargets.shared.targets.models.Worcester
 
 object TargetFactory {
 

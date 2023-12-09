@@ -15,16 +15,16 @@
 
 package de.dreier.mytargets.features.training.target
 
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.RecyclerView
 import de.dreier.mytargets.R
 import de.dreier.mytargets.base.adapters.header.ExpandableListAdapter
 import de.dreier.mytargets.base.adapters.header.HeaderListAdapter
@@ -32,14 +32,15 @@ import de.dreier.mytargets.base.fragments.SelectItemFragmentBase
 import de.dreier.mytargets.base.navigation.NavigationController.Companion.ITEM
 import de.dreier.mytargets.databinding.FragmentTargetSelectBinding
 import de.dreier.mytargets.databinding.ItemImageSimpleBinding
-import de.dreier.mytargets.features.training.target.TargetListFragment.EFixedType.*
+import de.dreier.mytargets.features.training.target.TargetListFragment.EFixedType.GROUP
+import de.dreier.mytargets.features.training.target.TargetListFragment.EFixedType.NONE
+import de.dreier.mytargets.features.training.target.TargetListFragment.EFixedType.TARGET
 import de.dreier.mytargets.shared.models.Dimension
 import de.dreier.mytargets.shared.models.Target
 import de.dreier.mytargets.shared.targets.TargetFactory
 import de.dreier.mytargets.utils.SlideInItemAnimator
 import de.dreier.mytargets.utils.ToolbarUtils
 import de.dreier.mytargets.utils.multiselector.SelectableViewHolder
-import java.util.*
 
 class TargetListFragment :
     SelectItemFragmentBase<Target, ExpandableListAdapter<HeaderListAdapter.SimpleHeader, Target>>(),
@@ -88,9 +89,9 @@ class TargetListFragment :
         binding.targetSize.adapter = targetSizeAdapter
 
         // Process passed arguments
-        val target = arguments!!.getParcelable<Target>(ITEM)!!
+        val target = requireArguments().getParcelable<Target>(ITEM)!!
         val fixedType = EFixedType
-            .valueOf(arguments!!.getString(FIXED_TYPE, NONE.name))
+            .valueOf(requireArguments().getString(FIXED_TYPE, NONE.name))
         val list = when (fixedType) {
             NONE -> TargetFactory.getList()
             TARGET -> listOf(target.model)
@@ -169,7 +170,7 @@ class TargetListFragment :
         target.scoringStyleIndex = binding.scoringStyle.selectedItemPosition
         val diameters = target.model.diameters
         target.diameter = diameters[binding.targetSize.selectedItemPosition]
-        arguments!!.putParcelable(ITEM, target)
+        requireArguments().putParcelable(ITEM, target)
         return target
     }
 
