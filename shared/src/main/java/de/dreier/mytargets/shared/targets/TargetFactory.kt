@@ -43,6 +43,7 @@ import de.dreier.mytargets.shared.targets.models.WAField
 import de.dreier.mytargets.shared.targets.models.WAField3Spot
 import de.dreier.mytargets.shared.targets.models.WAFull
 import de.dreier.mytargets.shared.targets.models.WAVegas3Spot
+import de.dreier.mytargets.shared.targets.models.WAVegas5Spot
 import de.dreier.mytargets.shared.targets.models.WAVertical3Spot
 import de.dreier.mytargets.shared.targets.models.Worcester
 
@@ -63,6 +64,7 @@ object TargetFactory {
         list.add(WA3Ring())
         list.add(WAVertical3Spot())
         list.add(WAVegas3Spot())
+        list.add(WAVegas5Spot())
         list.add(WA3Ring3Spot())
         list.add(WADanage3Spot())
         list.add(WADanage6Spot())

@@ -25,6 +25,7 @@
     <string name="wa_5_ring">WA 5 Ring</string>
     <string name="wa_3_ring">WA 3 Ring</string>
     <string name="vegas_3_spot">Vegas 3 Spot</string>
+    <string name="vegas_5_spot" translatable="false">Vegas 5 Spot</string>
     <string name="vertical_3_spot">WA Vertical 3 Spot</string>
     <string name="wa_3_ring_3_spot">WA 3 Ring 3 Spot</string>
     <string name="nfaa_field">NFAA Field</string>
