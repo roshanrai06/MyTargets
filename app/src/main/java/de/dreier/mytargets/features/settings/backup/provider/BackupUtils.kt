@@ -16,6 +16,8 @@
 package de.dreier.mytargets.features.settings.backup.provider
 
 import android.content.Context
+import android.os.Build
+import dalvik.system.ZipPathValidator
 import de.dreier.mytargets.base.db.AppDatabase
 import java.io.*
 import java.text.SimpleDateFormat
@@ -34,11 +36,25 @@ object BackupUtils {
 
     @Throws(IOException::class)
     fun importZip(context: Context, `in`: InputStream) {
-        // Unzip all images and database
-        val file = unzip(context, `in`)
+        val file: File
+        if (Build.VERSION.SDK_INT >= 34) {
+            ZipPathValidator.clearCallback();
+            try {
+                file = unzip(context, `in`)
+            } finally {
+                ZipPathValidator.clearCallback()
+            }
+        } else {
+            // Unzip all images and database
+            file = unzip(context, `in`)
+        }
+
 
         // Replace database file
-        file.copyTo(context.getDatabasePath(AppDatabase.DATABASE_IMPORT_FILE_NAME), overwrite = true)
+        file.copyTo(
+            context.getDatabasePath(AppDatabase.DATABASE_IMPORT_FILE_NAME),
+            overwrite = true
+        )
     }
 
     @Throws(IOException::class)
