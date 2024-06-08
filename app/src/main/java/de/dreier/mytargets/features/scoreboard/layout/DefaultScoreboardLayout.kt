@@ -35,7 +35,7 @@ import de.dreier.mytargets.shared.models.db.Shot
 import de.dreier.mytargets.shared.models.db.Training
 import de.dreier.mytargets.shared.targets.scoringstyle.ScoringStyle
 import de.dreier.mytargets.utils.ScoreUtils
-import java.util.*
+import java.util.Locale
 
 class DefaultScoreboardLayout(
     private val context: Context,
@@ -100,6 +100,8 @@ class DefaultScoreboardLayout(
         if (configuration.showSignature) {
             appendSignature(training)
         }
+        val legendText = context.getString(R.string.legend_text)
+        builder.title(legendText)
     }
 
     private fun getTrainingInfoTable(
@@ -251,7 +253,7 @@ class DefaultScoreboardLayout(
         var arrowDiameter = Dimension(0.714f, Dimension.Unit.CENTIMETER)
         if (training.arrowId != null) {
             val arrow = arrowDAO.loadArrow(training.arrowId!!)
-            if (arrow.diameter != null){
+            if (arrow.diameter != null) {
                 arrowDiameter = arrow.diameter
             }
         }

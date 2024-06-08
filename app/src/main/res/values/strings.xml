@@ -118,6 +118,7 @@
     <string name="average">Average</string>
     <string name="avg_symbol">Ø</string>
     <string name="handicap_symbol">∑</string>
+    <string name="legend_text">Legend for Ø = Hits and Average ∑ = Handicap in App</string>
 
     <!-- Input mode -->
     <string name="comment">Comment</string>
