@@ -116,8 +116,8 @@
     <string name="carry">R.Total</string>
     <string name="action_print">Print</string>
     <string name="average">Average</string>
-    <string name="avg_symbol">Ø</string>
-    <string name="handicap_symbol">∑</string>
+    <string name="avg_symbol" translatable="false">Ø</string>
+    <string name="handicap_symbol" translatable="false">∑</string>
     <string name="legend_text">Legend for Ø = Hits and Average ∑ = Handicap in App</string>
 
     <!-- Input mode -->
