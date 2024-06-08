@@ -356,6 +356,7 @@ object SettingsManager {
             config.showComments = preferences["scoreboard_comments", true]
             config.showPointsColored = preferences["scoreboard_points_colored", true]
             config.showSignature = preferences["scoreboard_signature", true]
+            config.showTimeRange = preferences["scoreboard_time_range", true]
             return config
         }
 

@@ -245,6 +245,10 @@
                 android:defaultValue="true"
                 android:key="scoreboard_signature"
                 android:title="@string/show_signature"/>
+<!--            <CheckBoxPreference-->
+<!--                android:defaultValue="true"-->
+<!--                android:key="scoreboard_time_range"-->
+<!--                android:title="@string/time_range"/>-->
         </PreferenceCategory>
     </PreferenceScreen>
     <PreferenceScreen

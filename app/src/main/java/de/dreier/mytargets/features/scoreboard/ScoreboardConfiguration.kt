@@ -22,5 +22,6 @@ data class ScoreboardConfiguration(
     var showStatistics: Boolean = false,
     var showComments: Boolean = false,
     var showPointsColored: Boolean = false,
-    var showSignature: Boolean = false
+    var showSignature: Boolean = false,
+    var showTimeRange: Boolean = false
 )

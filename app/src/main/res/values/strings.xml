@@ -394,4 +394,5 @@
     <string name="permission_required">Permission required</string>
     <string name="backup_permission_explanation"><![CDATA[To be able to make a backup of your data, the app needs permission to access the internal storage of your phone. To use the backup feature go to system settings > Apps > MyTargets > Permissions and enable the entry \'Storage\'.]]></string>
     <string name="fix_db">Attempt to fix database</string>
+    <string name="time_range" translatable="false">Time range</string>
 </resources>
