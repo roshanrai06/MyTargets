@@ -29,12 +29,19 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.text.format.DateUtils
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
 import com.afollestad.materialdialogs.MaterialDialog
@@ -50,6 +57,9 @@ import de.dreier.mytargets.features.settings.backup.synchronization.GenericAccou
 import de.dreier.mytargets.features.settings.backup.synchronization.SyncUtils
 import de.dreier.mytargets.utils.ToolbarUtils
 import de.dreier.mytargets.utils.Utils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.OnNeverAskAgain
 import permissions.dispatcher.OnPermissionDenied
@@ -57,7 +67,9 @@ import permissions.dispatcher.RuntimePermissions
 import timber.log.Timber
 import java.io.FileNotFoundException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
+import java.util.Timer
+import java.util.TimerTask
 
 @RuntimePermissions
 class BackupSettingsFragment : SettingsFragmentBase(), IAsyncBackupRestore.OnLoadFinishedListener {
@@ -157,8 +169,23 @@ class BackupSettingsFragment : SettingsFragmentBase(), IAsyncBackupRestore.OnLoa
         } else if (item.itemId == R.id.action_fix_db) {
             DatabaseFixer.fix(ApplicationInstance.db)
             return true
+        } else if (item.itemId == R.id.action_remove_photos) {
+            deleteAllPhotos()
+
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun deleteAllPhotos() {
+        lifecycleScope.launch(Dispatchers.IO) {  // Launch coroutine on IO dispatcher (background thread)
+            ApplicationInstance.db.imageDAO().removeAllPhotos(requireContext())
+
+            // Back on the main thread for UI updates (Toast)
+            withContext(Dispatchers.Main) {
+                Toast.makeText(requireContext(), "All photos removed", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
     }
 
     override fun onResume() {

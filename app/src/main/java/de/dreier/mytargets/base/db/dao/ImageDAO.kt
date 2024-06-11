@@ -15,8 +15,12 @@
 
 package de.dreier.mytargets.base.db.dao
 
+import android.content.Context
+import android.database.sqlite.SQLiteException
 import androidx.room.Dao
 import androidx.room.Query
+import androidx.room.Transaction
+import java.io.File
 
 @Dao
 interface ImageDAO {
@@ -29,4 +33,38 @@ interface ImageDAO {
                 "UNION SELECT `fileName` FROM `ArrowImage`"
     )
     fun loadAllFileNames(): List<String>
+
+    @Transaction
+    fun removeAllPhotos(context: Context) {
+        try {
+            // 1. Delete entries from the database tables
+            deleteBowImages()
+            deleteEndImages()
+            deleteArrowImages()
+        } catch (e: SQLiteException) {
+            // Handle exceptions if tables don't exist (e.g., log a warning)
+        }
+
+        // 2. Delete the corresponding files from storage
+        val fileNames = try {
+            loadAllFileNames()
+        } catch (e: SQLiteException) {
+            // Handle exceptions if the database hasn't been initialized (e.g., return an empty list)
+            emptyList()
+        }
+
+        for (fileName in fileNames) {
+            val file = File(context.filesDir, fileName)
+            file.delete()
+        }
+    }
+
+    @Query("DELETE FROM BowImage")
+    fun deleteBowImages()
+
+    @Query("DELETE FROM EndImage")
+    fun deleteEndImages()
+
+    @Query("DELETE FROM ArrowImage")
+    fun deleteArrowImages()
 }

@@ -26,5 +26,9 @@
         android:id="@+id/action_fix_db"
         android:title="@string/fix_db"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_remove_photos"
+        android:title="@string/remove_all_photos"
+        app:showAsAction="never"/>
 
 </menu>
