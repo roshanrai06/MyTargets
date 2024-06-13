@@ -31,7 +31,7 @@ import kotlinx.parcelize.Parcelize
  * scoring style and diameter.
  */
 @Parcelize
-data class Target(
+data class  Target(
         @ColumnInfo(name = "targetId")
         override var id: Long = 0,
         @ColumnInfo(name = "targetScoringStyleIndex")

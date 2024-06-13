@@ -20,19 +20,19 @@ import android.app.LoaderManager
 import android.content.AsyncTaskLoader
 import android.content.Intent
 import android.content.Loader
-import androidx.databinding.DataBindingUtil
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.view.Menu
+import android.view.MenuItem
+import androidx.core.view.GravityCompat.END
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.core.view.GravityCompat.END
-import android.view.Menu
-import android.view.MenuItem
 import com.afollestad.materialdialogs.MaterialDialog
 import com.evernote.android.state.State
+import com.google.android.material.snackbar.Snackbar
 import de.dreier.mytargets.R
 import de.dreier.mytargets.app.ApplicationInstance
 import de.dreier.mytargets.base.activities.ChildActivityBase
@@ -46,7 +46,8 @@ import de.dreier.mytargets.utils.toUri
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class StatisticsActivity : ChildActivityBase(),
     LoaderManager.LoaderCallbacks<List<Pair<Training, Round>>> {
@@ -165,6 +166,7 @@ class StatisticsActivity : ChildActivityBase(),
                 export()
                 true
             }
+
             R.id.action_filter -> {
                 if (!binding.drawerLayout.isDrawerOpen(END)) {
                     binding.drawerLayout.openDrawer(END)
@@ -173,6 +175,7 @@ class StatisticsActivity : ChildActivityBase(),
                 }
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -206,8 +209,10 @@ class StatisticsActivity : ChildActivityBase(),
             .map { value1 -> Pair(value1.value[0].target, value1.value) }
             .sortedByDescending { it.second.size }
         val animate = binding.viewPager.adapter == null
+        val environment =
+            if (trainingDAO.loadTrainings().first().environment.indoor) "Indoor" else "Outdoor"
         val adapter = StatisticsPagerAdapter(
-            supportFragmentManager, filteredRounds!!, animate
+            supportFragmentManager, filteredRounds!!, animate, environment
         )
         binding.viewPager.adapter = adapter
     }
@@ -308,7 +313,8 @@ class StatisticsActivity : ChildActivityBase(),
     inner class StatisticsPagerAdapter internal constructor(
         fm: FragmentManager,
         private val targets: List<Pair<Target, List<Round>>>,
-        private val animate: Boolean
+        private val animate: Boolean,
+        private val environment: String
     ) : FragmentStatePagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment {
@@ -321,8 +327,8 @@ class StatisticsActivity : ChildActivityBase(),
             return targets.size
         }
 
-        override fun getPageTitle(position: Int): CharSequence? {
-            return targets[position].first.toString()
+        override fun getPageTitle(position: Int): CharSequence {
+            return targets[position].first.toString() + " - " + environment
         }
     }
 

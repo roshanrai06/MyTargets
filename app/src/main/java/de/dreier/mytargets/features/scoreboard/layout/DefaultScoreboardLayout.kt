@@ -286,10 +286,12 @@ class DefaultScoreboardLayout(
         val table = Table(false)
         appendTableHeader(table, round.shotsPerEnd)
         var carry = 0
-        for (end in roundDAO.loadEnds(round.id)) {
+        val ends = roundDAO.loadEnds(round.id)
+
+        for ((index, end) in ends.withIndex()) {
             val row = table.startRow()
-            row.addCell(end.index + 1)
-            var sum = 0
+            row.addCell(index + 1)  // Display the calculated end number (1-based)
+            var sum = 0 // Reset sum for each end
             val shots = ArrayList(endDAO.loadShots(end.id))
             if (SettingsManager.shouldSortTarget(round.target)) {
                 shots.sort()
@@ -298,10 +300,10 @@ class DefaultScoreboardLayout(
                 appendPointsCell(row, shot, round.target)
                 val points = round.target.getScoreByZone(shot.scoringRing, shot.index)
                 sum += points
-                carry += points
+                carry += points // Update the carry value
             }
-            row.addCell(sum)
-            row.addCell(carry)
+            row.addCell(sum) // End total
+            row.addCell(carry) // Display carry value
         }
         return table
     }
