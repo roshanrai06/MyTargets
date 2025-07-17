@@ -56,9 +56,9 @@ import de.dreier.mytargets.shared.models.db.Shot
 import de.dreier.mytargets.shared.models.sum
 import de.dreier.mytargets.shared.views.TargetViewBase
 import de.dreier.mytargets.shared.views.TargetViewBase.EInputMethod
-import de.dreier.mytargets.shared.wearable.WearableClientBase.Companion.BROADCAST_TIMER_SETTINGS_FROM_REMOTE
+
 import de.dreier.mytargets.utils.*
-import de.dreier.mytargets.utils.MobileWearableClient.Companion.BROADCAST_UPDATE_TRAINING_FROM_REMOTE
+
 import de.dreier.mytargets.utils.Utils.getCurrentLocale
 import de.dreier.mytargets.utils.transitions.FabTransform
 import de.dreier.mytargets.utils.transitions.TransitionAdapter
@@ -92,22 +92,7 @@ class InputActivity : ChildActivityBase(), TargetViewBase.OnEndFinishedListener,
         database.signatureDAO()
     )
 
-    private val updateReceiver = object : MobileWearableClient.EndUpdateReceiver() {
 
-        override fun onUpdate(trainingId: Long, roundId: Long, end: End) {
-            val extras = intent.extras!!
-            extras.putLong(TRAINING_ID, trainingId)
-            extras.putLong(ROUND_ID, roundId)
-            extras.putInt(END_INDEX, end.index)
-            supportLoaderManager.restartLoader(0, extras, this@InputActivity).forceLoad()
-        }
-    }
-
-    private val timerReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            invalidateOptionsMenu()
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -125,14 +110,7 @@ class InputActivity : ChildActivityBase(), TargetViewBase.OnEndFinishedListener,
         if (data == null) {
             supportLoaderManager.initLoader(0, intent.extras, this).forceLoad()
         }
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-            updateReceiver,
-            IntentFilter(BROADCAST_UPDATE_TRAINING_FROM_REMOTE)
-        )
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-            timerReceiver,
-            IntentFilter(BROADCAST_TIMER_SETTINGS_FROM_REMOTE)
-        )
+
     }
 
     override fun onResume() {
@@ -170,8 +148,7 @@ class InputActivity : ChildActivityBase(), TargetViewBase.OnEndFinishedListener,
     }
 
     override fun onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(updateReceiver)
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(timerReceiver)
+
         super.onDestroy()
     }
 
@@ -254,7 +231,6 @@ class InputActivity : ChildActivityBase(), TargetViewBase.OnEndFinishedListener,
             R.id.action_timer -> {
                 val timerEnabled = !SettingsManager.timerEnabled
                 SettingsManager.timerEnabled = timerEnabled
-                ApplicationInstance.wearableClient.sendTimerSettingsFromLocal(SettingsManager.timerSettings)
                 openTimer()
                 item.isChecked = timerEnabled
                 invalidateOptionsMenu()
@@ -377,7 +353,7 @@ class InputActivity : ChildActivityBase(), TargetViewBase.OnEndFinishedListener,
     }
 
     private fun updateWearNotification() {
-        ApplicationInstance.wearableClient.sendUpdateTrainingFromLocalBroadcast(data!!.training)
+        // Wearable functionality removed
     }
 
     private fun updateNavigationButtons() {

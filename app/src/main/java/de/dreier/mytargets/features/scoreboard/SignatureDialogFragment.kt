@@ -18,11 +18,11 @@ package de.dreier.mytargets.features.scoreboard
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.os.Bundle
-import androidx.fragment.app.DialogFragment
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import com.afollestad.materialdialogs.MaterialDialog
 import de.dreier.mytargets.R
 import de.dreier.mytargets.app.ApplicationInstance
@@ -47,7 +47,7 @@ class SignatureDialogFragment : DialogFragment() {
             binding.signatureView.signatureBitmap = signature.bitmap
         }
         binding.editName.setOnClickListener {
-            MaterialDialog.Builder(context!!)
+            MaterialDialog.Builder(requireContext())
                 .title(R.string.name)
                 .inputType(InputType.TYPE_CLASS_TEXT)
                 .input(defaultName, signature.name) { _, input ->

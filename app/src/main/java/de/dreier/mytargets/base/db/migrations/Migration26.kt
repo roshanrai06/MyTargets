@@ -15,13 +15,14 @@
 
 package de.dreier.mytargets.base.db.migrations
 
-import androidx.sqlite.db.SupportSQLiteDatabase
-import androidx.room.migration.Migration
 import android.database.Cursor
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import de.dreier.mytargets.shared.models.Dimension
 import de.dreier.mytargets.shared.models.Target
 import de.dreier.mytargets.shared.models.db.Shot
 import timber.log.Timber
+import java.util.Locale.getDefault
 
 object Migration26 : Migration(25, 26) {
 
@@ -98,7 +99,7 @@ object Migration26 : Migration(25, 26) {
         childTable: String,
         joinColumn: String
     ): String {
-        return "CREATE TRIGGER insert_${parentTable.toLowerCase()}_sum_score " +
+        return "CREATE TRIGGER insert_${parentTable.lowercase(getDefault())}_sum_score " +
                 "AFTER INSERT ON `$childTable` " +
                 "BEGIN " +
                 getUpdateQuery(parentTable, childTable, joinColumn, "NEW") +
@@ -110,7 +111,7 @@ object Migration26 : Migration(25, 26) {
         childTable: String,
         joinColumn: String
     ): String {
-        return "CREATE TRIGGER update_${parentTable.toLowerCase()}_sum_score " +
+        return "CREATE TRIGGER update_${parentTable.lowercase(getDefault())}_sum_score " +
                 "AFTER UPDATE OF reachedPoints, totalPoints, shotCount ON `$childTable` " +
                 "BEGIN " +
                 getUpdateQuery(parentTable, childTable, joinColumn, "NEW") +
@@ -122,7 +123,7 @@ object Migration26 : Migration(25, 26) {
         childTable: String,
         joinColumn: String
     ): String {
-        return "CREATE TRIGGER delete_${parentTable.toLowerCase()}_sum_score " +
+        return "CREATE TRIGGER delete_${parentTable.lowercase(getDefault())}_sum_score " +
                 "AFTER DELETE ON `$childTable` " +
                 "BEGIN " +
                 getUpdateQuery(parentTable, childTable, joinColumn, "OLD") +

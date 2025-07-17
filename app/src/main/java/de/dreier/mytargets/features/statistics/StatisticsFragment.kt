@@ -48,7 +48,7 @@ import de.dreier.mytargets.shared.models.db.Round
 import de.dreier.mytargets.shared.models.db.Shot
 import de.dreier.mytargets.shared.utils.Color
 import de.dreier.mytargets.utils.*
-import de.dreier.mytargets.utils.MobileWearableClient.Companion.BROADCAST_UPDATE_TRAINING_FROM_REMOTE
+
 import org.threeten.bp.Duration
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -69,14 +69,7 @@ class StatisticsFragment : FragmentBase() {
     private val roundDAO = database.roundDAO()
     private val endDAO = database.endDAO()
 
-    private val updateReceiver = object : MobileWearableClient.EndUpdateReceiver() {
 
-        override fun onUpdate(trainingId: Long, roundId: Long, end: End) {
-            if (roundIds!!.contains(roundId)) {
-                reloadData()
-            }
-        }
-    }
 
     private val hitMissText: String
         get() {
@@ -167,15 +160,12 @@ class StatisticsFragment : FragmentBase() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        LocalBroadcastManager.getInstance(context!!).registerReceiver(
-            updateReceiver,
-            IntentFilter(BROADCAST_UPDATE_TRAINING_FROM_REMOTE)
-        )
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        LocalBroadcastManager.getInstance(context!!).unregisterReceiver(updateReceiver)
+
     }
 
     override fun onCreateView(

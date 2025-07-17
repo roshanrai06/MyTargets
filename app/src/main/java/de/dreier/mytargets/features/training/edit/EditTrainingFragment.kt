@@ -48,7 +48,7 @@ import de.dreier.mytargets.utils.getLongOrNull
 import de.dreier.mytargets.utils.parcelableExtra
 import de.dreier.mytargets.views.selector.ArrowSelector
 import de.dreier.mytargets.views.selector.BowSelector
-import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+import com.google.android.material.slider.Slider
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
@@ -89,7 +89,7 @@ class EditTrainingFragment : EditFragmentBase(), DatePickerDialog.OnDateSetListe
         get() {
             val round = Round()
             round.target = binding.target.selectedItem!!
-            round.shotsPerEnd = binding.arrows.progress
+            round.shotsPerEnd = binding.arrows.value.toInt()
             round.maxEndCount = null
             round.distance = binding.distance.selectedItem!!
 
@@ -118,22 +118,11 @@ class EditTrainingFragment : EditFragmentBase(), DatePickerDialog.OnDateSetListe
         ToolbarUtils.showUpAsX(this)
         setHasOptionsMenu(true)
 
-        binding.arrows.setOnProgressChangeListener(object :
-            DiscreteSeekBar.OnProgressChangeListener {
-            override fun onProgressChanged(
-                seekBar: DiscreteSeekBar,
-                value: Int,
-                fromUser: Boolean
-            ) {
+        binding.arrows.addOnChangeListener { _, value, fromUser ->
+            if (fromUser) {
                 updateArrowsLabel()
             }
-
-            override fun onStartTrackingTouch(seekBar: DiscreteSeekBar) {
-
-            }
-
-            override fun onStopTrackingTouch(seekBar: DiscreteSeekBar) {}
-        })
+        }
         binding.target.setOnClickListener { selectedItem, index ->
             navigationController.navigateToTarget(selectedItem!!, index)
         }
@@ -218,8 +207,9 @@ class EditTrainingFragment : EditFragmentBase(), DatePickerDialog.OnDateSetListe
     }
 
     private fun updateArrowsLabel() {
+        val value = binding.arrows.value.toInt()
         binding.arrowsLabel.text = resources
-            .getQuantityString(R.plurals.arrow, binding.arrows.progress, binding.arrows.progress)
+            .getQuantityString(R.plurals.arrow, value, value)
     }
 
     private fun setScoringStyleForCompoundBow(bow: Bow?) {
@@ -339,7 +329,7 @@ class EditTrainingFragment : EditFragmentBase(), DatePickerDialog.OnDateSetListe
 
     private fun loadRoundDefaultValues() {
         binding.distance.setItem(SettingsManager.distance)
-        binding.arrows.progress = SettingsManager.shotsPerEnd
+        binding.arrows.value = SettingsManager.shotsPerEnd.toFloat()
         binding.target.setItem(SettingsManager.target)
     }
 

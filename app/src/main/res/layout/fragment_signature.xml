@@ -48,11 +48,10 @@
                 android:padding="8dp"
                 android:textColor="@color/md_black_1000"/>
 
-            <com.github.gcacace.signaturepad.views.SignaturePad
+            <de.dreier.mytargets.views.CustomSignatureView
                 android:id="@+id/signatureView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:penColor="@color/md_black_1000"/>
+                android:layout_height="match_parent"/>
 
             <ImageButton
                 android:id="@+id/edit_name"

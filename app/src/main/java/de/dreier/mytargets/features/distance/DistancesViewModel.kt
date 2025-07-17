@@ -19,7 +19,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
 import de.dreier.mytargets.app.ApplicationInstance
 import de.dreier.mytargets.shared.models.Dimension
 
@@ -32,10 +33,10 @@ class DistancesViewModel(app: Application) : AndroidViewModel(app) {
     val distances: LiveData<List<Dimension>>
 
     init {
-        val dbDistances = Transformations.switchMap(unit) { unit ->
+        val dbDistances = unit.switchMap { unit ->
             dimensionDAO.getAll(unit)
         }
-        distances = Transformations.map(dbDistances) { filteredDistances ->
+        distances = dbDistances.map { filteredDistances ->
             val distances = mutableSetOf(de.dreier.mytargets.shared.models.Dimension.UNKNOWN)
 
             // Add currently selected distance to list

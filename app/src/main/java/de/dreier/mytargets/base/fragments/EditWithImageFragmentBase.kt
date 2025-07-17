@@ -37,14 +37,14 @@ import de.dreier.mytargets.shared.models.Thumbnail
 import de.dreier.mytargets.utils.ToolbarUtils
 import de.dreier.mytargets.utils.Utils
 import de.dreier.mytargets.utils.moveTo
-import permissions.dispatcher.NeedsPermission
-import permissions.dispatcher.RuntimePermissions
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import android.content.pm.PackageManager
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
 import java.io.File
 import java.io.IOException
 
-@RuntimePermissions
 abstract class EditWithImageFragmentBase<T : Image> protected constructor(
     private val defaultDrawable: Int
 ) : EditFragmentBase() {
@@ -130,11 +130,11 @@ abstract class EditWithImageFragmentBase<T : Image> protected constructor(
         popup.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.action_from_gallery -> {
-                    onSelectImageWithPermissionCheck()
+                    checkReadStoragePermissionAndSelectImage()
                     true
                 }
                 R.id.action_take_picture -> {
-                    onTakePictureWithPermissionCheck()
+                    checkCameraPermissionAndTakePicture()
                     true
                 }
                 else -> false
@@ -143,24 +143,59 @@ abstract class EditWithImageFragmentBase<T : Image> protected constructor(
         popup.show()
     }
 
-    @NeedsPermission(Manifest.permission.CAMERA)
+    private fun checkCameraPermissionAndTakePicture() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) 
+            == PackageManager.PERMISSION_GRANTED) {
+            onTakePicture()
+        } else {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.CAMERA),
+                REQUEST_CAMERA_PERMISSION
+            )
+        }
+    }
+
+    private fun checkReadStoragePermissionAndSelectImage() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) 
+            == PackageManager.PERMISSION_GRANTED) {
+            onSelectImage()
+        } else {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                REQUEST_READ_STORAGE_PERMISSION
+            )
+        }
+    }
+
     internal fun onTakePicture() {
         EasyImage.openCameraForImage(this, 0)
     }
 
-    @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     internal fun onSelectImage() {
         EasyImage.openGallery(this, 0)
     }
 
-    @SuppressLint("NeedOnRequestPermissionsResult")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        onRequestPermissionsResult(requestCode, grantResults)
+        
+        when (requestCode) {
+            REQUEST_CAMERA_PERMISSION -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    onTakePicture()
+                }
+            }
+            REQUEST_READ_STORAGE_PERMISSION -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    onSelectImage()
+                }
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -215,5 +250,10 @@ abstract class EditWithImageFragmentBase<T : Image> protected constructor(
                 e.printStackTrace()
             }
         }
+    }
+
+    companion object {
+        private const val REQUEST_CAMERA_PERMISSION = 1001
+        private const val REQUEST_READ_STORAGE_PERMISSION = 1002
     }
 }

@@ -15,11 +15,12 @@
 
 package de.dreier.mytargets.base.db.migrations
 
-import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import de.dreier.mytargets.base.db.StandardRoundFactory
 import de.dreier.mytargets.shared.models.db.RoundTemplate
 import de.dreier.mytargets.shared.models.db.StandardRound
+import java.util.Locale.getDefault
 
 object RoomCreationCallback : RoomDatabase.Callback() {
 
@@ -121,7 +122,7 @@ object RoomCreationCallback : RoomDatabase.Callback() {
         childTable: String,
         joinColumn: String
     ): String {
-        return "CREATE TRIGGER insert_${parentTable.toLowerCase()}_sum_score " +
+        return "CREATE TRIGGER insert_${parentTable.lowercase(getDefault())}_sum_score " +
                 "AFTER INSERT ON `$childTable` " +
                 "BEGIN " +
                 getUpdateQuery(parentTable, childTable, joinColumn, "NEW") +
@@ -133,7 +134,7 @@ object RoomCreationCallback : RoomDatabase.Callback() {
         childTable: String,
         joinColumn: String
     ): String {
-        return "CREATE TRIGGER update_${parentTable.toLowerCase()}_sum_score " +
+        return "CREATE TRIGGER update_${parentTable.lowercase(getDefault())}_sum_score " +
                 "AFTER UPDATE OF reachedPoints, totalPoints, shotCount ON `$childTable` " +
                 "BEGIN " +
                 getUpdateQuery(parentTable, childTable, joinColumn, "NEW") +
@@ -145,7 +146,7 @@ object RoomCreationCallback : RoomDatabase.Callback() {
         childTable: String,
         joinColumn: String
     ): String {
-        return "CREATE TRIGGER delete_${parentTable.toLowerCase()}_sum_score " +
+        return "CREATE TRIGGER delete_${parentTable.lowercase(getDefault())}_sum_score " +
                 "AFTER DELETE ON `$childTable` " +
                 "BEGIN " +
                 getUpdateQuery(parentTable, childTable, joinColumn, "OLD") +

@@ -50,8 +50,7 @@ import de.dreier.mytargets.shared.models.db.End
 import de.dreier.mytargets.shared.models.db.Round
 import de.dreier.mytargets.shared.models.db.Signature
 import de.dreier.mytargets.shared.models.db.Training
-import de.dreier.mytargets.utils.MobileWearableClient
-import de.dreier.mytargets.utils.MobileWearableClient.Companion.BROADCAST_UPDATE_TRAINING_FROM_REMOTE
+
 import de.dreier.mytargets.utils.Utils
 import de.dreier.mytargets.utils.print.CustomPrintDocumentAdapter
 import de.dreier.mytargets.utils.print.ViewToPdfWriter
@@ -81,14 +80,7 @@ class ScoreboardFragment : FragmentBase() {
         database.signatureDAO()
     )
 
-    private val updateReceiver = object : MobileWearableClient.EndUpdateReceiver() {
 
-        override fun onUpdate(trainingId: Long, roundId: Long, end: End) {
-            if (this@ScoreboardFragment.roundId == roundId || trainingId == this@ScoreboardFragment.trainingId && this@ScoreboardFragment.roundId == -1L) {
-                reloadData()
-            }
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -108,15 +100,12 @@ class ScoreboardFragment : FragmentBase() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        LocalBroadcastManager.getInstance(context!!).registerReceiver(
-            updateReceiver,
-            IntentFilter(BROADCAST_UPDATE_TRAINING_FROM_REMOTE)
-        )
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        LocalBroadcastManager.getInstance(context!!).unregisterReceiver(updateReceiver)
+
     }
 
     override fun onLoad(args: Bundle?): LoaderUICallback {
@@ -290,6 +279,6 @@ class ScoreboardFragment : FragmentBase() {
 
     fun getDefaultFileName(extension: EFileType): String {
         return training!!.date.format(DateTimeFormatter.ISO_LOCAL_DATE) + "-" +
-                getString(R.string.scoreboard) + "." + extension.name.toLowerCase(Locale.US)
+                getString(R.string.scoreboard) + "." + extension.name.lowercase(Locale.US)
     }
 }

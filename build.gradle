@@ -14,7 +14,7 @@
  */
 
 buildscript {
-    ext.kotlinVersion = '1.8.20'
+    ext.kotlinVersion = '2.1.0'
     repositories {
         jcenter()
         mavenCentral()
@@ -23,7 +23,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.0.2'
+        classpath 'com.android.tools.build:gradle:8.11.1'
         classpath  'com.getkeepsafe.dexcount:dexcount-gradle-plugin:4.0.0'
         classpath 'com.google.gms:google-services:4.4.1'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.9'
@@ -51,6 +51,5 @@ allprojects {
     }
 }
 
-apply from: 'tools/script-git-version.gradle'
 apply from: 'tools/script-dependency-updates.gradle'
 apply from: 'tools/script-keystore-fallback.gradle'

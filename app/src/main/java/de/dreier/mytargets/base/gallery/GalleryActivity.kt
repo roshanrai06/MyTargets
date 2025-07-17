@@ -34,15 +34,15 @@ import de.dreier.mytargets.base.gallery.adapters.ViewPagerAdapter
 import de.dreier.mytargets.base.navigation.NavigationController
 import de.dreier.mytargets.databinding.ActivityGalleryBinding
 import de.dreier.mytargets.utils.*
-import permissions.dispatcher.NeedsPermission
-import permissions.dispatcher.RuntimePermissions
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import android.content.pm.PackageManager
 import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
 import java.io.File
 import java.io.IOException
 import java.util.*
 
-@RuntimePermissions
 class GalleryActivity : ChildActivityBase() {
 
     internal var adapter: ViewPagerAdapter? = null
@@ -104,7 +104,7 @@ class GalleryActivity : ChildActivityBase() {
         binding.pager.currentItem = currentPos
 
         if (imageList.size() == 0 && savedInstanceState == null) {
-            onTakePictureWithPermissionCheck()
+            checkCameraPermissionAndTakePicture()
         }
     }
 
@@ -176,24 +176,59 @@ class GalleryActivity : ChildActivityBase() {
         navigationController.setResultSuccess(imageList)
     }
 
-    @NeedsPermission(Manifest.permission.CAMERA)
+    private fun checkCameraPermissionAndTakePicture() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) 
+            == PackageManager.PERMISSION_GRANTED) {
+            onTakePicture()
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CAMERA),
+                REQUEST_CAMERA_PERMISSION
+            )
+        }
+    }
+
+    private fun checkReadStoragePermissionAndSelectImage() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) 
+            == PackageManager.PERMISSION_GRANTED) {
+            onSelectImage()
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                REQUEST_READ_STORAGE_PERMISSION
+            )
+        }
+    }
+
     internal fun onTakePicture() {
         EasyImage.openCameraForImage(this, 0)
     }
 
-    @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     internal fun onSelectImage() {
         EasyImage.openGallery(this, 0)
     }
 
-    @SuppressLint("NeedOnRequestPermissionsResult")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        onRequestPermissionsResult(requestCode, grantResults)
+        
+        when (requestCode) {
+            REQUEST_CAMERA_PERMISSION -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    onTakePicture()
+                }
+            }
+            REQUEST_READ_STORAGE_PERMISSION -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    onSelectImage()
+                }
+            }
+        }
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -254,7 +289,7 @@ class GalleryActivity : ChildActivityBase() {
 
     private fun goToImage(pos: Int) {
         if (imageList.size() == pos) {
-            onTakePictureWithPermissionCheck()
+            checkCameraPermissionAndTakePicture()
         } else {
             binding.pager.setCurrentItem(pos, true)
         }
@@ -263,6 +298,8 @@ class GalleryActivity : ChildActivityBase() {
     companion object {
         const val EXTRA_IMAGES = "images"
         const val EXTRA_TITLE = "title"
+        private const val REQUEST_CAMERA_PERMISSION = 2001
+        private const val REQUEST_READ_STORAGE_PERMISSION = 2002
 
         fun getResult(data: Intent): ImageList {
             return data.getParcelableExtra(NavigationController.ITEM)!!

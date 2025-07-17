@@ -82,14 +82,14 @@
                         android:layout_height="wrap_content"
                         android:text="@string/arrows"/>
 
-                    <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+                    <com.google.android.material.slider.Slider
                         android:id="@+id/arrows"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:dsb_indicatorColor="@color/colorPrimary"
-                        app:dsb_max="12"
-                        app:dsb_min="1"
-                        app:dsb_progressColor="@color/colorPrimary"/>
+                        android:valueFrom="1"
+                        android:valueTo="12"
+                        android:stepSize="1"
+                        android:value="6"/>
 
                     <include layout="@layout/partial_divider_full"/>
 

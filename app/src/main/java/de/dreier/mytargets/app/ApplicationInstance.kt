@@ -29,7 +29,7 @@ import de.dreier.mytargets.base.db.AppDatabase
 import de.dreier.mytargets.base.db.migrations.*
 import de.dreier.mytargets.features.settings.SettingsManager
 import de.dreier.mytargets.shared.SharedApplicationInstance
-import de.dreier.mytargets.utils.MobileWearableClient
+
 import de.dreier.mytargets.utils.backup.MyBackupAgent
 import im.delight.android.languages.Language
 import timber.log.Timber
@@ -58,7 +58,7 @@ class ApplicationInstance : SharedApplicationInstance() {
         super.onCreate()
         handleDatabaseImport()
         initRoomDb(this)
-        wearableClient = MobileWearableClient(this)
+
         StateSaver.setEnabledForAllActivitiesAndSupportFragments(this, true)
     }
 
@@ -80,7 +80,7 @@ class ApplicationInstance : SharedApplicationInstance() {
 
     override fun onTerminate() {
         db.close()
-        wearableClient.disconnect()
+
         super.onTerminate()
     }
 
@@ -101,7 +101,7 @@ class ApplicationInstance : SharedApplicationInstance() {
 
     companion object {
 
-        lateinit var wearableClient: MobileWearableClient
+
         lateinit var db: AppDatabase
 
         val lastSharedPreferences: SharedPreferences

@@ -31,7 +31,7 @@ import de.dreier.mytargets.shared.models.Dimension.Unit.MILLIMETER
 import de.dreier.mytargets.shared.models.Thumbnail
 import de.dreier.mytargets.shared.models.db.Arrow
 import de.dreier.mytargets.shared.models.db.ArrowImage
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 
 
 class EditArrowViewModel(app: Application) : AndroidViewModel(app) {
@@ -60,7 +60,7 @@ class EditArrowViewModel(app: Application) : AndroidViewModel(app) {
     private val arrowDAO = ApplicationInstance.db.arrowDAO()
 
     init {
-        arrow = Transformations.map(arrowId) { id ->
+        arrow = arrowId.map { id ->
             if (id == null) {
                 null
             } else {
@@ -69,7 +69,7 @@ class EditArrowViewModel(app: Application) : AndroidViewModel(app) {
                 arrow
             }
         }
-        images = Transformations.map(arrowId) { id ->
+        images = arrowId.map { id ->
             if (id == null)
                 mutableListOf()
             else

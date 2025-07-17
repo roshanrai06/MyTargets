@@ -23,35 +23,17 @@ import android.os.Bundle
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import de.dreier.mytargets.R
 import de.dreier.mytargets.app.ApplicationInstance
-import de.dreier.mytargets.shared.wearable.WearableClientBase.Companion.BROADCAST_TIMER_SETTINGS_FROM_REMOTE
+
 
 class TimerSettingsFragment : SettingsFragmentBase() {
 
-    private val timerReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            activity!!.recreate()
-        }
-    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        LocalBroadcastManager.getInstance(context!!).registerReceiver(
-            timerReceiver,
-            IntentFilter(BROADCAST_TIMER_SETTINGS_FROM_REMOTE)
-        )
-    }
-
-    override fun onDestroy() {
-        LocalBroadcastManager.getInstance(context!!).unregisterReceiver(timerReceiver)
-        super.onDestroy()
-    }
 
     override fun updateItemSummaries() {
         val settings = SettingsManager.timerSettings
         setSecondsSummary(SettingsManager.KEY_TIMER_WAIT_TIME, settings.waitTime)
         setSecondsSummary(SettingsManager.KEY_TIMER_SHOOT_TIME, settings.shootTime)
         setSecondsSummary(SettingsManager.KEY_TIMER_WARN_TIME, settings.warnTime)
-        ApplicationInstance.wearableClient.sendTimerSettingsFromLocal(settings)
     }
 
     private fun setSecondsSummary(key: String, value: Int) {

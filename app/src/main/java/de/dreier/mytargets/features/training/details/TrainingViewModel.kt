@@ -19,7 +19,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.switchMap
 import de.dreier.mytargets.app.ApplicationInstance
 import de.dreier.mytargets.base.db.RoundRepository
 import de.dreier.mytargets.shared.models.db.Round
@@ -39,14 +39,14 @@ class TrainingViewModel(app: Application) : AndroidViewModel(app) {
     private val roundRepository = RoundRepository(ApplicationInstance.db)
 
     init {
-        training = Transformations.switchMap(trainingId) { id ->
+        training = trainingId.switchMap { id ->
             if (id == null) {
                 null
             } else {
                 trainingDAO.loadTrainingLive(id)
             }
         }
-        rounds = Transformations.switchMap(trainingId) { id ->
+        rounds = trainingId.switchMap { id ->
             if (id == null) {
                 null
             } else {

@@ -31,7 +31,7 @@ class SpannedInfoBuilder(val context: Context) {
 
     fun addLine(key: String, value: Any) {
         if (info.isNotEmpty()) {
-            info.appendln()
+            info.appendLine()
         }
         info.append("$key: ")
         val start = info.length

@@ -36,7 +36,7 @@ import de.dreier.mytargets.shared.models.augmented.AugmentedEnd
 import de.dreier.mytargets.shared.models.db.End
 import de.dreier.mytargets.shared.models.db.Round
 import de.dreier.mytargets.utils.*
-import de.dreier.mytargets.utils.MobileWearableClient.Companion.BROADCAST_UPDATE_TRAINING_FROM_REMOTE
+
 import de.dreier.mytargets.utils.multiselector.SelectableViewHolder
 import java.util.*
 
@@ -54,14 +54,7 @@ class RoundFragment :
     private val endDAO = ApplicationInstance.db.endDAO()
     private val endRepository = EndRepository(endDAO)
 
-    private val updateReceiver = object : MobileWearableClient.EndUpdateReceiver() {
 
-        override fun onUpdate(trainingId: Long, roundId: Long, end: End) {
-            if (this@RoundFragment.roundId == roundId) {
-                reloadData()
-            }
-        }
-    }
 
     init {
         itemTypeDelRes = R.plurals.passe_deleted
@@ -72,15 +65,12 @@ class RoundFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        LocalBroadcastManager.getInstance(context!!).registerReceiver(
-            updateReceiver,
-            IntentFilter(BROADCAST_UPDATE_TRAINING_FROM_REMOTE)
-        )
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        LocalBroadcastManager.getInstance(context!!).unregisterReceiver(updateReceiver)
+
     }
 
     override fun onCreateView(

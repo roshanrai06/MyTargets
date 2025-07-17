@@ -33,7 +33,7 @@ enum class ESettingsScreens {
     BACKUP;
 
     val key: String
-        get() = name.toLowerCase(Locale.US)
+        get() = name.lowercase(Locale.US)
 
     fun create(): SettingsFragmentBase {
         return when (this) {
@@ -50,7 +50,7 @@ enum class ESettingsScreens {
 
     companion object {
         fun from(key: String): ESettingsScreens {
-            return valueOf(key.toUpperCase(Locale.US))
+            return valueOf(key.uppercase(Locale.US))
         }
     }
 }

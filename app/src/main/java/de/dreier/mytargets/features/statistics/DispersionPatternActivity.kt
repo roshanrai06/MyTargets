@@ -134,7 +134,7 @@ class DispersionPatternActivity : ChildActivityBase() {
         if (!name.isNullOrEmpty()) {
             name = "-$name"
         }
-        return getString(R.string.dispersion_pattern) + name + "." + extension.name.toLowerCase()
+        return getString(R.string.dispersion_pattern) + name + "." + extension.name.lowercase()
     }
 
     companion object {

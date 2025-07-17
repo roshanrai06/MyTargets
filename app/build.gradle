@@ -199,13 +199,9 @@ dependencies {
     implementation dependencies.androidState
     kapt dependencies.androidStateProcessor
 
-    implementation dependencies.permissionsDispatcher
-    kapt dependencies.permissionsDispatcherProcessor
-
-
     implementation dependencies.mpAndroidChart
 
-    implementation dependencies.discreteSeekbar
+
 
     implementation dependencies.easyImage
 
@@ -224,9 +220,6 @@ dependencies {
 
     implementation dependencies.androidLanguages
 
-
-    implementation dependencies.signaturePad
-
     implementation dependencies.archLifecycleExtensions
     kapt dependencies.archLifecycleCompiler
     implementation dependencies.archRoomRuntime
@@ -235,7 +228,6 @@ dependencies {
     implementation dependencies.archNavigationUi
 
     implementation project(':shared')
-    wearApp project(':wearable')
 
     testImplementation dependencies.jUnit
     testImplementation dependencies.kotlinTest
